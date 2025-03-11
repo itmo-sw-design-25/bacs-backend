@@ -1,0 +1,6 @@
+@BaCS_HostAddress = http://localhost:5076
+
+GET {{BaCS_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###

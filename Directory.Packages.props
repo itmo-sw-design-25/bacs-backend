@@ -1,0 +1,15 @@
+<Project>
+    <!-- Source -->
+    <ItemGroup>
+        <PackageVersion Include="Microsoft.AspNetCore.OpenApi" Version="9.0.2"/>
+        <PackageVersion Include="Scalar.AspNetCore" Version="2.0.29"/>
+    </ItemGroup>
+
+    <!-- Tests -->
+    <ItemGroup>
+        <PackageVersion Include="coverlet.collector" Version="6.0.0"/>
+        <PackageVersion Include="Microsoft.NET.Test.Sdk" Version="17.8.0"/>
+        <PackageVersion Include="xunit" Version="2.5.3"/>
+        <PackageVersion Include="xunit.runner.visualstudio" Version="2.5.3"/>
+    </ItemGroup>
+</Project>
