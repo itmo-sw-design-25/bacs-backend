@@ -1,6 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
 
-namespace BaCS.API.Controllers;
+namespace BaCS.Presentation.API.Controllers;
 
 [ApiController]
 [Route("[controller]")]

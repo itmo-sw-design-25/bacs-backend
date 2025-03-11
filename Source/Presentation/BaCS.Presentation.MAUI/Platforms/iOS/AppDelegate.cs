@@ -1,6 +1,6 @@
 ﻿using Foundation;
 
-namespace BaCS.MAUI;
+namespace BaCS.Presentation.MAUI;
 
 [Register("AppDelegate")]
 public class AppDelegate : MauiUIApplicationDelegate

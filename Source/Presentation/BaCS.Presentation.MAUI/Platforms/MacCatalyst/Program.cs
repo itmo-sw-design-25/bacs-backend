@@ -1,7 +1,7 @@
 ﻿using ObjCRuntime;
 using UIKit;
 
-namespace BaCS.MAUI;
+namespace BaCS.Presentation.MAUI;
 
 public class Program
 {

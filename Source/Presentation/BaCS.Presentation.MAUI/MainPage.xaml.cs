@@ -1,4 +1,4 @@
-﻿namespace BaCS.MAUI;
+﻿namespace BaCS.Presentation.MAUI;
 
 public partial class MainPage : ContentPage
 {

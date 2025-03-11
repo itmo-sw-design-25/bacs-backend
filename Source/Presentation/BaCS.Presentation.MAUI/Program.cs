@@ -1,6 +1,6 @@
 ﻿using Microsoft.Extensions.Logging;
 
-namespace BaCS.MAUI;
+namespace BaCS.Presentation.MAUI;
 
 public static class Program
 {

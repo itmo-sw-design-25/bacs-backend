@@ -2,7 +2,7 @@
 using Android.Content.PM;
 using Android.OS;
 
-namespace BaCS.MAUI;
+namespace BaCS.Presentation.MAUI;
 
 [Activity(
     Theme = "@style/Maui.SplashTheme",

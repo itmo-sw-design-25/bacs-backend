@@ -1,4 +1,4 @@
-namespace BaCS.API;
+namespace BaCS.Presentation.API;
 
 public class WeatherForecast
 {
