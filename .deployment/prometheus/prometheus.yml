@@ -1,0 +1,15 @@
+global:
+  scrape_interval: 15s
+
+  external_labels:
+    monitor: 'bacs-monitor'
+
+scrape_configs:
+  - job_name: 'prometheus-job'
+    scrape_interval: 5s
+    static_configs:
+      - targets: [ 'localhost:9090' ]
+
+  - job_name: 'bacs-api-job'
+    static_configs:
+      - targets: [ 'backend:8080' ]
