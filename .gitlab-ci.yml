@@ -9,7 +9,11 @@ variables:
 .default_rules:
   rules:
     changes:
-      - /**/*.{cs,csproj,props,sln}
+      - Source/**/*.{cs,csproj,props,sln}
+      - Tests/**/*.{cs,csproj,props,sln}
+      - BaCS.sln
+      - Directory.Build.props
+      - Directory.Packages.props
 
 workflow:
   auto_cancel:
@@ -102,12 +106,12 @@ push:develop:
   variables:
     ENVIRONMENT: "develop"
 
-push:stage:
+push:staging:
   extends: .push_template
   variables:
     ENVIRONMENT: "staging"
 
-push:prod:
+push:production:
   extends: .push_template
   variables:
     ENVIRONMENT: "production"
@@ -135,16 +139,16 @@ deploy:develop:
   variables:
     ENVIRONMENT: "develop"
 
-deploy:stage:
+deploy:staging:
   stage: deploy
   extends: .deploy_template
-  needs: [ push:stage ]
+  needs: [ push:staging ]
   variables:
     ENVIRONMENT: "staging"
 
-deploy:prod:
+deploy:production:
   stage: deploy
-  needs: [ push:prod ]
+  needs: [ push:production ]
   extends: .deploy_template
   variables:
     ENVIRONMENT: "production"
