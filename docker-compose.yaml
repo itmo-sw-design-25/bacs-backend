@@ -1,12 +1,10 @@
 ﻿services:
   bacs.api:
-    image: bacs.api
+    image: ${BACS_IMAGE:-bacs.api}
     container_name: bacs.api
-    build:
-      context: .
-      dockerfile: Source/Presentation/BaCS.Presentation.API/Dockerfile
+    platform: ${BACS_PLATFORM}
     environment:
-      ASPNETCORE_URLS: "http://+:8080"
+      ASPNETCORE_URLS: ${ASPNETCORE_URLS}
       ASPNETCORE_ENVIRONMENT: ${ASPNETCORE_ENVIRONMENT}
       PostgresOptions__Username: ${BACS_PG_USER}
       PostgresOptions__Password: ${BACS_PG_PASSWORD}
@@ -15,8 +13,7 @@
       PostgresOptions__Database: ${BACS_PG_DATABASE}
       PostgresOptions__Schema: ${BACS_PG_SCHEMA}
       PostgresOptions__AdditionalProperties: ${BACS_PG_ADDITIONAL_PROPERTIES}
-    ports:
-      - "8080:8080" # for development
+    restart: unless-stopped
     depends_on:
       - postgres
     networks:
@@ -29,8 +26,6 @@
       POSTGRES_USER: ${POSTGRES_USER}
       POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
       POSTGRES_DB: ${POSTGRES_DB}
-    ports:
-      - "5432:5432" # for development
     networks:
       - bacs
     volumes:
@@ -42,19 +37,19 @@
     environment:
       COLLECTOR_OTLP_ENABLED: "true"
       QUERY_BASE_PATH: "/jaeger"
-    ports:
-      - "16686:16686"
     networks:
       - bacs
 
   grafana:
     image: grafana/grafana
-    ports:
-      - "3001:3000"
+    container_name: grafana
     volumes:
+      # ./grafana_data must have 0777 permission mode
       - ./grafana_data:/var/lib/grafana
+      - ./grafana_data/plugins:/var/lib/grafana/plugins
       - ./.deployment/grafana/grafana.ini:/etc/grafana/grafana.ini:ro
       - ./.deployment/grafana/datasources.yaml:/etc/grafana/provisioning/datasources/ds.yaml
+    user: ${GF_USER_ID} # 0 for root or other for custom user
     environment:
       GF_SECURITY_ADMIN_USER: ${GF_SECURITY_ADMIN_USER}
       GF_SECURITY_ADMIN_PASSWORD: ${GF_SECURITY_ADMIN_PASSWORD}
@@ -64,17 +59,15 @@
       - bacs
 
   loki:
-    container_name: loki
     image: grafana/loki
-    ports:
-      - "3100:3100"
+    container_name: loki
     command: -config.file=/etc/loki/local-config.yaml
     networks:
       - bacs
 
   promtail:
-    container_name: proomtail
     image: grafana/promtail
+    container_name: promtail
     volumes:
       - /var/log/:/var/log
     command: -config.file=/etc/promtail/config.yml
@@ -83,8 +76,7 @@
 
   prometheus:
     image: prom/prometheus
-    ports:
-      - "9090:9090"
+    container_name: prometheus
     volumes:
       - ./prom_data:/prometheus
       - ./.deployment/prometheus/prometheus.yml:/etc/prometheus/prometheus.yml
@@ -96,13 +88,15 @@
 
   nginx-proxy:
     image: nginxproxy/nginx-proxy
-    container_name: nginx-proxy
+    container_name: nginx
     ports:
       - "443:443"
     volumes:
       - /var/run/docker.sock:/tmp/docker.sock:ro
-      - /etc/letsencrypt/live/bacs.space:/etc/nginx/certs:ro
+      - /etc/letsencrypt/live/bacs.space/fullchain.pem:/etc/nginx/certs/fullchain.pem:ro
+      - /etc/letsencrypt/live/bacs.space/privkey.pem:/etc/nginx/certs/privkey.pem:ro
       - ./.deployment/nginx/nginx.conf:/etc/nginx/nginx.conf:ro
+      - ./.deployment/nginx/index.html:/usr/share/nginx/html/index.html:ro
     networks:
       - bacs
 

@@ -1,4 +1,9 @@
-﻿**/launchSettings.json
+﻿grafana_data/**
+prom_data/**
+**/*.sln
+**/Tests
+**/BaCS.Presentation.MAUI
+**/launchSettings.json
 **/.dockerignore
 **/.env
 **/.git
