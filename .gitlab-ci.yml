@@ -55,7 +55,7 @@ unit-tests:
   script:
     - cd $TESTS_PATH
     - dotnet restore
-    - dotnet test --no-restore -c $CONFIGURATION --results-directory $CI_PROJECT_DIR/cobertura --collect:"$COVERAGE_FLAG" --test-adapter-path:. --logger:"$LOGGER_FLAG" --settings coverage.runsettings
+    - dotnet test --no-restore -c $CONFIGURATION --results-directory $CI_PROJECT_DIR/cobertura --collect:"$COVERAGE_FLAG" --test-adapter-path:. --logger:"$LOGGER_FLAG" --settings ../coverage.runsettings
   dependencies:
     - build
   rules:
