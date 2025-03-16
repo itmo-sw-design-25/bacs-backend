@@ -1,4 +1,4 @@
-image: mcr.microsoft.com/dotnet/sdk:7.0-alpine
+image: mcr.microsoft.com/dotnet/sdk:9.0-alpine3.20
 
 variables:
   BUILD_PATH: "Source/Presentation/BaCS.Presentation.API"
