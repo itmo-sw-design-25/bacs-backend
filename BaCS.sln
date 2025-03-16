@@ -16,22 +16,26 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Application", "Application"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Common", "Common", "{0B0A54AC-315D-4688-A2E7-6950EAF791B9}"
 	ProjectSection(SolutionItems) = preProject
+		docker-compose.yaml = docker-compose.yaml
 		.editorconfig = .editorconfig
 		Directory.Build.props = Directory.Build.props
 		Directory.Packages.props = Directory.Packages.props
+		README.md = README.md
 	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BaCS.Presentation.API", "Source\Presentation\BaCS.Presentation.API\BaCS.Presentation.API.csproj", "{CF3778C4-A8DC-4666-9E65-95148188D312}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BaCS.Presentation.MAUI", "Source\Presentation\BaCS.Presentation.MAUI\BaCS.Presentation.MAUI.csproj", "{0D43DECA-4D00-4C42-AB79-F48D56FC9548}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BaCS.Presistence.PostgreSQL", "Source\Persistence\BaCS.Presistence.PostgreSQL\BaCS.Presistence.PostgreSQL.csproj", "{0006A475-3874-46AB-8E1D-70B8396AD99C}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BaCS.Persistence.PostgreSQL", "Source\Persistence\BaCS.Persistence.PostgreSQL\BaCS.Persistence.PostgreSQL.csproj", "{0006A475-3874-46AB-8E1D-70B8396AD99C}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BaCS.Domain.Models", "Source\Domain\BaCS.Domain.Models\BaCS.Domain.Models.csproj", "{104E2254-F8E9-4674-A268-D76489770D95}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BaCS.Application.Queries", "Source\Application\BaCS.Application.Queries\BaCS.Application.Queries.csproj", "{F0DF9828-D6ED-45F4-9262-6A4830DE9216}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BaCS.Unit.Tests", "Tests\BaCS.Unit.Tests\BaCS.Unit.Tests.csproj", "{6A115C84-AA61-4A87-A6E7-C67104A5582C}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BaCS.Infrastructure.Observability", "Source\Infrastructure\BaCS.Infrastructure.Observability\BaCS.Infrastructure.Observability.csproj", "{49426743-80C7-4AEA-AED4-83791C8D748A}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -63,6 +67,10 @@ Global
 		{F0DF9828-D6ED-45F4-9262-6A4830DE9216}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F0DF9828-D6ED-45F4-9262-6A4830DE9216}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F0DF9828-D6ED-45F4-9262-6A4830DE9216}.Release|Any CPU.Build.0 = Release|Any CPU
+		{49426743-80C7-4AEA-AED4-83791C8D748A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{49426743-80C7-4AEA-AED4-83791C8D748A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{49426743-80C7-4AEA-AED4-83791C8D748A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{49426743-80C7-4AEA-AED4-83791C8D748A}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{F7710066-EA13-4FDF-BA0C-8E2E95FBCD45} = {66AF9317-1BE8-404E-A161-8FD1034A8F2D}
@@ -76,5 +84,6 @@ Global
 		{104E2254-F8E9-4674-A268-D76489770D95} = {F696583D-508E-406B-AF58-7A6FC7CD7E44}
 		{4AAE45B5-9F49-4930-A97D-C448893D2139} = {66AF9317-1BE8-404E-A161-8FD1034A8F2D}
 		{F0DF9828-D6ED-45F4-9262-6A4830DE9216} = {4AAE45B5-9F49-4930-A97D-C448893D2139}
+		{49426743-80C7-4AEA-AED4-83791C8D748A} = {6A8FBB16-2A1B-4794-8F8D-0713C0899A32}
 	EndGlobalSection
 EndGlobal
