@@ -22,6 +22,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Common", "Common", "{0B0A54
 		Directory.Packages.props = Directory.Packages.props
 		README.md = README.md
 		.gitlab-ci.yml = .gitlab-ci.yml
+		.env = .env
 	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BaCS.Presentation.API", "Source\Presentation\BaCS.Presentation.API\BaCS.Presentation.API.csproj", "{CF3778C4-A8DC-4666-9E65-95148188D312}"
