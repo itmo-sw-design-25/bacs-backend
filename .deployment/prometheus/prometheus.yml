@@ -12,4 +12,4 @@ scrape_configs:
 
   - job_name: 'bacs-api-job'
     static_configs:
-      - targets: [ 'backend:8080' ]
+      - targets: [ 'bacs.api:8080' ]

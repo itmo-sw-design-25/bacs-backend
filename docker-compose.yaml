@@ -1,7 +1,7 @@
 ﻿services:
-  bacs.presentation.api:
-    image: bacs.presentation.api-alpine
-    container_name: backend
+  bacs.api:
+    image: bacs.api
+    container_name: bacs.api
     build:
       context: .
       dockerfile: Source/Presentation/BaCS.Presentation.API/Dockerfile
@@ -39,26 +39,7 @@
       - "3001:3000"
     volumes:
       - ./grafana_data:/var/lib/grafana
-    env_file: ./.deployment/env/grafana.env
-#    entrypoint:
-#      - sh
-#      - -euc
-#      - |
-#        mkdir -p /etc/grafana/provisioning/datasources
-#        cat <<EOF › /etc/grafana/provisioning/datasources/ds.yaml
-#        apiVersion: 1
-#        datasources:
-#          - name: Loki
-#            type: loki
-#            access: proxy
-#            orgid: 1
-#            url: http://loki:3100
-#            basicAuth: false
-#            isDefault: true
-#            version: 1
-#            editable: false
-#        EOF
-#        /run.sh
+      - ./.deployment/grafana/datasources.yaml:/etc/grafana/provisioning/datasources/ds.yaml
     networks:
       - bacs
 
