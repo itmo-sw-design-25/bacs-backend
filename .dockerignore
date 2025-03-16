@@ -1,4 +1,5 @@
-﻿**/.dockerignore
+﻿**/launchSettings.json
+**/.dockerignore
 **/.env
 **/.git
 **/.gitignore

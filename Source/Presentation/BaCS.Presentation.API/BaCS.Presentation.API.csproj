@@ -6,14 +6,27 @@
     </PropertyGroup>
 
     <ItemGroup>
-        <Content Include="..\.dockerignore">
+        <Content Include="..\..\..\.dockerignore">
             <Link>.dockerignore</Link>
+        </Content>
+        <Content Update="appsettings.Development.json">
+            <DependentUpon>appsettings.json</DependentUpon>
+        </Content>
+        <Content Update="appsettings.Production.json">
+            <DependentUpon>appsettings.json</DependentUpon>
         </Content>
     </ItemGroup>
 
     <ItemGroup>
         <PackageReference Include="Microsoft.AspNetCore.OpenApi"/>
         <PackageReference Include="Scalar.AspNetCore"/>
+        <PackageReference Include="Swashbuckle.AspNetCore"/>
+    </ItemGroup>
+
+    <ItemGroup>
+        <ProjectReference Include="..\..\..\BaCS.Infrastructure.Observability\BaCS.Infrastructure.Observability.csproj"/>
+        <ProjectReference Include="..\..\Infrastructure\BaCS.Infrastructure.Observability\BaCS.Infrastructure.Observability.csproj" />
+        <ProjectReference Include="..\..\Persistence\BaCS.Persistence.PostgreSQL\BaCS.Persistence.PostgreSQL.csproj" />
     </ItemGroup>
 
 </Project>

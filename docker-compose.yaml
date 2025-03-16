@@ -1,0 +1,92 @@
+﻿services:
+  bacs.api:
+    image: bacs.api
+    container_name: bacs.api
+    build:
+      context: .
+      dockerfile: Source/Presentation/BaCS.Presentation.API/Dockerfile
+    env_file: ./.deployment/env/backend.env
+    ports:
+      - "8080:8080" # for development
+    depends_on:
+      - postgres
+    networks:
+      - bacs
+
+  postgres:
+    image: postgres:latest
+    container_name: postgres
+    env_file: ./.deployment/env/db.env
+    ports:
+      - "5432:5432" # for development
+    networks:
+      - bacs
+    volumes:
+      - pg_data:/var/lib/postgresql/data
+
+  jaeger:
+    image: jaegertracing/all-in-one:${JAEGER_VERSION:-latest}
+    container_name: jaeger
+    env_file: ./.deployment/env/jaeger.env
+    ports:
+      - "16686:16686"
+    networks:
+      - bacs
+
+  grafana:
+    image: grafana/grafana
+    ports:
+      - "3001:3000"
+    volumes:
+      - ./grafana_data:/var/lib/grafana
+      - ./.deployment/grafana/datasources.yaml:/etc/grafana/provisioning/datasources/ds.yaml
+    networks:
+      - bacs
+
+  loki:
+    container_name: loki
+    image: grafana/loki
+    ports:
+      - "3100:3100"
+    command: -config.file=/etc/loki/local-config.yaml
+    networks:
+      - bacs
+
+  promtail:
+    container_name: proomtail
+    image: grafana/promtail
+    volumes:
+      - /var/log/:/var/log
+    command: -config.file=/etc/promtail/config.yml
+    networks:
+      - bacs
+
+  prometheus:
+    image: prom/prometheus
+    ports:
+      - "9090:9090"
+    volumes:
+      - ./prom_data:/prometheus
+      - ./.deployment/prometheus/prometheus.yml:/etc/prometheus/prometheus.yml
+    networks:
+      - bacs
+
+  nginx-proxy:
+    image: nginxproxy/nginx-proxy
+    container_name: nginx-proxy
+    ports:
+      - "3000:80"
+    volumes:
+      - /var/run/docker.sock:/tmp/docker.sock:ro
+      - ./.deployment/nginx/nginx.conf:/etc/nginx/nginx.conf:ro
+    networks:
+      - bacs
+
+volumes:
+  pg_data:
+  grafana_data:
+  prom_data:
+
+networks:
+  bacs:
+    driver: bridge
