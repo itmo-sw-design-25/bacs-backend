@@ -53,10 +53,13 @@
       - "3001:3000"
     volumes:
       - ./grafana_data:/var/lib/grafana
+      - ./.deployment/grafana/grafana.ini:/etc/grafana/grafana.ini:ro
       - ./.deployment/grafana/datasources.yaml:/etc/grafana/provisioning/datasources/ds.yaml
     environment:
       GF_SECURITY_ADMIN_USER: ${GF_SECURITY_ADMIN_USER}
       GF_SECURITY_ADMIN_PASSWORD: ${GF_SECURITY_ADMIN_PASSWORD}
+      GF_SERVER_ROOT_URL: ${GF_SERVER_ROOT_URL}
+      GF_SERVER_SERVE_FROM_SUB_PATH: "true"
     networks:
       - bacs
 
@@ -85,6 +88,9 @@
     volumes:
       - ./prom_data:/prometheus
       - ./.deployment/prometheus/prometheus.yml:/etc/prometheus/prometheus.yml
+    command:
+      - "--config.file=/etc/prometheus/prometheus.yml"
+      - "--web.external-url=/prometheus/"
     networks:
       - bacs
 
@@ -92,9 +98,10 @@
     image: nginxproxy/nginx-proxy
     container_name: nginx-proxy
     ports:
-      - "3000:80"
+      - "443:443"
     volumes:
       - /var/run/docker.sock:/tmp/docker.sock:ro
+      - /etc/letsencrypt/live/bacs.space:/etc/nginx/certs:ro
       - ./.deployment/nginx/nginx.conf:/etc/nginx/nginx.conf:ro
     networks:
       - bacs
