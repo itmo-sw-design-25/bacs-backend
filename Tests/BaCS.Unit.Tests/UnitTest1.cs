@@ -1,9 +1,17 @@
 namespace BaCS.Unit.Tests;
 
+using FluentAssertions;
+using Persistence.PostgreSQL.Models;
+
 public class UnitTest1
 {
     [Fact]
-    public void Test1()
+    public void DummyTest_Success()
     {
+        // Arange
+        var user = new User();
+
+        // Assert
+        user.Id.Should().NotBeEmpty();
     }
 }

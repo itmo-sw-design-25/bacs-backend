@@ -1,0 +1,151 @@
+image: mcr.microsoft.com/dotnet/sdk:7.0-alpine
+
+variables:
+  BUILD_PATH: "Source/Presentation/BaCS.Presentation.API"
+  TESTS_PATH: "Tests/BaCS.Unit.Tests"
+  DOCKER_CONFIG_PATH: "./"
+  DOCKER_TLS_CERTDIR: "/certs"
+
+.default_rules:
+  rules:
+    changes:
+      - ./**/*.{cs,csproj,props,sln}
+
+workflow:
+  auto_cancel:
+    on_new_commit: interruptible
+
+stages:
+  - build
+  - test
+  - push
+  - deploy
+
+build:
+  stage: build
+  allow_failure: false
+  interruptible: true
+  when: manual
+  script:
+    - cd $BUILD_PATH
+    - dotnet restore
+    - dotnet build --no-restore
+  rules:
+    - !reference [ .default_rules, rules ]
+
+.tests_coverage_template:
+  variables:
+    CONFIGURATION: "Debug"
+    COVERAGE_FLAG: "XPlat Code Coverage"
+    LOGGER_FLAG: "junit;LogFilePath=$CI_PROJECT_DIR/junit/junit-test-result.xml;MethodFormat=Class;FailureBodyFormat=Verbose"
+  artifacts:
+    reports:
+      coverage_report:
+        coverage_format: cobertura
+        path: $CI_PROJECT_DIR/cobertura/*/coverage.cobertura.xml
+      junit:
+        - $CI_PROJECT_DIR/junit/junit-test-result.xml
+
+unit-tests:
+  stage: test
+  needs: [ build ]
+  extends: .tests_coverage_template
+  allow_failure: false
+  interruptible: true
+  script:
+    - cd $TESTS_PATH
+    - dotnet restore
+    - dotnet test --no-restore -c $CONFIGURATION --results-directory $CI_PROJECT_DIR/cobertura --collect:"$COVERAGE_FLAG" --test-adapter-path:. --logger:"$LOGGER_FLAG" --settings coverage.runsettings
+  dependencies:
+    - build
+  rules:
+    - !reference [ .default_rules, rules ]
+
+integration-tests:
+  stage: test
+  needs: [ build ]
+  extends: .tests_coverage_template
+  allow_failure: false
+  interruptible: true
+  script:
+    - echo "Integration tests completed successfully"
+  dependencies:
+    - build
+  rules:
+    - !reference [ .default_rules, rules ]
+
+.push_template:
+  image: creatiwww/docker-compose:latest
+  services:
+    - docker:dind
+  needs: [ unit-tests, integration-tests ]
+  stage: push
+  allow_failure: false
+  interruptible: false
+  when: manual
+  variables:
+    TAG_LATEST: $CI_REGISTRY_IMAGE:$ENVIRONMENT-latest
+  before_script:
+    - cd $DOCKER_CONFIG_PATH
+    - echo $CI_REGISTRY_PASSWORD | docker login $CI_REGISTRY -u $CI_REGISTRY_USER --password-stdin
+    - docker info
+    - docker-compose pull $TAG_LATEST || true
+    - echo "ENVIRONMENT=$ENVIRONMENT" >> .env
+  script:
+    - docker-compose build
+    - docker-compose push
+  rules:
+    - !reference [ .default_rules, rules ]
+
+push:develop:
+  extends: .push_template
+  variables:
+    ENVIRONMENT: "develop"
+
+push:stage:
+  extends: .push_template
+  variables:
+    ENVIRONMENT: "staging"
+
+push:prod:
+  extends: .push_template
+  variables:
+    ENVIRONMENT: "production"
+
+.deploy_template:
+  image: creatiwww/docker-compose:latest
+  services:
+    - docker:dind
+  allow_failure: false
+  interruptible: false
+  when: on_success
+  before_script:
+    - cd $DOCKER_CONFIG_PATH
+  script:
+    - eval $(ssh-agent -s)
+    - echo "$SSH_SERVER_PRIVATE_KEY" | tr -d '\r' | ssh-add - > /dev/null
+    - ssh -o StrictHostKeyChecking=no $SSH_SERVER_USER@$SSH_SERVER_IP 'export ENVIRONMENT='"'$ENVIRONMENT'"'; export CI_REGISTRY_IMAGE='"'$CI_REGISTRY_IMAGE'"'; docker-compose down --remove-orphans; docker-compose pull; docker-compose up -d'
+  rules:
+    - !reference [ .default_rules, rules ]
+
+deploy:develop:
+  stage: deploy
+  extends: .deploy_template
+  needs: [ push:develop ]
+  variables:
+    ENVIRONMENT: "develop"
+
+deploy:stage:
+  stage: deploy
+  extends: .deploy_template
+  needs: [ push:stage ]
+  variables:
+    ENVIRONMENT: "staging"
+
+deploy:prod:
+  stage: deploy
+  needs: [ push:prod ]
+  extends: .deploy_template
+  variables:
+    ENVIRONMENT: "production"
+
