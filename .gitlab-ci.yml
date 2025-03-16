@@ -9,7 +9,7 @@ variables:
 .default_rules:
   rules:
     changes:
-      - ./**/*.{cs,csproj,props,sln}
+      - /**/*.{cs,csproj,props,sln}
 
 workflow:
   auto_cancel:
