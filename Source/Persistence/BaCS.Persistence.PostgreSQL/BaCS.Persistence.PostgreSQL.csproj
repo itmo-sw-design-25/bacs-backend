@@ -3,6 +3,7 @@
         <PackageReference Include="EFCore.NamingConventions"/>
         <PackageReference Include="Microsoft.AspNetCore.Http.Abstractions"/>
         <PackageReference Include="Microsoft.EntityFrameworkCore"/>
+        <PackageReference Include="Microsoft.Extensions.Configuration.Binder"/>
         <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL"/>
     </ItemGroup>
 </Project>

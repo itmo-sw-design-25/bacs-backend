@@ -2,8 +2,6 @@ using BaCS.Infrastructure.Observability.HealthChecks;
 using BaCS.Infrastructure.Observability.Logging;
 using BaCS.Infrastructure.Observability.OpenTelemetry;
 using BaCS.Persistence.PostgreSQL.Extensions;
-using BaCS.Persistence.PostgreSQL.Options;
-using Microsoft.EntityFrameworkCore;
 using Prometheus;
 using Scalar.AspNetCore;
 using Serilog;
@@ -14,21 +12,7 @@ var configuration = builder.Configuration;
 
 builder.Host.UseSerilogLogging();
 
-builder.Services.AddDatabaseContext(
-    options =>
-    {
-        var postgresOptions = configuration.GetSection(nameof(PostgresOptions)).Get<PostgresOptions>();
-
-        options
-            .UseNpgsql(
-                postgresOptions!.ConnectionString,
-                sqlOptions => sqlOptions.MigrationsHistoryTable("__EFMigrationsHistory", postgresOptions.Schema)
-            )
-            .UseSnakeCaseNamingConvention()
-            .EnableSensitiveDataLogging();
-    }
-);
-
+builder.Services.AddNpgsqlDbContext(configuration);
 builder.Services.AddControllers();
 builder.Services.AddOpenApi();
 
