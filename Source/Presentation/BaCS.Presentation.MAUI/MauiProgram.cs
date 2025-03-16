@@ -1,8 +1,8 @@
-﻿using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Logging;
 
 namespace BaCS.Presentation.MAUI;
 
-public static class Program
+public static class MauiProgram
 {
     public static MauiApp CreateMauiApp()
     {
