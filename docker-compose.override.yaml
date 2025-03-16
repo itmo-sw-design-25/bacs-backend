@@ -1,0 +1,19 @@
+﻿services:
+  bacs.api:
+    build:
+      context: .
+      dockerfile: Source/Presentation/BaCS.Presentation.API/Dockerfile
+    ports:
+      - "8080:8080"
+  postgres:
+    ports:
+      - "5432:5432"
+  jaeger:
+    ports:
+      - "16686:16686"
+  grafana:
+    ports:
+      - "3000:3000"
+  prometheus:
+    ports:
+      - "9090:9090"
