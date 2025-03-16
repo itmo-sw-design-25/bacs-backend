@@ -46,7 +46,7 @@ build:
       junit:
         - $CI_PROJECT_DIR/junit/junit-test-result.xml
 
-unit-tests:
+unit tests:
   stage: test
   needs: [ build ]
   extends: .tests_coverage_template
@@ -61,7 +61,7 @@ unit-tests:
   rules:
     - !reference [ .default_rules, rules ]
 
-integration-tests:
+integration tests:
   stage: test
   needs: [ build ]
   extends: .tests_coverage_template
@@ -78,7 +78,7 @@ integration-tests:
   image: creatiwww/docker-compose:latest
   services:
     - docker:dind
-  needs: [ unit-tests, integration-tests ]
+  needs: [ unit tests, integration tests ]
   stage: push
   allow_failure: false
   interruptible: false
