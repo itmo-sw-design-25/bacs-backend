@@ -58,13 +58,6 @@
     networks:
       - bacs
 
-  loki:
-    image: grafana/loki
-    container_name: loki
-    command: -config.file=/etc/loki/local-config.yaml
-    networks:
-      - bacs
-
   prometheus:
     image: prom/prometheus
     container_name: prometheus
@@ -74,6 +67,18 @@
     command:
       - "--config.file=/etc/prometheus/prometheus.yml"
       - "--web.external-url=/prometheus/"
+    networks:
+      - bacs
+
+  seq:
+    image: datalust/seq
+    container_name: seq
+    volumes:
+      - ./seq_data:/data
+    environment:
+      ACCEPT_EULA: 'y'
+      SEQ_API_CANONICALURI: ${SEQ_API_CANONICALURI}
+    restart: unless-stopped
     networks:
       - bacs
 
@@ -91,6 +96,7 @@
     environment:
       NGINX_ENVSUBST_TEMPLATE_SUFFIX: ".conf"
       NGINX_SERVER_NAME: ${NGINX_SERVER_NAME}
+    restart: unless-stopped
     networks:
       - bacs
 
@@ -98,6 +104,7 @@ volumes:
   pg_data:
   grafana_data:
   prom_data:
+  seq_data:
 
 networks:
   bacs:
