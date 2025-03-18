@@ -31,7 +31,7 @@ app.MapOpenApi();
 app.MapScalarApiReference(
     x =>
     {
-        x.Servers = new List<ScalarServer> { new("/api", "BaCS ASP.NET Server") };
+        x.Servers = new List<ScalarServer> { new("/api", "BaCS API") };
         x.WithTitle("BaCS.API").WithDefaultHttpClient(ScalarTarget.CSharp, ScalarClient.HttpClient);
     }
 );
