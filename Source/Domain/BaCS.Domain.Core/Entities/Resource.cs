@@ -13,6 +13,7 @@ public class Resource : UpdatableEntity
     public int Floor { get; init; }
     public string[] Equipment { get; init; }
     public ResourceType Type { get; init; }
+    public string ImageUrl { get; init; }
 
     public virtual Location Location { get; init; }
 }

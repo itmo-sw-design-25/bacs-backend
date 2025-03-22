@@ -47,6 +47,11 @@ namespace BaCS.Persistence.PostgreSQL.Migrations
                         .HasColumnType("text")
                         .HasColumnName("description");
 
+                    b.Property<string>("ImageUrl")
+                        .IsRequired()
+                        .HasColumnType("text")
+                        .HasColumnName("image_url");
+
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("text")
@@ -188,6 +193,11 @@ namespace BaCS.Persistence.PostgreSQL.Migrations
                     b.Property<int>("Floor")
                         .HasColumnType("integer")
                         .HasColumnName("floor");
+
+                    b.Property<string>("ImageUrl")
+                        .IsRequired()
+                        .HasColumnType("text")
+                        .HasColumnName("image_url");
 
                     b.Property<Guid>("LocationId")
                         .HasColumnType("uuid")

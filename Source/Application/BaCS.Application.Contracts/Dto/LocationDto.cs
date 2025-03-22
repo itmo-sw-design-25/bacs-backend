@@ -11,5 +11,7 @@ public record LocationDto(
     string Address,
     [property: Description("Описание локации.")]
     string Description,
+    [property: Description("Ссылка на фотографию локации.")]
+    string ImageUrl,
     CalendarSettingsDto CalendarSettings
 );

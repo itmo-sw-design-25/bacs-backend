@@ -34,6 +34,13 @@ public class LocationsController : ControllerBase
     [ProducesResponseType<ProblemDetails>(StatusCodes.Status400BadRequest, "application/problem+json")]
     public IActionResult UpdateLocation([FromRoute] Guid locationId, [FromBody] UpdateLocationCommand command) => Ok();
 
+    [EndpointSummary("Загрузить фотографию локации.")]
+    [HttpPut("{locationId:guid}/image")]
+    [Consumes("multipart/form-data")]
+    [ProducesResponseType<string>(StatusCodes.Status204NoContent, "application/json")]
+    [ProducesResponseType<ProblemDetails>(StatusCodes.Status400BadRequest, "application/problem+json")]
+    public IActionResult AddLocationImage([FromRoute] Guid locationId, IFormFile file) => Ok();
+
     [EndpointSummary("Добавить администратора локации.")]
     [HttpPut("{locationId:guid}/admins/{userId:guid}")]
     [ProducesResponseType(StatusCodes.Status204NoContent)]
@@ -45,6 +52,12 @@ public class LocationsController : ControllerBase
     [ProducesResponseType(StatusCodes.Status204NoContent)]
     [ProducesResponseType<ProblemDetails>(StatusCodes.Status403Forbidden, "application/problem+json")]
     public IActionResult DeleteLocationAdmin([FromRoute] Guid locationId, [FromRoute] Guid userId) => NoContent();
+
+    [EndpointSummary("Удалить фотографию локации.")]
+    [HttpDelete("{locationId:guid}/image")]
+    [ProducesResponseType(StatusCodes.Status204NoContent)]
+    [ProducesResponseType<ProblemDetails>(StatusCodes.Status400BadRequest, "application/problem+json")]
+    public IActionResult DeleteLocationImage([FromRoute] Guid locationId) => NoContent();
 
     [EndpointSummary("Удалить локацию.")]
     [HttpDelete("{locationId:guid}")]

@@ -1,5 +1,6 @@
 namespace BaCS.Presentation.API.Controllers;
 
+using Application.Contracts.Commands;
 using Application.Contracts.Dto;
 using Microsoft.AspNetCore.Mvc;
 
@@ -23,7 +24,7 @@ public class UsersController : ControllerBase
     [Consumes("application/json")]
     [ProducesResponseType<UserDto>(StatusCodes.Status200OK, "application/json")]
     [ProducesResponseType<ProblemDetails>(StatusCodes.Status400BadRequest, "application/problem+json")]
-    public IActionResult UpdateUser([FromRoute] Guid userId) => Ok();
+    public IActionResult UpdateUser([FromRoute] Guid userId, [FromBody] UpdateUserCommand command) => Ok();
 
     [EndpointSummary("Удалить пользователя.")]
     [HttpDelete("{userId:guid}")]

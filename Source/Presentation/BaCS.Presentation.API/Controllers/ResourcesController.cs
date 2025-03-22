@@ -36,6 +36,19 @@ public class ResourcesController : ControllerBase
     [ProducesResponseType<ProblemDetails>(StatusCodes.Status400BadRequest, "application/problem+json")]
     public IActionResult UpdateResource([FromRoute] Guid resourceId, [FromBody] UpdateResourceCommand command) => Ok();
 
+    [EndpointSummary("Загрузить фотографию ресурса.")]
+    [HttpPut("{resourceId:guid}/image")]
+    [Consumes("multipart/form-data")]
+    [ProducesResponseType<string>(StatusCodes.Status204NoContent, "application/json")]
+    [ProducesResponseType<ProblemDetails>(StatusCodes.Status400BadRequest, "application/problem+json")]
+    public IActionResult AddResourceImage([FromRoute] Guid resourceId, IFormFile file) => Ok();
+
+    [EndpointSummary("Удалить фотографию ресурса.")]
+    [HttpDelete("{resourceId:guid}/image")]
+    [ProducesResponseType(StatusCodes.Status204NoContent)]
+    [ProducesResponseType<ProblemDetails>(StatusCodes.Status400BadRequest, "application/problem+json")]
+    public IActionResult DeleteResourceImage([FromRoute] Guid resourceId) => NoContent();
+
     [EndpointSummary("Удалить ресурс.")]
     [HttpDelete("{resourceId:guid}")]
     [ProducesResponseType(StatusCodes.Status204NoContent)]

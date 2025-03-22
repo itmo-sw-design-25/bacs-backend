@@ -15,5 +15,7 @@ public record ResourceDto(
     [property: Description("Оборудование, прикреплённое к ресурсу.")]
     string[] Equipment,
     [property: Description("Тип ресурса.")]
-    ResourceType Type
+    ResourceType Type,
+    [property: Description("Ссылка на фотографию ресурса.")]
+    string ImageUrl
 );
