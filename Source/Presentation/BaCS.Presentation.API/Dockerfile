@@ -9,8 +9,9 @@ WORKDIR /src
 COPY ["Source/Presentation/BaCS.Presentation.API/BaCS.Presentation.API.csproj", "Source/Presentation/BaCS.Presentation.API/"]
 COPY ["Source/Infrastructure/BaCS.Infrastructure.Observability/BaCS.Infrastructure.Observability.csproj", "Source/Infrastructure/BaCS.Infrastructure.Observability/"]
 COPY ["Source/Persistence/BaCS.Persistence.PostgreSQL/BaCS.Persistence.PostgreSQL.csproj", "Source/Persistence/BaCS.Persistence.PostgreSQL/"]
-COPY ["Source/Application/BaCS.Application.Queries/BaCS.Application.Queries.csproj", "Source/Application/BaCS.Application.Queries/"]
-COPY ["Source/Domain/BaCS.Domain.Models/BaCS.Domain.Models.csproj", "Source/Domain/BaCS.Domain.Models/"]
+COPY ["Source/Application/BaCS.Application.Contracts/BaCS.Application.Contracts.csproj", "Source/Application/BaCS.Application.Contracts/"]
+COPY ["Source/Application/BaCS.Application.Abstractions/BaCS.Application.Abstractions.csproj", "Source/Application/BaCS.Application.Abstractions/"]
+COPY ["Source/Domain/BaCS.Domain.Core/BaCS.Domain.Core.csproj", "Source/Domain/BaCS.Domain.Core/"]
 COPY . .
 RUN dotnet restore "Source/Presentation/BaCS.Presentation.API/BaCS.Presentation.API.csproj"
 RUN dotnet build --tl --no-restore "Source/Presentation/BaCS.Presentation.API/BaCS.Presentation.API.csproj" -c $BUILD_CONFIGURATION -o /app/build

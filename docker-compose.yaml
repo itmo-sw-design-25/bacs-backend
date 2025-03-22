@@ -29,7 +29,7 @@
     networks:
       - bacs
     volumes:
-      - pg_data:/var/lib/postgresql/data
+      - ./pg_data:/var/lib/postgresql/data
 
   jaeger:
     image: jaegertracing/all-in-one:latest
