@@ -13,7 +13,7 @@ public class ResourcesController : ControllerBase
     [HttpGet]
     [ProducesResponseType<ResourceDto[]>(StatusCodes.Status200OK, "application/json")]
     [ProducesResponseType<ProblemDetails>(StatusCodes.Status400BadRequest, "application/problem+json")]
-    public IActionResult GetResources([FromQuery] GetResourcesQuery query) => Ok();
+    public IActionResult GetResources(GetResourcesQuery query) => Ok();
 
     [EndpointSummary("Получить ресурс по ID.")]
     [HttpGet("{resourceId:guid}")]

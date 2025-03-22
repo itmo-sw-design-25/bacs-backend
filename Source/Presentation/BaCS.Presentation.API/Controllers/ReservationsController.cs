@@ -12,7 +12,7 @@ public class ReservationsController : ControllerBase
     [EndpointSummary("Получить список резерваций.")]
     [HttpGet]
     [ProducesResponseType<ReservationDto[]>(StatusCodes.Status200OK, "application/json")]
-    public IActionResult GetReservations([FromQuery] GetReservationsQuery query) => Ok();
+    public IActionResult GetReservations(GetReservationsQuery query) => Ok();
 
     [EndpointSummary("Получить резервацию по ID.")]
     [HttpGet("{reservationId:guid}")]
