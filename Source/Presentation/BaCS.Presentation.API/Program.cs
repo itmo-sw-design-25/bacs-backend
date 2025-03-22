@@ -2,8 +2,8 @@ using BaCS.Infrastructure.Observability.HealthChecks;
 using BaCS.Infrastructure.Observability.Logging;
 using BaCS.Infrastructure.Observability.OpenTelemetry;
 using BaCS.Persistence.PostgreSQL.Extensions;
+using BaCS.Presentation.API.Extensions;
 using Prometheus;
-using Scalar.AspNetCore;
 using Serilog;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -17,7 +17,7 @@ builder
     .AddNpgsqlDbContext(configuration)
     .AddControllers();
 
-builder.Services.AddOpenApi();
+builder.Services.ApiOpenApi(configuration);
 
 // Observability
 builder
@@ -27,14 +27,7 @@ builder
 
 var app = builder.Build();
 
-app.MapOpenApi();
-app.MapScalarApiReference(
-    x =>
-    {
-        x.Servers = new List<ScalarServer> { new("/api", "BaCS ASP.NET Server") };
-        x.WithTitle("BaCS.API").WithDefaultHttpClient(ScalarTarget.CSharp, ScalarClient.HttpClient);
-    }
-);
+app.UseOpenApi(configuration);
 app.UseHttpMetrics();
 app.UseSerilogRequestLogging();
 
@@ -46,3 +39,4 @@ app.UsePathBase("/api");
 
 await app.MigrateDatabase();
 await app.RunAsync();
+await Log.CloseAndFlushAsync();

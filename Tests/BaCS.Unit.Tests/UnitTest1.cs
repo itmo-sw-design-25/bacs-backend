@@ -1,7 +1,7 @@
 namespace BaCS.Unit.Tests;
 
+using Domain.Core.Entities;
 using FluentAssertions;
-using Persistence.PostgreSQL.Models;
 
 public class UnitTest1
 {

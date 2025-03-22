@@ -10,4 +10,8 @@
         <PackageReference Include="Microsoft.Extensions.Configuration.Binder"/>
         <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL"/>
     </ItemGroup>
+
+    <ItemGroup>
+        <ProjectReference Include="..\..\Application\BaCS.Application.Abstractions\BaCS.Application.Abstractions.csproj"/>
+    </ItemGroup>
 </Project>
