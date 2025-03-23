@@ -2,7 +2,7 @@
 
     <PropertyGroup>
         <TargetFramework>net9.0</TargetFramework>
-        <Version>0.0.1</Version>
+        <Version>0.0.2</Version>
         <DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
     </PropertyGroup>
 
@@ -31,6 +31,7 @@
     <ItemGroup>
         <ProjectReference Include="..\..\Application\BaCS.Application.Contracts\BaCS.Application.Contracts.csproj"/>
         <ProjectReference Include="..\..\Infrastructure\BaCS.Infrastructure.Observability\BaCS.Infrastructure.Observability.csproj"/>
+        <ProjectReference Include="..\..\Persistence\BaCS.Persistence.Minio\BaCS.Persistence.Minio.csproj"/>
         <ProjectReference Include="..\..\Persistence\BaCS.Persistence.PostgreSQL\BaCS.Persistence.PostgreSQL.csproj"/>
     </ItemGroup>
 

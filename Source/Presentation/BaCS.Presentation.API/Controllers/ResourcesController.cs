@@ -49,7 +49,7 @@ public class ResourcesController : ControllerBase
     [EndpointSummary("Загрузить фотографию ресурса.")]
     [HttpPut("{resourceId:guid}/image")]
     [Consumes("multipart/form-data")]
-    [ProducesResponseType<string>(StatusCodes.Status204NoContent, "application/json")]
+    [ProducesResponseType<string>(StatusCodes.Status200OK, "application/json")]
     [ProducesResponseType<ProblemDetails>(StatusCodes.Status400BadRequest, "application/problem+json")]
     public IActionResult AddResourceImage(
         [Description("ID ресурса.")] Guid resourceId,
