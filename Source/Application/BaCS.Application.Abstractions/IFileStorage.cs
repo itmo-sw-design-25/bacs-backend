@@ -8,7 +8,7 @@ public interface IFileStorage
     Task<ImageUploadResult> UploadImage(
         ImageInfo imageInfo,
         string bucket,
-        CancellationToken cancellationToken
+        CancellationToken cancellationToken = default
     );
 
     Task<ImageUploadResult> DeleteImage(

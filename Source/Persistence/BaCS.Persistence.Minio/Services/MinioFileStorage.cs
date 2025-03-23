@@ -36,7 +36,7 @@ public class MinioFileStorage(
     public async Task<ImageUploadResult> UploadImage(
         ImageInfo imageInfo,
         string bucket,
-        CancellationToken cancellationToken
+        CancellationToken cancellationToken = default
     )
     {
         await EnsureBucketExists(bucket, cancellationToken);
