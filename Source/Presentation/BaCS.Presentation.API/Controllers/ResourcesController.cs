@@ -1,5 +1,6 @@
 namespace BaCS.Presentation.API.Controllers;
 
+using System.ComponentModel;
 using Application.Contracts.Commands;
 using Application.Contracts.Dto;
 using Application.Contracts.Queries;
@@ -13,45 +14,66 @@ public class ResourcesController : ControllerBase
     [HttpGet]
     [ProducesResponseType<ResourceDto[]>(StatusCodes.Status200OK, "application/json")]
     [ProducesResponseType<ProblemDetails>(StatusCodes.Status400BadRequest, "application/problem+json")]
-    public IActionResult GetResources(GetResourcesQuery query) => Ok();
+    public IActionResult GetResources([FromQuery] GetResourcesQuery query, CancellationToken cancellationToken) => Ok();
 
     [EndpointSummary("Получить ресурс по ID.")]
     [HttpGet("{resourceId:guid}")]
     [ProducesResponseType<ResourceDto>(StatusCodes.Status200OK, "application/json")]
     [ProducesResponseType<ProblemDetails>(StatusCodes.Status404NotFound, "application/problem+json")]
-    public IActionResult GetResource([FromRoute] Guid resourceId) => Ok();
+    public IActionResult GetResource(
+        [Description("ID ресурса.")] Guid resourceId,
+        CancellationToken cancellationToken
+    ) => Ok();
 
     [EndpointSummary("Создать ресурс.")]
     [HttpPost]
     [Consumes("application/json")]
     [ProducesResponseType<ResourceDto>(StatusCodes.Status201Created, "application/json")]
     [ProducesResponseType<ProblemDetails>(StatusCodes.Status400BadRequest, "application/problem+json")]
-    public IActionResult CreateResource([FromBody] CreateResourceCommand command) =>
-        CreatedAtAction(nameof(CreateResource), null);
+    public IActionResult CreateResource(
+        [FromBody] CreateResourceCommand command,
+        CancellationToken cancellationToken
+    ) => CreatedAtAction(nameof(CreateResource), null);
 
     [EndpointSummary("Обновить ресурс.")]
     [HttpPut("{resourceId:guid}")]
     [Consumes("application/json")]
     [ProducesResponseType<ResourceDto>(StatusCodes.Status200OK, "application/json")]
     [ProducesResponseType<ProblemDetails>(StatusCodes.Status400BadRequest, "application/problem+json")]
-    public IActionResult UpdateResource([FromRoute] Guid resourceId, [FromBody] UpdateResourceCommand command) => Ok();
+    public IActionResult UpdateResource(
+        [Description("ID ресурса.")] Guid resourceId,
+        [FromBody] UpdateResourceCommand command,
+        CancellationToken cancellationToken
+    ) => Ok();
 
     [EndpointSummary("Загрузить фотографию ресурса.")]
     [HttpPut("{resourceId:guid}/image")]
     [Consumes("multipart/form-data")]
     [ProducesResponseType<string>(StatusCodes.Status204NoContent, "application/json")]
     [ProducesResponseType<ProblemDetails>(StatusCodes.Status400BadRequest, "application/problem+json")]
-    public IActionResult AddResourceImage([FromRoute] Guid resourceId, IFormFile file) => Ok();
+    public IActionResult AddResourceImage(
+        [Description("ID ресурса.")] Guid resourceId,
+        [Description("Фотография ресурса.")] IFormFile file,
+        CancellationToken cancellationToken
+    ) => Ok();
 
     [EndpointSummary("Удалить фотографию ресурса.")]
     [HttpDelete("{resourceId:guid}/image")]
     [ProducesResponseType(StatusCodes.Status204NoContent)]
     [ProducesResponseType<ProblemDetails>(StatusCodes.Status400BadRequest, "application/problem+json")]
-    public IActionResult DeleteResourceImage([FromRoute] Guid resourceId) => NoContent();
+    public IActionResult DeleteResourceImage(
+        [Description("ID ресурса.")] Guid resourceId,
+        CancellationToken cancellationToken
+    ) =>
+        NoContent();
 
     [EndpointSummary("Удалить ресурс.")]
     [HttpDelete("{resourceId:guid}")]
     [ProducesResponseType(StatusCodes.Status204NoContent)]
     [ProducesResponseType<ProblemDetails>(StatusCodes.Status404NotFound, "application/problem+json")]
-    public IActionResult DeleteResource([FromRoute] Guid resourceId) => NoContent();
+    public IActionResult DeleteResource(
+        [Description("ID ресурса.")] Guid resourceId,
+        CancellationToken cancellationToken
+    ) =>
+        NoContent();
 }

@@ -10,5 +10,6 @@ public record CreateLocationCommand(
     string Address,
     [property: Description("Описание локации.")]
     string Description,
+    [property: Description("Настройки времени работы локации.")]
     CalendarSettingsDto CalendarSettings
 );
