@@ -1,4 +1,5 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
+
     <PropertyGroup>
         <TargetFramework>net9.0</TargetFramework>
     </PropertyGroup>
@@ -14,4 +15,5 @@
     <ItemGroup>
         <ProjectReference Include="..\..\Application\BaCS.Application.Abstractions\BaCS.Application.Abstractions.csproj"/>
     </ItemGroup>
+
 </Project>
