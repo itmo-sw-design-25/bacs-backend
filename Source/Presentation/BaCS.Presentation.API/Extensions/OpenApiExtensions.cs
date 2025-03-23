@@ -32,7 +32,7 @@ public static class OpenApiExtensions
             {
                 options.OpenApiRoutePattern = "/swagger/{documentName}/swagger.json";
                 options.Servers = new List<ScalarServer> { new("/api", "BaCS API") };
-                options.WithTitle("BaCS.API").WithDefaultHttpClient(ScalarTarget.CSharp, ScalarClient.HttpClient);
+                options.WithTitle("BaCS.API").WithDefaultHttpClient(ScalarTarget.Shell, ScalarClient.Curl);
             }
         );
 
