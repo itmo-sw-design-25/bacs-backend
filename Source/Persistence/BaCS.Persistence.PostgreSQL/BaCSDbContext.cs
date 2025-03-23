@@ -1,7 +1,8 @@
 namespace BaCS.Persistence.PostgreSQL;
 
+using Application.Abstractions;
+using Domain.Core.Entities;
 using Microsoft.EntityFrameworkCore;
-using Models;
 
 public class BaCSDbContext : DbContext, IBaCSDbContext
 {
@@ -11,4 +12,14 @@ public class BaCSDbContext : DbContext, IBaCSDbContext
         : base(options) { }
 
     public DbSet<User> Users { get; init; }
+    public DbSet<Resource> Resources { get; init; }
+    public DbSet<Location> Locations { get; init; }
+    public DbSet<LocationAdmin> LocationAdmins { get; init; }
+    public DbSet<Reservation> Reservations { get; init; }
+
+    protected override void OnModelCreating(ModelBuilder modelBuilder)
+    {
+        modelBuilder.ApplyConfigurationsFromAssembly(typeof(BaCSDbContext).Assembly);
+        base.OnModelCreating(modelBuilder);
+    }
 }

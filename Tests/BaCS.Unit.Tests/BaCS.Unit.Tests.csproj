@@ -20,7 +20,7 @@
     </ItemGroup>
 
     <ItemGroup>
-        <ProjectReference Include="..\..\Source\Persistence\BaCS.Persistence.PostgreSQL\BaCS.Persistence.PostgreSQL.csproj"/>
+        <ProjectReference Include="..\..\Source\Domain\BaCS.Domain.Core\BaCS.Domain.Core.csproj"/>
     </ItemGroup>
 
 </Project>

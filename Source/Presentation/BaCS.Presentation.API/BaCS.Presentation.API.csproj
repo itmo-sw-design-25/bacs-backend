@@ -20,11 +20,16 @@
 
     <ItemGroup>
         <PackageReference Include="Microsoft.AspNetCore.OpenApi"/>
+        <PackageReference Include="Microsoft.EntityFrameworkCore.Design">
+            <PrivateAssets>all</PrivateAssets>
+            <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+        </PackageReference>
         <PackageReference Include="Scalar.AspNetCore"/>
         <PackageReference Include="Swashbuckle.AspNetCore"/>
     </ItemGroup>
 
     <ItemGroup>
+        <ProjectReference Include="..\..\Application\BaCS.Application.Contracts\BaCS.Application.Contracts.csproj"/>
         <ProjectReference Include="..\..\Infrastructure\BaCS.Infrastructure.Observability\BaCS.Infrastructure.Observability.csproj"/>
         <ProjectReference Include="..\..\Persistence\BaCS.Persistence.PostgreSQL\BaCS.Persistence.PostgreSQL.csproj"/>
     </ItemGroup>

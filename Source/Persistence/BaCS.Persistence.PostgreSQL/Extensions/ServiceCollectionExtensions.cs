@@ -1,5 +1,6 @@
 namespace BaCS.Persistence.PostgreSQL.Extensions;
 
+using Application.Abstractions;
 using Microsoft.AspNetCore.Builder;
 using PostgreSQL;
 using Microsoft.EntityFrameworkCore;
@@ -47,7 +48,6 @@ public static class ServiceCollectionExtensions
         using var scope = app.ApplicationServices.CreateScope();
 
         var dbContext = scope.ServiceProvider.GetRequiredService<BaCSDbContext>();
-        await dbContext.Database.EnsureCreatedAsync();
         await dbContext.Database.MigrateAsync();
     }
 }
