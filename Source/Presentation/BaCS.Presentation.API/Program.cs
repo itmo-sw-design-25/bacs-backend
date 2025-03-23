@@ -17,7 +17,7 @@ builder
     .AddNpgsqlDbContext(configuration)
     .AddControllers();
 
-builder.Services.ApiOpenApi(configuration);
+builder.Services.AddOpenApi(configuration);
 
 // Observability
 builder

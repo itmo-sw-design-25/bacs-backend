@@ -5,7 +5,7 @@ using Scalar.AspNetCore;
 
 public static class OpenApiExtensions
 {
-    public static IServiceCollection ApiOpenApi(this IServiceCollection services, IConfiguration configuration)
+    public static IServiceCollection AddOpenApi(this IServiceCollection services, IConfiguration configuration)
     {
         services
             .AddEndpointsApiExplorer()

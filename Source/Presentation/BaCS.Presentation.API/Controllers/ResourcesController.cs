@@ -64,8 +64,7 @@ public class ResourcesController : ControllerBase
     public IActionResult DeleteResourceImage(
         [Description("ID ресурса.")] Guid resourceId,
         CancellationToken cancellationToken
-    ) =>
-        NoContent();
+    ) => NoContent();
 
     [EndpointSummary("Удалить ресурс.")]
     [HttpDelete("{resourceId:guid}")]
@@ -74,6 +73,5 @@ public class ResourcesController : ControllerBase
     public IActionResult DeleteResource(
         [Description("ID ресурса.")] Guid resourceId,
         CancellationToken cancellationToken
-    ) =>
-        NoContent();
+    ) => NoContent();
 }
