@@ -42,6 +42,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BaCS.Presentation.MAUI", "S
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BaCS.Application.Abstractions", "Source\Application\BaCS.Application.Abstractions\BaCS.Application.Abstractions.csproj", "{F36B0292-ED17-4295-8909-CEF904E034E7}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BaCS.Persistence.Minio", "Source\Persistence\BaCS.Persistence.Minio\BaCS.Persistence.Minio.csproj", "{BA91C157-1230-467F-B29B-4EAD4340A9E8}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -80,6 +82,10 @@ Global
 		{F36B0292-ED17-4295-8909-CEF904E034E7}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F36B0292-ED17-4295-8909-CEF904E034E7}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F36B0292-ED17-4295-8909-CEF904E034E7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BA91C157-1230-467F-B29B-4EAD4340A9E8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BA91C157-1230-467F-B29B-4EAD4340A9E8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BA91C157-1230-467F-B29B-4EAD4340A9E8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BA91C157-1230-467F-B29B-4EAD4340A9E8}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{F7710066-EA13-4FDF-BA0C-8E2E95FBCD45} = {66AF9317-1BE8-404E-A161-8FD1034A8F2D}
@@ -95,5 +101,6 @@ Global
 		{49426743-80C7-4AEA-AED4-83791C8D748A} = {6A8FBB16-2A1B-4794-8F8D-0713C0899A32}
 		{A870325A-890B-46B4-88CF-883191724927} = {F7710066-EA13-4FDF-BA0C-8E2E95FBCD45}
 		{F36B0292-ED17-4295-8909-CEF904E034E7} = {4AAE45B5-9F49-4930-A97D-C448893D2139}
+		{BA91C157-1230-467F-B29B-4EAD4340A9E8} = {02C2D146-9AE1-45BB-80F4-BF51C9277639}
 	EndGlobalSection
 EndGlobal

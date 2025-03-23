@@ -1,6 +1,7 @@
 using BaCS.Infrastructure.Observability.HealthChecks;
 using BaCS.Infrastructure.Observability.Logging;
 using BaCS.Infrastructure.Observability.OpenTelemetry;
+using BaCS.Persistence.Minio.Extensions;
 using BaCS.Persistence.PostgreSQL.Extensions;
 using BaCS.Presentation.API.Extensions;
 using Prometheus;
@@ -15,6 +16,7 @@ builder.Host.UseSerilogLogging();
 builder
     .Services
     .AddNpgsqlDbContext(configuration)
+    .AddMinioStorage(configuration)
     .AddControllers();
 
 builder.Services.AddOpenApi(configuration);

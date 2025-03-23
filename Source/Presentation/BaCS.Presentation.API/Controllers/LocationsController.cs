@@ -47,7 +47,7 @@ public class LocationsController : ControllerBase
     [EndpointSummary("Загрузить фотографию локации.")]
     [HttpPut("{locationId:guid}/image")]
     [Consumes("multipart/form-data")]
-    [ProducesResponseType<string>(StatusCodes.Status204NoContent, "application/json")]
+    [ProducesResponseType<string>(StatusCodes.Status200OK, "application/json")]
     [ProducesResponseType<ProblemDetails>(StatusCodes.Status400BadRequest, "application/problem+json")]
     public IActionResult AddLocationImage(
         [Description("ID локации.")] Guid locationId,
