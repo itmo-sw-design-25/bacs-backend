@@ -62,12 +62,11 @@
     image: grafana/grafana
     container_name: grafana
     volumes:
-      # ./grafana_data must have 0777 permission mode
       - ./grafana_data:/var/lib/grafana
       - ./grafana_data/plugins:/var/lib/grafana/plugins
       - ./.deployment/grafana/grafana.ini:/etc/grafana/grafana.ini:ro
       - ./.deployment/grafana/datasources.yaml:/etc/grafana/provisioning/datasources/ds.yaml
-    user: ${GF_USER_ID} # 0 for root or other for custom user
+    user: ${GF_USER_ID}
     environment:
       GF_SECURITY_ADMIN_USER: ${GF_SECURITY_ADMIN_USER}
       GF_SECURITY_ADMIN_PASSWORD: ${GF_SECURITY_ADMIN_PASSWORD}
