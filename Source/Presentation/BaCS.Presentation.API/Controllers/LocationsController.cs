@@ -3,17 +3,21 @@ namespace BaCS.Presentation.API.Controllers;
 using System.ComponentModel;
 using Application.Contracts.Commands;
 using Application.Contracts.Dto;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
+[Authorize]
 [ApiController]
 [Route("locations")]
 public class LocationsController : ControllerBase
 {
+    [AllowAnonymous]
     [EndpointSummary("Получить список локаций.")]
     [HttpGet]
     [ProducesResponseType<LocationDto[]>(StatusCodes.Status200OK, "application/json")]
     public IActionResult GetLocations(CancellationToken cancellationToken) => Ok();
 
+    [AllowAnonymous]
     [EndpointSummary("Получить локацию по ID.")]
     [HttpGet("{locationId:guid}")]
     [ProducesResponseType<LocationDto>(StatusCodes.Status200OK, "application/json")]

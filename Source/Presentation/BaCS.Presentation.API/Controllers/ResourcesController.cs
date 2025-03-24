@@ -4,18 +4,22 @@ using System.ComponentModel;
 using Application.Contracts.Commands;
 using Application.Contracts.Dto;
 using Application.Contracts.Queries;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
+[Authorize]
 [ApiController]
 [Route("resources")]
 public class ResourcesController : ControllerBase
 {
+    [AllowAnonymous]
     [EndpointSummary("Получить список ресурсов.")]
     [HttpGet]
     [ProducesResponseType<ResourceDto[]>(StatusCodes.Status200OK, "application/json")]
     [ProducesResponseType<ProblemDetails>(StatusCodes.Status400BadRequest, "application/problem+json")]
     public IActionResult GetResources([FromQuery] GetResourcesQuery query, CancellationToken cancellationToken) => Ok();
 
+    [AllowAnonymous]
     [EndpointSummary("Получить ресурс по ID.")]
     [HttpGet("{resourceId:guid}")]
     [ProducesResponseType<ResourceDto>(StatusCodes.Status200OK, "application/json")]

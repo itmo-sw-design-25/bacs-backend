@@ -19,6 +19,9 @@
     </ItemGroup>
 
     <ItemGroup>
+        <PackageReference Include="Keycloak.AuthServices.Authentication"/>
+        <PackageReference Include="Keycloak.AuthServices.Authorization"/>
+        <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer"/>
         <PackageReference Include="Microsoft.AspNetCore.OpenApi"/>
         <PackageReference Include="Microsoft.EntityFrameworkCore.Design">
             <PrivateAssets>all</PrivateAssets>
