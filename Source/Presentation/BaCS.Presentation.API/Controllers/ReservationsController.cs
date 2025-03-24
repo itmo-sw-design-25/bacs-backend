@@ -4,17 +4,21 @@ using System.ComponentModel;
 using Application.Contracts.Commands;
 using Application.Contracts.Dto;
 using Application.Contracts.Queries;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
+[Authorize]
 [ApiController]
 [Route("reservations")]
 public class ReservationsController : ControllerBase
 {
+    [AllowAnonymous]
     [EndpointSummary("Получить список резерваций.")]
     [HttpGet]
     [ProducesResponseType<ReservationDto[]>(StatusCodes.Status200OK, "application/json")]
     public IActionResult GetReservations([FromQuery] GetReservationsQuery query, CancellationToken cancellationToken) => Ok();
 
+    [AllowAnonymous]
     [EndpointSummary("Получить резервацию по ID.")]
     [HttpGet("{reservationId:guid}")]
     [ProducesResponseType<ReservationDto>(StatusCodes.Status200OK, "application/json")]

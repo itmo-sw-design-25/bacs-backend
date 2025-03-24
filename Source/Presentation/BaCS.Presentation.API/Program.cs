@@ -27,17 +27,23 @@ builder
     .AddHealthChecks(configuration)
     .AddOpenTelemetry(configuration);
 
+builder.Services.AddAuthentication(configuration);
+
 var app = builder.Build();
 
-app.UseOpenApi(configuration);
-app.UseHttpMetrics();
-app.UseSerilogRequestLogging();
+app
+    .UseOpenApi(configuration)
+    .UseHttpMetrics()
+    .UseSerilogRequestLogging();
 
-app.UseAuthorization();
-app.UseRouting();
+app
+    .UsePathBase("/api")
+    .UseRouting()
+    .UseAuthentication()
+    .UseAuthorization();
+
 app.MapControllers();
 app.MapMetrics();
-app.UsePathBase("/api");
 
 await app.MigrateDatabase();
 await app.RunAsync();

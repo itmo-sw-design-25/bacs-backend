@@ -3,17 +3,21 @@ namespace BaCS.Presentation.API.Controllers;
 using System.ComponentModel;
 using Application.Contracts.Commands;
 using Application.Contracts.Dto;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
+[Authorize]
 [ApiController]
 [Route("users")]
 public class UsersController : ControllerBase
 {
+    [AllowAnonymous]
     [EndpointSummary("Получить список пользователей.")]
     [HttpGet]
     [ProducesResponseType<UserDto[]>(StatusCodes.Status200OK, "application/json")]
     public IActionResult GetUsers(CancellationToken cancellationToken) => Ok();
 
+    [AllowAnonymous]
     [EndpointSummary("Получить пользователя по ID.")]
     [HttpGet("{userId:guid}")]
     [ProducesResponseType<UserDto>(StatusCodes.Status200OK, "application/json")]

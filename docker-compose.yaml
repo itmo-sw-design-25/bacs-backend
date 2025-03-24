@@ -18,6 +18,7 @@
       MinioOptions__Url: ${BACS_MINIO_URL}
       MinioOptions__ProxyUrl: ${BACS_MINIO_PROXY_URL}
       MinioOptions__WithSSL: ${BACS_MINIO_WITH_SSL}
+      Keycloak__Credentials__Secret: ${KEYCLOAK_CLIENT_SECRET}
     restart: unless-stopped
     depends_on:
       - postgres
@@ -126,6 +127,36 @@
       - /sys:/sys:ro
       - /var/lib/docker/:/var/lib/docker
     privileged: true
+    networks:
+      - bacs
+
+  keycloak:
+    image: quay.io/keycloak/keycloak:24.0.1
+    container_name: keycloak
+    environment:
+      KC_HOSTNAME_STRICT: false
+      KC_HTTP_ENABLED: ${KC_HTTP_ENABLED}
+      KC_PROXY_HEADERS: ${KC_PROXY_HEADERS}
+      KC_HTTP_PORT: ${KC_HTTP_PORT}
+      KC_HTTPS_PORT: ${KC_HTTPS_PORT}
+      KC_HTTP_RELATIVE_PATH: ${KC_HTTP_RELATIVE_PATH}
+      KEYCLOAK_ADMIN: ${KEYCLOAK_ADMIN}
+      KEYCLOAK_ADMIN_PASSWORD: ${KEYCLOAK_ADMIN_PASSWORD}
+      KC_LOG_LEVEL: ${KC_LOG_LEVEL}
+      KC_DB: ${KC_DB}
+      KC_DB_DRIVER: ${KC_DB_DRIVER}
+      KC_DB_PASSWORD: ${KC_DB_PASSWORD}
+      KC_DB_USERNAME: ${KC_DB_USERNAME}
+      KC_DB_SCHEMA: ${KC_DB_SCHEMA}
+      KC_DB_URL: ${KC_DB_URL}
+      KC_HTTPS_CERTIFICATE_FILE: /etc/x509/https/tls.crt
+      KC_HTTPS_CERTIFICATE_KEY_FILE: /etc/x509/https/tls.key
+    command: start
+    volumes:
+      - ${KC_CERTS_CRT}:/etc/x509/https/tls.crt:ro
+      - ${KC_CERTS_KEY}:/etc/x509/https/tls.key:ro
+    depends_on:
+      - postgres
     networks:
       - bacs
 
