@@ -1,5 +1,8 @@
 namespace BaCS.Presentation.API.Extensions;
 
+using Keycloak.AuthServices.Authentication;
+using Microsoft.OpenApi.Any;
+using Microsoft.OpenApi.Interfaces;
 using Microsoft.OpenApi.Models;
 using Scalar.AspNetCore;
 
@@ -7,17 +10,64 @@ public static class OpenApiExtensions
 {
     public static IServiceCollection AddOpenApi(this IServiceCollection services, IConfiguration configuration)
     {
+        var keycloakOptions = configuration
+            .GetSection("Keycloak")
+            .Get<KeycloakAuthenticationOptions>(x => x.BindNonPublicProperties = true)!;
+
         services
             .AddEndpointsApiExplorer()
-            .AddSwaggerGen(options =>
+            .AddSwaggerGen(
+                options =>
                 {
                     options.DescribeAllParametersInCamelCase();
-                    options.SwaggerDoc("v1", new OpenApiInfo
+                    options.SwaggerDoc(
+                        "v1",
+                        new OpenApiInfo
+                        {
+                            Title = "BaCS API",
+                            Version = "v1",
+                            Description = "API сервиса по бронированию рабочих мест в коворкингах BaCS."
+                        }
+                    );
+
+                    var keycloakSecurityScheme = new OpenApiSecurityScheme
                     {
-                        Title = "BaCS API",
-                        Version = "v1",
-                        Description = "API сервиса по бронированию рабочих мест в коворкингах BaCS."
-                    });
+                        Description = "Аутентификация через Keycloak",
+                        Name = "JWT Authentication",
+                        In = ParameterLocation.Header,
+                        Type = SecuritySchemeType.OAuth2,
+                        Scheme = "Bearer",
+                        BearerFormat = "JWT",
+                        Reference = new OpenApiReference
+                        {
+                            Id = "Keycloak",
+                            Type = ReferenceType.SecurityScheme
+                        },
+                        Flows = new OpenApiOAuthFlows
+                        {
+                            AuthorizationCode = new OpenApiOAuthFlow
+                            {
+                                AuthorizationUrl = new Uri(
+                                    keycloakOptions.KeycloakUrlRealm + "protocol/openid-connect/auth"
+                                ),
+                                TokenUrl = new Uri(keycloakOptions.KeycloakTokenEndpoint),
+                                Scopes = new Dictionary<string, string>
+                                {
+                                    {
+                                        keycloakOptions.Resource,
+                                        "Обязательный скоуп, необходимый для авторизации на BaCS API"
+                                    }
+                                },
+                                Extensions = new Dictionary<string, IOpenApiExtension>
+                                {
+                                    ["x-usePkce"] = new OpenApiString("SHA-256")
+                                },
+                            }
+                        }
+                    };
+
+                    options.AddSecurityDefinition(keycloakSecurityScheme.Reference.Id, keycloakSecurityScheme);
+                    options.AddSecurityRequirement(new OpenApiSecurityRequirement { { keycloakSecurityScheme, [] } });
                 }
             );
 
@@ -26,14 +76,24 @@ public static class OpenApiExtensions
 
     public static WebApplication UseOpenApi(this WebApplication app, IConfiguration configuration)
     {
+        var keycloakOptions = configuration
+            .GetSection("Keycloak")
+            .Get<KeycloakAuthenticationOptions>(x => x.BindNonPublicProperties = true)!;
+
         app.UseSwagger();
         app.MapScalarApiReference(
-            options =>
-            {
-                options.OpenApiRoutePattern = "/swagger/{documentName}/swagger.json";
-                options.Servers = new List<ScalarServer> { new("/api", "BaCS API") };
-                options.WithTitle("BaCS.API").WithDefaultHttpClient(ScalarTarget.Shell, ScalarClient.Curl);
-            }
+            options => options
+                .WithTitle("BaCS.API")
+                .AddServer("/api")
+                .WithOpenApiRoutePattern("/swagger/{documentName}/swagger.json")
+                .WithDefaultHttpClient(ScalarTarget.Shell, ScalarClient.Curl)
+                .WithOAuth2Authentication(
+                    x =>
+                    {
+                        x.ClientId = keycloakOptions.Resource;
+                        x.Scopes = [keycloakOptions.Resource];
+                    }
+                )
         );
 
         return app;
