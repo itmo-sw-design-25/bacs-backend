@@ -37,13 +37,24 @@
     volumes:
       - ./pg_data:/var/lib/postgresql/data
 
+  postgres-exporter:
+    image: bitnami/postgres-exporter:latest
+    container_name: postgres_exporter
+    environment:
+      DATA_SOURCE_URI: ${DATA_SOURCE_URI}
+      DATA_SOURCE_USER: ${POSTGRES_USER}
+      DATA_SOURCE_PASS: ${POSTGRES_PASSWORD}
+    networks:
+      - bacs
+
   minio:
-    image: 'bitnami/minio:latest'
+    image: bitnami/minio:latest
     container_name: minio
     environment:
       - MINIO_ROOT_USER=${MINIO_ROOT_USER}
       - MINIO_ROOT_PASSWORD=${MINIO_ROOT_PASSWORD}
       - MINIO_BROWSER_REDIRECT_URL=${MINIO_BROWSER_REDIRECT_URL}
+      - MINIO_PROMETHEUS_AUTH_TYPE=public
     networks:
       - bacs
     volumes:
