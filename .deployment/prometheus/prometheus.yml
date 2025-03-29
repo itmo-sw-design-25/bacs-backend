@@ -18,3 +18,13 @@ scrape_configs:
   - job_name: "cadvisor-job"
     static_configs:
       - targets: [ "cadvisor:8080" ]
+
+  - job_name: "postgres-job"
+    static_configs:
+      - targets: [ "postgres_exporter:9187" ]
+
+  - job_name: "minio-job"
+    metrics_path: /minio/v2/metrics/cluster
+    scheme: http
+    static_configs:
+      - targets: [ 'minio:9000' ]
