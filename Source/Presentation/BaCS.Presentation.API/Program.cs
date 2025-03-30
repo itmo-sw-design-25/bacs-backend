@@ -13,7 +13,7 @@ var configuration = builder.Configuration;
 builder.Host.UseSerilogLogging();
 
 builder.Services.AddControllers();
-builder.Services.AddApplicationServices(configuration);
+builder.Services.AddApplication(configuration);
 
 builder.Services.AddOpenApi(configuration);
 

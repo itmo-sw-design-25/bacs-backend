@@ -1,6 +1,6 @@
 namespace BaCS.Persistence.Minio.Extensions;
 
-using Application.Abstractions;
+using Application.Abstractions.Persistence;
 using global::Minio;
 using HealthCheck;
 using Microsoft.Extensions.Configuration;

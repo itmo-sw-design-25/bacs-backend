@@ -1,7 +1,7 @@
 namespace BaCS.Persistence.Minio.Services;
 
 using System.Net;
-using Application.Abstractions;
+using Application.Abstractions.Persistence;
 using Application.Contracts.Results;
 using Domain.Core.ValueObjects;
 using global::Minio;

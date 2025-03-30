@@ -37,6 +37,7 @@
         <ProjectReference Include="..\..\Application\BaCS.Application.Contracts\BaCS.Application.Contracts.csproj"/>
         <ProjectReference Include="..\..\Application\BaCS.Application.Handlers\BaCS.Application.Handlers.csproj"/>
         <ProjectReference Include="..\..\Application\BaCS.Application.Mapping\BaCS.Application.Mapping.csproj"/>
+        <ProjectReference Include="..\..\Application\BaCS.Application.Services\BaCS.Application.Services.csproj"/>
         <ProjectReference Include="..\..\Infrastructure\BaCS.Infrastructure.Observability\BaCS.Infrastructure.Observability.csproj"/>
         <ProjectReference Include="..\..\Persistence\BaCS.Persistence.Minio\BaCS.Persistence.Minio.csproj"/>
         <ProjectReference Include="..\..\Persistence\BaCS.Persistence.PostgreSQL\BaCS.Persistence.PostgreSQL.csproj"/>

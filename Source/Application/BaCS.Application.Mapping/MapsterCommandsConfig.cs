@@ -1,9 +1,9 @@
 namespace BaCS.Application.Mapping;
 
 using Domain.Core.Entities;
-using Handlers.Commands.Locations;
-using Handlers.Commands.Reservations;
-using Handlers.Commands.Resources;
+using Handlers.Locations.Commands;
+using Handlers.Reservations.Commands;
+using Handlers.Resources.Commands;
 using Mapster;
 
 public class MapsterCommandsConfig

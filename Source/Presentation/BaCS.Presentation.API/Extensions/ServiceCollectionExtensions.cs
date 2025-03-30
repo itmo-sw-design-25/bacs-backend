@@ -4,6 +4,7 @@ using System.Diagnostics;
 using Application.Contracts;
 using Application.Handlers.Extensions;
 using Application.Mapping.Extensions;
+using Application.Services.Extensions;
 using FluentValidation;
 using FluentValidation.AspNetCore;
 using MicroElements.Swashbuckle.FluentValidation.AspNetCore;
@@ -13,7 +14,7 @@ using Persistence.PostgreSQL.Extensions;
 
 public static class ServiceCollectionExtensions
 {
-    public static IServiceCollection AddApplicationServices(
+    public static IServiceCollection AddApplication(
         this IServiceCollection services,
         IConfiguration configuration
     )
@@ -22,6 +23,7 @@ public static class ServiceCollectionExtensions
             .AddNpgsqlDbContext(configuration)
             .AddMinioStorage(configuration)
             .AddApplicationMapping()
+            .AddApplicationServices()
             .AddApplicationHandlers();
 
         services
