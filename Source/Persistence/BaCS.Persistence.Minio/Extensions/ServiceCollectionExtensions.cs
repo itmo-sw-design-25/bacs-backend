@@ -2,6 +2,7 @@ namespace BaCS.Persistence.Minio.Extensions;
 
 using Application.Abstractions;
 using global::Minio;
+using HealthCheck;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Options;
@@ -23,6 +24,7 @@ public static class ServiceCollectionExtensions
         );
 
         services.AddSingleton<IFileStorage, MinioFileStorage>();
+        services.AddHealthChecks().AddCheck<MinioHealthCheck>("Minio");
 
         return services;
     }

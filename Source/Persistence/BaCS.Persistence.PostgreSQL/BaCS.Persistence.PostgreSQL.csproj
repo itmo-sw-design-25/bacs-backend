@@ -5,6 +5,7 @@
     </PropertyGroup>
 
     <ItemGroup>
+        <PackageReference Include="AspNetCore.HealthChecks.NpgSql"/>
         <PackageReference Include="EFCore.NamingConventions"/>
         <PackageReference Include="Microsoft.AspNetCore.Http.Abstractions"/>
         <PackageReference Include="Microsoft.EntityFrameworkCore"/>
