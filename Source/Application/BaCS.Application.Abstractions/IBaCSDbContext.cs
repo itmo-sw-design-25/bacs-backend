@@ -5,9 +5,11 @@ using Microsoft.EntityFrameworkCore;
 
 public interface IBaCSDbContext
 {
-    public DbSet<User> Users { get; init; }
-    public DbSet<Resource> Resources { get; init; }
-    public DbSet<Location> Locations { get; init; }
-    public DbSet<LocationAdmin> LocationAdmins { get; init; }
-    public DbSet<Reservation> Reservations { get; init; }
+    DbSet<User> Users { get; init; }
+    DbSet<Resource> Resources { get; init; }
+    DbSet<Location> Locations { get; init; }
+    DbSet<LocationAdmin> LocationAdmins { get; init; }
+    DbSet<Reservation> Reservations { get; init; }
+
+    Task<int> SaveChangesAsync(CancellationToken cancellationToken);
 }

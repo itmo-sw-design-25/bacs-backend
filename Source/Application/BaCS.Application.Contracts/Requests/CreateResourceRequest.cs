@@ -1,10 +1,10 @@
-namespace BaCS.Application.Contracts.Commands;
+namespace BaCS.Application.Contracts.Requests;
 
 using System.ComponentModel;
 using Domain.Core.Enums;
 using FluentValidation;
 
-public record CreateResourceCommand(
+public record CreateResourceRequest(
     [property: Description("ID локации, в которой будет создан ресурс.")]
     Guid LocationId,
     [property: Description("Название ресурса.")]
@@ -17,9 +17,9 @@ public record CreateResourceCommand(
     ResourceType Type
 );
 
-public class CreateResourceCommandValidator : AbstractValidator<CreateResourceCommand>
+public class CreateResourceRequestValidator : AbstractValidator<CreateResourceRequest>
 {
-    public CreateResourceCommandValidator()
+    public CreateResourceRequestValidator()
     {
         RuleFor(x => x.LocationId).NotEmpty();
         RuleFor(x => x.Name).NotEmpty();

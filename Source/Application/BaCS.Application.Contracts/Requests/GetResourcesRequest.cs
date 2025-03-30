@@ -1,10 +1,10 @@
-namespace BaCS.Application.Contracts.Queries;
+namespace BaCS.Application.Contracts.Requests;
 
 using System.ComponentModel;
 using Domain.Core.Enums;
 using FluentValidation;
 
-public record GetResourcesQuery(
+public record GetResourcesRequest(
     [property: Description("Фильтр по ID ресурсов.")]
     Guid[] Ids,
     [property: Description("Фильтр по ID локаций.")]
@@ -15,9 +15,9 @@ public record GetResourcesQuery(
     int Take = 10
 );
 
-public class GetResourcesQueryValidator : AbstractValidator<GetResourcesQuery>
+public class GetResourcesRequestValidator : AbstractValidator<GetResourcesRequest>
 {
-    public GetResourcesQueryValidator()
+    public GetResourcesRequestValidator()
     {
         RuleFor(x => x.Skip).GreaterThanOrEqualTo(0);
         RuleFor(x => x.Take).GreaterThanOrEqualTo(0);

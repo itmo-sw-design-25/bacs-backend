@@ -81,9 +81,10 @@ public class MinioFileStorage(
     {
         await EnsureBucketExists(bucket, cancellationToken);
 
+        var imagePrefix = $"{_minioOptions.ProxyUrl}/{bucket}/";
         var removeObjectArgs = new RemoveObjectArgs()
             .WithBucket(bucket)
-            .WithObject(fileName);
+            .WithObject(fileName[imagePrefix.Length..]);
 
         try
         {

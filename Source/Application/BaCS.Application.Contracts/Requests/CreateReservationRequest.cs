@@ -1,9 +1,9 @@
-namespace BaCS.Application.Contracts.Commands;
+namespace BaCS.Application.Contracts.Requests;
 
 using System.ComponentModel;
 using FluentValidation;
 
-public record CreateReservationCommand(
+public record CreateReservationRequest(
     [property: Description("ID ресурса для бронирования.")]
     Guid ResourceId,
     [property: Description("ID локации, в которой находится ресурс.")]
@@ -14,9 +14,9 @@ public record CreateReservationCommand(
     DateTime To
 );
 
-public class CreateReservationCommandValidator : AbstractValidator<CreateReservationCommand>
+public class CreateReservationRequestValidator : AbstractValidator<CreateReservationRequest>
 {
-    public CreateReservationCommandValidator()
+    public CreateReservationRequestValidator()
     {
         RuleFor(x => x.ResourceId).NotEmpty();
         RuleFor(x => x.LocationId).NotEmpty();

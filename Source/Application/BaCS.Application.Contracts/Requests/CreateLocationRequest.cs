@@ -1,13 +1,13 @@
-namespace BaCS.Application.Contracts.Commands;
+namespace BaCS.Application.Contracts.Requests;
 
 using System.ComponentModel;
 using Dto;
 using FluentValidation;
 
-public record UpdateLocationCommand(
+public record CreateLocationRequest(
     [property: Description("Название локации.")]
     string Name,
-    [property: Description("Адрес локации.")]
+    [property: Description("Адресс локации.")]
     string Address,
     [property: Description("Описание локации.")]
     string Description,
@@ -15,9 +15,9 @@ public record UpdateLocationCommand(
     CalendarSettingsDto CalendarSettings
 );
 
-public class UpdateLocationCommandValidator : AbstractValidator<UpdateLocationCommand>
+public class CreateLocationRequestValidator : AbstractValidator<CreateLocationRequest>
 {
-    public UpdateLocationCommandValidator()
+    public CreateLocationRequestValidator()
     {
         RuleFor(x => x.Name).NotEmpty();
         RuleFor(x => x.Address).NotEmpty();

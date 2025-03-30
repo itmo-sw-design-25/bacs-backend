@@ -1,0 +1,19 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <TargetFramework>net9.0</TargetFramework>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <PackageReference Include="Dapper"/>
+        <PackageReference Include="Mapster"/>
+        <PackageReference Include="Mapster.EFCore"/>
+        <PackageReference Include="MediatR"/>
+    </ItemGroup>
+
+    <ItemGroup>
+        <ProjectReference Include="..\BaCS.Application.Abstractions\BaCS.Application.Abstractions.csproj"/>
+        <ProjectReference Include="..\BaCS.Application.Contracts\BaCS.Application.Contracts.csproj"/>
+    </ItemGroup>
+
+</Project>

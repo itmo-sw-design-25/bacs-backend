@@ -1,0 +1,17 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <TargetFramework>net9.0</TargetFramework>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <PackageReference Include="Mapster"/>
+        <PackageReference Include="Mapster.DependencyInjection"/>
+    </ItemGroup>
+
+    <ItemGroup>
+        <ProjectReference Include="..\BaCS.Application.Contracts\BaCS.Application.Contracts.csproj"/>
+        <ProjectReference Include="..\BaCS.Application.Handlers\BaCS.Application.Handlers.csproj"/>
+    </ItemGroup>
+
+</Project>

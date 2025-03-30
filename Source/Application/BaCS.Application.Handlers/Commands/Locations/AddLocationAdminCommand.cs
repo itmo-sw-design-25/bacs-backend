@@ -1,0 +1,14 @@
+namespace BaCS.Application.Handlers.Commands.Locations;
+
+using Abstractions;
+using MediatR;
+
+public static class AddLocationAdminCommand
+{
+    public record Command(Guid LocationId, Guid AdminId) : IRequest;
+
+    internal class Handler(IBaCSDbContext dbContext) : IRequestHandler<Command>
+    {
+        public Task Handle(Command request, CancellationToken cancellationToken) => throw new NotImplementedException();
+    }
+}

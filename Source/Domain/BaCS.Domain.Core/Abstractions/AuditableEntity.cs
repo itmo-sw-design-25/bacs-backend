@@ -1,6 +1,6 @@
 namespace BaCS.Domain.Core.Abstractions;
 
-public abstract class UpdatableEntity
+public abstract class AuditableEntity
 {
     public DateTime CreatedAt { get; set; }
     public DateTime UpdatedAt { get; set; }

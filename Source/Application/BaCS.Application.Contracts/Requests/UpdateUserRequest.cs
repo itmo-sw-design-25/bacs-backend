@@ -1,20 +1,20 @@
-namespace BaCS.Application.Contracts.Commands;
+namespace BaCS.Application.Contracts.Requests;
 
 using System.ComponentModel;
 using FluentValidation;
 
-public record UpdateUserCommand(
+public record UpdateUserRequest(
     [property: Description("ФИО пользователя.")]
     string Name,
     [property: Description("Email-адрес пользователя.")]
     string Email
 );
 
-public class UpdateUserCommandValidator : AbstractValidator<UpdateUserCommand>
+public class UpdateUserRequestValidator : AbstractValidator<UpdateUserRequest>
 {
-    public UpdateUserCommandValidator()
+    public UpdateUserRequestValidator()
     {
         RuleFor(x => x.Name).NotEmpty();
-        RuleFor(x => x.Email).NotEmpty();
+        RuleFor(x => x.Email).NotEmpty().EmailAddress();
     }
 }

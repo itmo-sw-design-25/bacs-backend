@@ -1,10 +1,10 @@
-namespace BaCS.Application.Contracts.Commands;
+namespace BaCS.Application.Contracts.Requests;
 
 using System.ComponentModel;
 using Domain.Core.Enums;
 using FluentValidation;
 
-public record UpdateResourceCommand(
+public record UpdateResourceRequest(
     [property: Description("Название ресурса.")]
     string Name,
     [property: Description("Описание ресурса.")]
@@ -15,9 +15,9 @@ public record UpdateResourceCommand(
     ResourceType Type
 );
 
-public class UpdateResourceCommandValidator : AbstractValidator<UpdateResourceCommand>
+public class UpdateResourceRequestValidator : AbstractValidator<UpdateResourceRequest>
 {
-    public UpdateResourceCommandValidator()
+    public UpdateResourceRequestValidator()
     {
         RuleFor(x => x.Name).NotEmpty();
         RuleFor(x => x.Type).NotNull().IsInEnum();

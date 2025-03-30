@@ -1,6 +1,7 @@
 namespace BaCS.Persistence.PostgreSQL.Extensions;
 
 using Application.Abstractions;
+using Interceptors;
 using Microsoft.AspNetCore.Builder;
 using PostgreSQL;
 using Microsoft.EntityFrameworkCore;
@@ -15,7 +16,12 @@ public static class ServiceCollectionExtensions
         Action<DbContextOptionsBuilder> action
     )
     {
-        services.AddDbContext<IBaCSDbContext, BaCSDbContext>((_, builder) => action.Invoke(builder));
+        services.AddDbContext<IBaCSDbContext, BaCSDbContext>(
+            (sp, builder) => action.Invoke(
+                builder
+                    .AddInterceptors(sp.GetRequiredService<AuditingSaveChangesInterceptor>())
+            )
+        );
 
         return services;
     }
@@ -27,6 +33,7 @@ public static class ServiceCollectionExtensions
     {
         var postgresOptions = configuration.GetSection(nameof(PostgresOptions)).Get<PostgresOptions>();
 
+        services.AddScoped<AuditingSaveChangesInterceptor>();
         services.AddDbContext(
             options =>
             {

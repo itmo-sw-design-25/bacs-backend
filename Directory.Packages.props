@@ -6,11 +6,17 @@
         <PackageVersion Include="AspNetCore.HealthChecks.UI" Version="9.0.0"/>
         <PackageVersion Include="AspNetCore.HealthChecks.UI.Client" Version="9.0.0"/>
         <PackageVersion Include="AspNetCore.HealthChecks.UI.InMemory.Storage" Version="9.0.0"/>
+        <PackageVersion Include="Dapper" Version="2.1.66"/>
         <PackageVersion Include="EFCore.NamingConventions" Version="9.0.0"/>
         <PackageVersion Include="FluentValidation" Version="11.11.0"/>
         <PackageVersion Include="FluentValidation.AspNetCore" Version="11.3.0"/>
         <PackageVersion Include="Keycloak.AuthServices.Authentication" Version="2.6.1"/>
         <PackageVersion Include="Keycloak.AuthServices.Authorization" Version="2.6.1"/>
+        <PackageVersion Include="Mapster" Version="7.4.0"/>
+        <PackageVersion Include="Mapster.DependencyInjection" Version="1.0.1"/>
+        <PackageVersion Include="Mapster.EFCore" Version="5.1.1"/>
+        <PackageVersion Include="MediatR" Version="12.4.1"/>
+        <PackageVersion Include="MediatR.Contracts" Version="2.0.1"/>
         <PackageVersion Include="MicroElements.Swashbuckle.FluentValidation" Version="6.1.0"/>
         <PackageVersion Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="9.0.3"/>
         <PackageVersion Include="Microsoft.AspNetCore.Http.Abstractions" Version="2.3.0"/>

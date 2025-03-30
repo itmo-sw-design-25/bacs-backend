@@ -1,18 +1,18 @@
-namespace BaCS.Application.Contracts.Commands;
+namespace BaCS.Application.Contracts.Requests;
 
 using System.ComponentModel;
 using FluentValidation;
 
-public record UpdateReservationCommand(
+public record UpdateReservationRequest(
     [property: Description("Время начала резервации.")]
     DateTime From,
     [property: Description("Время окончания резервации.")]
     DateTime To
 );
 
-public class UpdateReservationCommandValidator : AbstractValidator<UpdateReservationCommand>
+public class UpdateReservationRequestValidator : AbstractValidator<UpdateReservationRequest>
 {
-    public UpdateReservationCommandValidator()
+    public UpdateReservationRequestValidator()
     {
         RuleFor(x => x.From).NotEmpty();
         RuleFor(x => x.To).NotEmpty();

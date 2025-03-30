@@ -2,6 +2,8 @@ namespace BaCS.Presentation.API.Extensions;
 
 using System.Diagnostics;
 using Application.Contracts;
+using Application.Handlers.Extensions;
+using Application.Mapping.Extensions;
 using FluentValidation;
 using FluentValidation.AspNetCore;
 using MicroElements.Swashbuckle.FluentValidation.AspNetCore;
@@ -18,7 +20,9 @@ public static class ServiceCollectionExtensions
     {
         services
             .AddNpgsqlDbContext(configuration)
-            .AddMinioStorage(configuration);
+            .AddMinioStorage(configuration)
+            .AddApplicationMapping()
+            .AddApplicationHandlers();
 
         services
             .AddExceptionHandling()
