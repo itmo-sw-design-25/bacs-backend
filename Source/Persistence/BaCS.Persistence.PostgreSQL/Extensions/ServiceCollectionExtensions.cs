@@ -25,11 +25,11 @@ public static class ServiceCollectionExtensions
         IConfiguration configuration
     )
     {
+        var postgresOptions = configuration.GetSection(nameof(PostgresOptions)).Get<PostgresOptions>();
+
         services.AddDbContext(
             options =>
             {
-                var postgresOptions = configuration.GetSection(nameof(PostgresOptions)).Get<PostgresOptions>();
-
                 options
                     .UseNpgsql(
                         postgresOptions!.ConnectionString,
@@ -39,6 +39,8 @@ public static class ServiceCollectionExtensions
                     .EnableSensitiveDataLogging();
             }
         );
+
+        services.AddHealthChecks().AddNpgSql(postgresOptions!.ConnectionString, name: "PostgreSQL");
 
         return services;
     }
