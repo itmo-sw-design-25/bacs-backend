@@ -15,13 +15,13 @@ public static class DeleteResourceCommand
         public async Task Handle(Command request, CancellationToken cancellationToken)
         {
             var resource = await dbContext.Resources
-                               .FindAsync([request.ResourceId], cancellationToken: cancellationToken)
+                               .FindAsync([request.ResourceId], cancellationToken)
                            ?? throw new NotFoundException($"Ресурс с ID {request.ResourceId} не найден.");
 
             var now = dateTimeService.UtcNow;
             var hasActiveReservations = await dbContext.Reservations.AnyAsync(
                 x => x.ResourceId == resource.Id && x.To >= now,
-                cancellationToken: cancellationToken
+                cancellationToken
             );
 
             if (hasActiveReservations)

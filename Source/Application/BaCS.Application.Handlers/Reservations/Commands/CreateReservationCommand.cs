@@ -32,7 +32,7 @@ public static class CreateReservationCommand
                     x =>
                         (reservation.From < x.To && reservation.To > x.From)
                         || (reservation.From == x.From && reservation.To == x.To),
-                    cancellationToken: cancellationToken
+                    cancellationToken
                 );
 
             if (isConflicting)

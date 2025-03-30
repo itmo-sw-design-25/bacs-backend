@@ -6,8 +6,5 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 public class UserConfiguration : IEntityTypeConfiguration<User>
 {
-    public void Configure(EntityTypeBuilder<User> builder)
-    {
-        builder.HasIndex(x => x.Username).IsUnique();
-    }
+    public void Configure(EntityTypeBuilder<User> builder) => builder.HasIndex(x => x.Username).IsUnique();
 }

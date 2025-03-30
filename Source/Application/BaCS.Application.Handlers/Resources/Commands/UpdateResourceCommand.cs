@@ -23,7 +23,7 @@ public static class UpdateResourceCommand
         public async Task<ResourceDto> Handle(Command request, CancellationToken cancellationToken)
         {
             var resource = await dbContext.Resources
-                               .FindAsync([request.ResourceId], cancellationToken: cancellationToken)
+                               .FindAsync([request.ResourceId], cancellationToken)
                            ?? throw new NotFoundException($"Ресурс с ID {request.ResourceId} не найден.");
 
             resource.Name = request.Name;

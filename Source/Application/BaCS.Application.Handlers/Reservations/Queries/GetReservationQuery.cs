@@ -17,7 +17,7 @@ public static class GetReservationQuery
         {
             var reservation = await dbContext
                                   .Reservations
-                                  .FindAsync([request.ReservationId], cancellationToken: cancellationToken)
+                                  .FindAsync([request.ReservationId], cancellationToken)
                               ?? throw new NotFoundException($"Локация с ID {request.ReservationId} не найдена.");
 
             return mapper.Map<ReservationDto>(reservation);

@@ -15,7 +15,7 @@ public static class AddResourceImageCommand
         public async Task<string> Handle(Command request, CancellationToken cancellationToken)
         {
             var resource = await dbContext.Resources
-                               .FindAsync([request.ResourceId], cancellationToken: cancellationToken)
+                               .FindAsync([request.ResourceId], cancellationToken)
                            ?? throw new NotFoundException($"Ресурс с ID {request.ResourceId} не найден.");
 
             var result = await fileStorage.UploadImage(request.ImageInfo, BucketNames.Resources, cancellationToken);

@@ -3,7 +3,6 @@ namespace BaCS.Persistence.PostgreSQL.Extensions;
 using Application.Abstractions.Persistence;
 using Interceptors;
 using Microsoft.AspNetCore.Builder;
-using PostgreSQL;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;

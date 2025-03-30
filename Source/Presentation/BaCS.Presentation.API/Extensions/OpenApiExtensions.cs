@@ -61,7 +61,7 @@ public static class OpenApiExtensions
                                 Extensions = new Dictionary<string, IOpenApiExtension>
                                 {
                                     ["x-usePkce"] = new OpenApiString("SHA-256")
-                                },
+                                }
                             }
                         }
                     };

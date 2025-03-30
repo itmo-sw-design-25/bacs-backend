@@ -16,7 +16,7 @@ public static class GetUserQuery
         public async Task<UserDto> Handle(Query request, CancellationToken cancellationToken)
         {
             var user = await dbContext.Users
-                           .FindAsync([request.UserId], cancellationToken: cancellationToken)
+                           .FindAsync([request.UserId], cancellationToken)
                        ?? throw new NotFoundException($"Пользователь с ID {request.UserId} не найден.");
 
             return mapper.Map<UserDto>(user);

@@ -15,13 +15,17 @@ public static class AddLocationImageCommand
         public async Task<string> Handle(Command request, CancellationToken cancellationToken)
         {
             var location = await dbContext.Locations
-                               .FindAsync([request.LocationId], cancellationToken: cancellationToken)
+                               .FindAsync([request.LocationId], cancellationToken)
                            ?? throw new NotFoundException($"Локация с ID {request.LocationId} не найдена.");
 
             var result = await fileStorage.UploadImage(request.ImageInfo, BucketNames.Locations, cancellationToken);
 
             if (result.Success is false)
-                throw new ImageUploadException($"Не удалось загрузить фотографию для локации с ID {request.LocationId}");
+            {
+                throw new ImageUploadException(
+                    $"Не удалось загрузить фотографию для локации с ID {request.LocationId}"
+                );
+            }
 
             location.ImageUrl = result.Path;
 

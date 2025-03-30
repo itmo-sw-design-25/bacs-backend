@@ -14,7 +14,7 @@ public static class DeleteLocationImageCommand
         public async Task Handle(Command request, CancellationToken cancellationToken)
         {
             var location = await dbContext.Locations
-                               .FindAsync([request.LocationId], cancellationToken: cancellationToken)
+                               .FindAsync([request.LocationId], cancellationToken)
                            ?? throw new NotFoundException($"Локация с ID {request.LocationId} не найдена.");
 
             if (location.ImageUrl is null) return;

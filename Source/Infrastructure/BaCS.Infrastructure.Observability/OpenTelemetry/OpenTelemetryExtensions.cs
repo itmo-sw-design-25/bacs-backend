@@ -1,11 +1,11 @@
 namespace BaCS.Infrastructure.Observability.OpenTelemetry;
 
-using Options;
 using global::OpenTelemetry;
 using global::OpenTelemetry.Resources;
 using global::OpenTelemetry.Trace;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Options;
 
 public static class OpenTelemetryExtensions
 {

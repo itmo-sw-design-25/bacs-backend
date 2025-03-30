@@ -17,7 +17,7 @@ public static class CancelReservationCommand
         public async Task Handle(Command request, CancellationToken cancellationToken)
         {
             var reservation = await dbContext.Reservations
-                                  .FindAsync([request.ReservationId], cancellationToken: cancellationToken)
+                                  .FindAsync([request.ReservationId], cancellationToken)
                               ?? throw new NotFoundException($"Резервация с ID {request.ReservationId} не найдена.");
 
             await Semaphore.WaitAsync(cancellationToken);

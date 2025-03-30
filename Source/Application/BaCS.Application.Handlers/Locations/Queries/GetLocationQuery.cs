@@ -16,7 +16,7 @@ public static class GetLocationQuery
         public async Task<LocationDto> Handle(Query request, CancellationToken cancellationToken)
         {
             var location = await dbContext.Locations
-                               .FindAsync([request.LocationId], cancellationToken: cancellationToken)
+                               .FindAsync([request.LocationId], cancellationToken)
                            ?? throw new NotFoundException($"Локация с ID {request.LocationId} не найдена.");
 
             return mapper.Map<LocationDto>(location);

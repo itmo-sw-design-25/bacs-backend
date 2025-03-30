@@ -21,7 +21,7 @@ public static class UpdateReservationCommand
         public async Task<ReservationDto> Handle(Command request, CancellationToken cancellationToken)
         {
             var reservation = await dbContext.Reservations
-                                  .FindAsync([request.ReservationId], cancellationToken: cancellationToken)
+                                  .FindAsync([request.ReservationId], cancellationToken)
                               ?? throw new NotFoundException($"Резервация с ID {request.ReservationId} не найдена.");
 
             await Semaphore.WaitAsync(cancellationToken);
@@ -33,7 +33,7 @@ public static class UpdateReservationCommand
                     x =>
                         (reservation.From < x.To && reservation.To > x.From)
                         || (reservation.From == x.From && reservation.To == x.To),
-                    cancellationToken: cancellationToken
+                    cancellationToken
                 );
 
             if (isConflicting)
