@@ -1,6 +1,6 @@
 ﻿services:
   bacs.api:
-#    image: ${BACS_IMAGE:-bacs.api}
+    image: ${BACS_IMAGE:-bacs.api}
     container_name: bacs.api
     platform: ${BACS_PLATFORM}
     env_file: .env
