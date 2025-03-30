@@ -5,6 +5,16 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>BaCS - Booking a Coworking Space</title>
     <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        .grid > a:last-child:nth-child(3n+1) {
+            grid-column: 1 / -1;
+        }
+
+        .grid > a:nth-last-child(2):nth-child(3n+2),
+        .grid > a:last-child:nth-child(3n+2) {
+            grid-column: 3 / -1;
+        }
+    </style>
 </head>
 <body class="bg-gray-900 text-white font-sans">
 <div class="min-h-screen flex flex-col justify-center items-center px-6 text-center">
@@ -58,6 +68,14 @@
             <img src="https://www.keycloak.org/resources/images/icon.svg" alt="Keycloak" class="w-12 h-12">
             <h2 class="text-2xl font-semibold text-white mt-3">Keycloak</h2>
             <p class="text-gray-400 mt-2 text-center">Аутентификация и авторизация</p>
+        </a>
+
+        <a href="/health"
+           class="bg-gray-800 p-6 rounded-lg shadow-lg hover:bg-gray-700 transition flex flex-col items-center">
+            <img src="https://api.nuget.org/v3-flatcontainer/aspnetcore.healthchecks.ui.core/9.0.0/icon" alt="HealthChecks"
+                 class="w-12 h-12">
+            <h2 class="text-2xl font-semibold text-white mt-3">HealthChecks</h2>
+            <p class="text-gray-400 mt-2 text-center">Статус здоровья компонентов системы</p>
         </a>
 
     </div>

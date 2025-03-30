@@ -1,21 +1,40 @@
 namespace BaCS.Infrastructure.Observability.HealthChecks;
 
+using global::HealthChecks.UI.Client;
+using Keycloak.AuthServices.Authentication;
+using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Diagnostics.HealthChecks;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Persistence.PostgreSQL.Options;
 
 public static class HealthCheckExtensions
 {
     public static IServiceCollection AddHealthChecks(this IServiceCollection services, IConfiguration configuration)
     {
-        var builder = services.AddHealthChecks();
+        var keycloakOptions = configuration
+            .GetSection("Keycloak")
+            .Get<KeycloakAuthenticationOptions>(x => x.BindNonPublicProperties = true)!;
 
-        var postgresOptions = configuration
-            .GetSection(nameof(PostgresOptions))
-            .Get<PostgresOptions>();
+        services
+            .AddHealthChecks()
+            .AddOpenIdConnectServer(oidcSvrUri: new Uri(keycloakOptions.KeycloakUrlRealm), name: "Keycloak");
 
-        builder.AddNpgSql(postgresOptions!.ConnectionString);
+        services
+            .AddHealthChecksUI()
+            .AddInMemoryStorage();
 
         return services;
+    }
+
+    public static WebApplication MapHealthChecks(this WebApplication app, IConfiguration configuration)
+    {
+        app.MapHealthChecks(
+            "/healthz",
+            new HealthCheckOptions { ResponseWriter = UIResponseWriter.WriteHealthCheckUIResponse }
+        );
+
+        app.MapHealthChecksUI(options => options.ResourcesPath = "/healthchecks-resources");
+
+        return app;
     }
 }

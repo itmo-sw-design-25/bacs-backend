@@ -39,6 +39,7 @@ app
     .UseAuthentication()
     .UseAuthorization();
 
+app.MapHealthChecks(configuration);
 app.MapControllers();
 app.MapMetrics();
 

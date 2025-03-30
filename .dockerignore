@@ -1,5 +1,8 @@
 ﻿grafana_data/**
 prom_data/**
+seq_data/**
+minio_data/**
+pg_data/**
 **/*.sln
 **/Tests
 **/BaCS.Presentation.MAUI
