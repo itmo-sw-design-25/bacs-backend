@@ -3,9 +3,8 @@
     image: ${BACS_IMAGE:-bacs.api}
     container_name: bacs.api
     platform: ${BACS_PLATFORM}
+    env_file: .env
     environment:
-      ASPNETCORE_URLS: ${ASPNETCORE_URLS}
-      ASPNETCORE_ENVIRONMENT: ${ASPNETCORE_ENVIRONMENT}
       PostgresOptions__Username: ${BACS_PG_USER}
       PostgresOptions__Password: ${BACS_PG_PASSWORD}
       PostgresOptions__Host: ${BACS_PG_HOST}
@@ -28,33 +27,23 @@
   postgres:
     image: postgres:latest
     container_name: postgres
-    environment:
-      POSTGRES_USER: ${POSTGRES_USER}
-      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
-      POSTGRES_DB: ${POSTGRES_DB}
+    env_file: .env
     networks:
       - bacs
     volumes:
       - ./pg_data:/var/lib/postgresql/data
 
-  postgres-exporter:
+  postgres_exporter:
     image: bitnami/postgres-exporter:latest
     container_name: postgres_exporter
-    environment:
-      DATA_SOURCE_URI: ${DATA_SOURCE_URI}
-      DATA_SOURCE_USER: ${POSTGRES_USER}
-      DATA_SOURCE_PASS: ${POSTGRES_PASSWORD}
+    env_file: .env
     networks:
       - bacs
 
   minio:
     image: bitnami/minio:latest
     container_name: minio
-    environment:
-      - MINIO_ROOT_USER=${MINIO_ROOT_USER}
-      - MINIO_ROOT_PASSWORD=${MINIO_ROOT_PASSWORD}
-      - MINIO_BROWSER_REDIRECT_URL=${MINIO_BROWSER_REDIRECT_URL}
-      - MINIO_PROMETHEUS_AUTH_TYPE=public
+    env_file: .env
     networks:
       - bacs
     volumes:
@@ -63,9 +52,7 @@
   jaeger:
     image: jaegertracing/all-in-one:latest
     container_name: jaeger
-    environment:
-      COLLECTOR_OTLP_ENABLED: "true"
-      QUERY_BASE_PATH: "/jaeger"
+    env_file: .env
     networks:
       - bacs
 
@@ -78,11 +65,7 @@
       - ./.deployment/grafana/grafana.ini:/etc/grafana/grafana.ini:ro
       - ./.deployment/grafana/datasources.yaml:/etc/grafana/provisioning/datasources/ds.yaml
     user: ${GF_USER_ID}
-    environment:
-      GF_SECURITY_ADMIN_USER: ${GF_SECURITY_ADMIN_USER}
-      GF_SECURITY_ADMIN_PASSWORD: ${GF_SECURITY_ADMIN_PASSWORD}
-      GF_SERVER_ROOT_URL: ${GF_SERVER_ROOT_URL}
-      GF_SERVER_SERVE_FROM_SUB_PATH: "true"
+    env_file: .env
     networks:
       - bacs
 
@@ -103,14 +86,12 @@
     container_name: seq
     volumes:
       - ./seq_data:/data
-    environment:
-      ACCEPT_EULA: 'y'
-      SEQ_API_CANONICALURI: ${SEQ_API_CANONICALURI}
+    env_file: .env
     restart: unless-stopped
     networks:
       - bacs
 
-  nginx-proxy:
+  nginx:
     image: nginx:1.27.4-alpine-slim
     container_name: nginx
     ports:
@@ -121,9 +102,7 @@
       - ${NGINX_PRIVKEY_PATH}:/etc/nginx/certs/privkey.pem:ro
       - ./.deployment/nginx/templates:/etc/nginx/templates/:ro
       - ./.deployment/nginx/index.html:/usr/share/nginx/html/index.html:ro
-    environment:
-      NGINX_ENVSUBST_TEMPLATE_SUFFIX: ".conf"
-      NGINX_SERVER_NAME: ${NGINX_SERVER_NAME}
+    env_file: .env
     restart: unless-stopped
     networks:
       - bacs
@@ -143,28 +122,11 @@
   keycloak:
     image: quay.io/keycloak/keycloak:24.0.1
     container_name: keycloak
-    environment:
-      KC_HOSTNAME_STRICT: false
-      KC_HTTP_ENABLED: ${KC_HTTP_ENABLED}
-      KC_PROXY_HEADERS: ${KC_PROXY_HEADERS}
-      KC_HTTP_PORT: ${KC_HTTP_PORT}
-      KC_HTTPS_PORT: ${KC_HTTPS_PORT}
-      KC_HTTP_RELATIVE_PATH: ${KC_HTTP_RELATIVE_PATH}
-      KEYCLOAK_ADMIN: ${KEYCLOAK_ADMIN}
-      KEYCLOAK_ADMIN_PASSWORD: ${KEYCLOAK_ADMIN_PASSWORD}
-      KC_LOG_LEVEL: ${KC_LOG_LEVEL}
-      KC_DB: ${KC_DB}
-      KC_DB_DRIVER: ${KC_DB_DRIVER}
-      KC_DB_PASSWORD: ${KC_DB_PASSWORD}
-      KC_DB_USERNAME: ${KC_DB_USERNAME}
-      KC_DB_SCHEMA: ${KC_DB_SCHEMA}
-      KC_DB_URL: ${KC_DB_URL}
-      KC_HTTPS_CERTIFICATE_FILE: /etc/x509/https/tls.crt
-      KC_HTTPS_CERTIFICATE_KEY_FILE: /etc/x509/https/tls.key
+    env_file: .env
     command: start
     volumes:
-      - ${KC_CERTS_CRT}:/etc/x509/https/tls.crt:ro
-      - ${KC_CERTS_KEY}:/etc/x509/https/tls.key:ro
+      - ${KC_CERTS_CRT}:${KC_HTTPS_CERTIFICATE_FILE}:ro
+      - ${KC_CERTS_KEY}:${KC_HTTPS_CERTIFICATE_KEY_FILE}:ro
     depends_on:
       - postgres
     networks:
