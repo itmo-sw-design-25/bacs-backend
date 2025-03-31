@@ -1,6 +1,6 @@
 namespace BaCS.Application.Mapping;
 
-using Configs;
+using System.Reflection;
 using Mapster;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -8,9 +8,8 @@ public static class RegistrationExtensions
 {
     public static IServiceCollection AddApplicationMapping(this IServiceCollection services)
     {
-        services
-            .AddSingleton<MapsterEntitiesConfig>()
-            .AddSingleton<MapsterCommandsConfig>();
+        var typeAdapterConfig = TypeAdapterConfig.GlobalSettings;
+        typeAdapterConfig.Scan(Assembly.GetExecutingAssembly());
 
         services.AddMapster();
 

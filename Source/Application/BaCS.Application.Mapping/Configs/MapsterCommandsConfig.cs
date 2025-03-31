@@ -6,26 +6,26 @@ using Handlers.Reservations.Commands;
 using Handlers.Resources.Commands;
 using Mapster;
 
-public class MapsterCommandsConfig
+public class MapsterCommandsConfig : IRegister
 {
-    public MapsterCommandsConfig()
+    public void Register(TypeAdapterConfig config)
     {
-        TypeAdapterConfig<CreateLocationCommand.Command, Location>
-            .NewConfig()
+        config
+            .NewConfig<CreateLocationCommand.Command, Location>()
             .Map(dest => dest.Name, src => src.Name)
             .Map(dest => dest.Address, src => src.Address)
             .Map(dest => dest.Description, src => src.Description)
             .Map(dest => dest.CalendarSettings, src => src.CalendarSettings);
 
-        TypeAdapterConfig<CreateReservationCommand.Command, Reservation>
-            .NewConfig()
+        config
+            .NewConfig<CreateReservationCommand.Command, Reservation>()
             .Map(dest => dest.LocationId, src => src.LocationId)
             .Map(dest => dest.ResourceId, src => src.ResourceId)
             .Map(dest => dest.From, src => src.From)
             .Map(dest => dest.To, src => src.To);
 
-        TypeAdapterConfig<CreateResourceCommand.Command, Resource>
-            .NewConfig()
+        config
+            .NewConfig<CreateResourceCommand.Command, Resource>()
             .Map(dest => dest.LocationId, src => src.LocationId)
             .Map(dest => dest.Name, src => src.Name)
             .Map(dest => dest.Type, src => src.Type)

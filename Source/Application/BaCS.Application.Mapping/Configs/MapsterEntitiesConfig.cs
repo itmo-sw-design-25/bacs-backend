@@ -4,18 +4,18 @@ using Contracts.Dto;
 using Domain.Core.Entities;
 using Mapster;
 
-public class MapsterEntitiesConfig
+public class MapsterEntitiesConfig : IRegister
 {
-    public MapsterEntitiesConfig()
+    public void Register(TypeAdapterConfig config)
     {
-        TypeAdapterConfig<CalendarSettings, CalendarSettingsDto>
-            .NewConfig()
+        config
+            .NewConfig<CalendarSettings, CalendarSettingsDto>()
             .Map(dest => dest.AvailableFrom, src => src.AvailableFrom)
             .Map(dest => dest.AvailableTo, src => src.AvailableTo)
             .Map(dest => dest.AvailableDaysOfWeek, src => src.AvailableDaysOfWeek);
 
-        TypeAdapterConfig<Location, LocationDto>
-            .NewConfig()
+        config
+            .NewConfig<Location, LocationDto>()
             .Map(dest => dest.Id, src => src.Id)
             .Map(dest => dest.Name, src => src.Name)
             .Map(dest => dest.Description, src => src.Description)
@@ -23,8 +23,8 @@ public class MapsterEntitiesConfig
             .Map(dest => dest.ImageUrl, src => src.ImageUrl)
             .Map(dest => dest.CalendarSettings, src => src.CalendarSettings);
 
-        TypeAdapterConfig<Reservation, ReservationDto>
-            .NewConfig()
+        config
+            .NewConfig<Reservation, ReservationDto>()
             .Map(dest => dest.Id, src => src.Id)
             .Map(dest => dest.LocationId, src => src.LocationId)
             .Map(dest => dest.ResourceId, src => src.ResourceId)
@@ -33,8 +33,8 @@ public class MapsterEntitiesConfig
             .Map(dest => dest.To, src => src.To)
             .Map(dest => dest.Status, src => src.Status);
 
-        TypeAdapterConfig<Resource, ResourceDto>
-            .NewConfig()
+        config
+            .NewConfig<Resource, ResourceDto>()
             .Map(dest => dest.Id, src => src.Id)
             .Map(dest => dest.LocationId, src => src.LocationId)
             .Map(dest => dest.Name, src => src.Name)
@@ -44,8 +44,8 @@ public class MapsterEntitiesConfig
             .Map(dest => dest.Type, src => src.Type)
             .Map(dest => dest.ImageUrl, src => src.ImageUrl);
 
-        TypeAdapterConfig<User, UserDto>
-            .NewConfig()
+        config
+            .NewConfig<User, UserDto>()
             .Map(dest => dest.Id, src => src.Id)
             .Map(dest => dest.Email, src => src.Email)
             .Map(dest => dest.Username, src => src.Username)
