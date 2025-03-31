@@ -48,7 +48,7 @@ build:
     reports:
       coverage_report:
         coverage_format: cobertura
-        path: $CI_PROJECT_DIR/cobertura/*/coverage.cobertura.xml
+        path: $CI_PROJECT_DIR/cobertura/**/coverage.cobertura.xml
       junit:
         - $CI_PROJECT_DIR/junit/junit-test-result.xml
   coverage: '/<coverage.*line-rate="(\d+\.\d+)".*>/'
