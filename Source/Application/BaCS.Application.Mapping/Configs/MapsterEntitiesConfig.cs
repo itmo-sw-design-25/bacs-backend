@@ -1,4 +1,4 @@
-namespace BaCS.Application.Mapping;
+namespace BaCS.Application.Mapping.Configs;
 
 using Contracts.Dto;
 using Domain.Core.Entities;

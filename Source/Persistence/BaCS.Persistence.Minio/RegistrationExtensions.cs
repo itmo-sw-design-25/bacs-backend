@@ -1,4 +1,4 @@
-namespace BaCS.Persistence.Minio.Extensions;
+namespace BaCS.Persistence.Minio;
 
 using Application.Abstractions.Persistence;
 using global::Minio;
@@ -8,7 +8,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Options;
 using Services;
 
-public static class ServiceCollectionExtensions
+public static class RegistrationExtensions
 {
     public static IServiceCollection AddMinioStorage(this IServiceCollection services, IConfiguration configuration)
     {

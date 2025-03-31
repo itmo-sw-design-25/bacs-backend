@@ -1,8 +1,8 @@
-namespace BaCS.Application.Handlers.Extensions;
+namespace BaCS.Application.Handlers;
 
 using Microsoft.Extensions.DependencyInjection;
 
-public static class ServiceCollectionExtensions
+public static class RegistrationExtensions
 {
     public static IServiceCollection AddApplicationHandlers(this IServiceCollection services)
     {
@@ -13,3 +13,5 @@ public static class ServiceCollectionExtensions
         return services;
     }
 }
+
+internal interface IApplicationHandlersAssemblyMarker;

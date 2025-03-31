@@ -1,7 +1,7 @@
 using BaCS.Infrastructure.Observability.HealthChecks;
 using BaCS.Infrastructure.Observability.Logging;
 using BaCS.Infrastructure.Observability.OpenTelemetry;
-using BaCS.Persistence.PostgreSQL.Extensions;
+using BaCS.Persistence.PostgreSQL;
 using BaCS.Presentation.API.Extensions;
 using Prometheus;
 using Serilog;

@@ -1,4 +1,4 @@
-namespace BaCS.Persistence.PostgreSQL.Extensions;
+namespace BaCS.Persistence.PostgreSQL;
 
 using Application.Abstractions.Persistence;
 using Interceptors;
@@ -8,7 +8,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Options;
 
-public static class ServiceCollectionExtensions
+public static class RegistrationExtensions
 {
     public static IServiceCollection AddDbContext(
         this IServiceCollection services,

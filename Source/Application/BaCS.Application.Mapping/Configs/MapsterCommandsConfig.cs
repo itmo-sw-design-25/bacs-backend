@@ -1,4 +1,4 @@
-namespace BaCS.Application.Mapping;
+namespace BaCS.Application.Mapping.Configs;
 
 using Domain.Core.Entities;
 using Handlers.Locations.Commands;

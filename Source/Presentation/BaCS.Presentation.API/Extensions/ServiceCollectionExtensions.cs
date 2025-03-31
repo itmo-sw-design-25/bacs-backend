@@ -2,15 +2,15 @@ namespace BaCS.Presentation.API.Extensions;
 
 using System.Diagnostics;
 using Application.Contracts;
-using Application.Handlers.Extensions;
-using Application.Mapping.Extensions;
-using Application.Services.Extensions;
+using Application.Handlers;
+using Application.Mapping;
+using Application.Services;
 using FluentValidation;
 using FluentValidation.AspNetCore;
 using MicroElements.Swashbuckle.FluentValidation.AspNetCore;
 using Middlewares;
-using Persistence.Minio.Extensions;
-using Persistence.PostgreSQL.Extensions;
+using Persistence.Minio;
+using Persistence.PostgreSQL;
 
 public static class ServiceCollectionExtensions
 {
