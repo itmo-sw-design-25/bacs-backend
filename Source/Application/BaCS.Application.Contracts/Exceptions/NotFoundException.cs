@@ -1,10 +1,10 @@
 namespace BaCS.Application.Contracts.Exceptions;
 
-public class NotFoundException : ApplicationException
+public abstract class NotFoundException : ApplicationException
 {
-    public NotFoundException(string message)
+    protected NotFoundException(string message)
         : base(message) { }
 
-    public NotFoundException(string message, Exception innerException)
+    protected NotFoundException(string message, Exception innerException)
         : base(message, innerException) { }
 }

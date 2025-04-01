@@ -3,6 +3,7 @@ namespace BaCS.Application.Handlers.Locations.Commands;
 using Abstractions.Persistence;
 using Contracts.Dto;
 using Contracts.Exceptions;
+using Domain.Core.Entities;
 using MapsterMapper;
 using MediatR;
 
@@ -20,9 +21,8 @@ public static class UpdateLocationCommand
     {
         public async Task<LocationDto> Handle(Command request, CancellationToken cancellationToken)
         {
-            var location = await dbContext.Locations
-                               .FindAsync([request.LocationId], cancellationToken)
-                           ?? throw new NotFoundException($"Локация с ID {request.LocationId} не найдена.");
+            var location = await dbContext.Locations.FindAsync([request.LocationId], cancellationToken)
+                           ?? throw new EntityNotFoundException<Location>(request.LocationId);
 
             location.Name = request.Name;
             location.Address = request.Address;

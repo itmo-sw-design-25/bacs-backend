@@ -3,6 +3,7 @@ namespace BaCS.Application.Handlers.Reservations.Commands;
 using Abstractions.Persistence;
 using Contracts.Dto;
 using Contracts.Exceptions;
+using Domain.Core.Entities;
 using Domain.Core.Enums;
 using MapsterMapper;
 using MediatR;
@@ -20,9 +21,8 @@ public static class UpdateReservationCommand
 
         public async Task<ReservationDto> Handle(Command request, CancellationToken cancellationToken)
         {
-            var reservation = await dbContext.Reservations
-                                  .FindAsync([request.ReservationId], cancellationToken)
-                              ?? throw new NotFoundException($"Резервация с ID {request.ReservationId} не найдена.");
+            var reservation = await dbContext.Reservations.FindAsync([request.ReservationId], cancellationToken)
+                              ?? throw new EntityNotFoundException<Reservation>(request.ReservationId);
 
             await Semaphore.WaitAsync(cancellationToken);
 

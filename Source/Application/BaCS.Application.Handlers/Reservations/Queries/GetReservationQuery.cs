@@ -3,6 +3,7 @@ namespace BaCS.Application.Handlers.Reservations.Queries;
 using Abstractions.Persistence;
 using Contracts.Dto;
 using Contracts.Exceptions;
+using Domain.Core.Entities;
 using MapsterMapper;
 using MediatR;
 
@@ -15,10 +16,8 @@ public static class GetReservationQuery
     {
         public async Task<ReservationDto> Handle(Query request, CancellationToken cancellationToken)
         {
-            var reservation = await dbContext
-                                  .Reservations
-                                  .FindAsync([request.ReservationId], cancellationToken)
-                              ?? throw new NotFoundException($"Локация с ID {request.ReservationId} не найдена.");
+            var reservation = await dbContext.Reservations.FindAsync([request.ReservationId], cancellationToken)
+                              ?? throw new EntityNotFoundException<Reservation>(request.ReservationId);
 
             return mapper.Map<ReservationDto>(reservation);
         }

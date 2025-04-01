@@ -3,6 +3,7 @@ namespace BaCS.Application.Handlers.Users.Queries;
 using Abstractions.Persistence;
 using Contracts.Dto;
 using Contracts.Exceptions;
+using Domain.Core.Entities;
 using MapsterMapper;
 using MediatR;
 
@@ -15,9 +16,8 @@ public static class GetUserQuery
     {
         public async Task<UserDto> Handle(Query request, CancellationToken cancellationToken)
         {
-            var user = await dbContext.Users
-                           .FindAsync([request.UserId], cancellationToken)
-                       ?? throw new NotFoundException($"Пользователь с ID {request.UserId} не найден.");
+            var user = await dbContext.Users.FindAsync([request.UserId], cancellationToken)
+                       ?? throw new EntityNotFoundException<User>(request.UserId);
 
             return mapper.Map<UserDto>(user);
         }

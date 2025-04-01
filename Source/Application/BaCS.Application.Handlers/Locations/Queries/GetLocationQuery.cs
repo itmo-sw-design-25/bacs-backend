@@ -3,6 +3,7 @@ namespace BaCS.Application.Handlers.Locations.Queries;
 using Abstractions.Persistence;
 using Contracts.Dto;
 using Contracts.Exceptions;
+using Domain.Core.Entities;
 using MapsterMapper;
 using MediatR;
 
@@ -15,9 +16,8 @@ public static class GetLocationQuery
     {
         public async Task<LocationDto> Handle(Query request, CancellationToken cancellationToken)
         {
-            var location = await dbContext.Locations
-                               .FindAsync([request.LocationId], cancellationToken)
-                           ?? throw new NotFoundException($"Локация с ID {request.LocationId} не найдена.");
+            var location = await dbContext.Locations.FindAsync([request.LocationId], cancellationToken)
+                           ?? throw new EntityNotFoundException<Location>(request.LocationId);
 
             return mapper.Map<LocationDto>(location);
         }

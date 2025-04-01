@@ -3,6 +3,7 @@ namespace BaCS.Application.Handlers.Locations.Commands;
 using Abstractions.Persistence;
 using Contracts.Constants;
 using Contracts.Exceptions;
+using Domain.Core.Entities;
 using Domain.Core.ValueObjects;
 using MediatR;
 
@@ -14,9 +15,8 @@ public static class AddLocationImageCommand
     {
         public async Task<string> Handle(Command request, CancellationToken cancellationToken)
         {
-            var location = await dbContext.Locations
-                               .FindAsync([request.LocationId], cancellationToken)
-                           ?? throw new NotFoundException($"Локация с ID {request.LocationId} не найдена.");
+            var location = await dbContext.Locations.FindAsync([request.LocationId], cancellationToken)
+                           ?? throw new EntityNotFoundException<Location>(request.LocationId);
 
             var result = await fileStorage.UploadImage(request.ImageInfo, BucketNames.Locations, cancellationToken);
 

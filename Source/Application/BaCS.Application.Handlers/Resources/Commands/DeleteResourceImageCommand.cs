@@ -3,6 +3,7 @@ namespace BaCS.Application.Handlers.Resources.Commands;
 using Abstractions.Persistence;
 using Contracts.Constants;
 using Contracts.Exceptions;
+using Domain.Core.Entities;
 using MediatR;
 
 public static class DeleteResourceImageCommand
@@ -13,9 +14,8 @@ public static class DeleteResourceImageCommand
     {
         public async Task Handle(Command request, CancellationToken cancellationToken)
         {
-            var resource = await dbContext.Resources
-                               .FindAsync([request.ResourceId], cancellationToken)
-                           ?? throw new NotFoundException($"Ресурс с ID {request.ResourceId} не найден.");
+            var resource = await dbContext.Resources.FindAsync([request.ResourceId], cancellationToken)
+                           ?? throw new EntityNotFoundException<Resource>(request.ResourceId);
 
             if (resource.ImageUrl is null) return;
 

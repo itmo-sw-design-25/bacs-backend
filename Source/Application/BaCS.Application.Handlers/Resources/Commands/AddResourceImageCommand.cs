@@ -3,6 +3,7 @@ namespace BaCS.Application.Handlers.Resources.Commands;
 using Abstractions.Persistence;
 using Contracts.Constants;
 using Contracts.Exceptions;
+using Domain.Core.Entities;
 using Domain.Core.ValueObjects;
 using MediatR;
 
@@ -14,9 +15,8 @@ public static class AddResourceImageCommand
     {
         public async Task<string> Handle(Command request, CancellationToken cancellationToken)
         {
-            var resource = await dbContext.Resources
-                               .FindAsync([request.ResourceId], cancellationToken)
-                           ?? throw new NotFoundException($"Ресурс с ID {request.ResourceId} не найден.");
+            var resource = await dbContext.Resources.FindAsync([request.ResourceId], cancellationToken)
+                           ?? throw new EntityNotFoundException<Resource>(request.ResourceId);
 
             var result = await fileStorage.UploadImage(request.ImageInfo, BucketNames.Resources, cancellationToken);
 

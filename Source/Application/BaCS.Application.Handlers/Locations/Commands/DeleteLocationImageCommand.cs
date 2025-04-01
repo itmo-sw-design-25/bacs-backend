@@ -3,6 +3,7 @@ namespace BaCS.Application.Handlers.Locations.Commands;
 using Abstractions.Persistence;
 using Contracts.Constants;
 using Contracts.Exceptions;
+using Domain.Core.Entities;
 using MediatR;
 
 public static class DeleteLocationImageCommand
@@ -13,9 +14,8 @@ public static class DeleteLocationImageCommand
     {
         public async Task Handle(Command request, CancellationToken cancellationToken)
         {
-            var location = await dbContext.Locations
-                               .FindAsync([request.LocationId], cancellationToken)
-                           ?? throw new NotFoundException($"Локация с ID {request.LocationId} не найдена.");
+            var location = await dbContext.Locations.FindAsync([request.LocationId], cancellationToken)
+                           ?? throw new EntityNotFoundException<Location>(request.LocationId);
 
             if (location.ImageUrl is null) return;
 
