@@ -1,11 +1,11 @@
-namespace BaCS.Unit.Tests.Mapping;
+namespace BaCS.Unit.Tests.TestCases.Mapping;
 
+using AutoFixture;
+using AutoFixture.Xunit2;
 using Application.Handlers.Locations.Commands;
 using Application.Handlers.Reservations.Commands;
 using Application.Handlers.Resources.Commands;
 using Application.Mapping.Configs;
-using AutoFixture;
-using AutoFixture.Xunit2;
 using Domain.Core.Entities;
 using FluentAssertions;
 using Mapster;

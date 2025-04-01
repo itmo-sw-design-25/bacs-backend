@@ -16,36 +16,41 @@ public static class CreateReservationCommand
 
     internal class Handler(IBaCSDbContext dbContext, IMapper mapper) : IRequestHandler<Command, ReservationDto>
     {
-        // TODO: семафор должен быть глобальным для всех операций над резервациями
-        private static readonly SemaphoreSlim Semaphore = new(1);
-
         public async Task<ReservationDto> Handle(Command request, CancellationToken cancellationToken)
         {
             var reservation = mapper.Map<Reservation>(request);
 
-            await Semaphore.WaitAsync(cancellationToken);
+            var semaphore = GlobalSemaphores.GetForResource(reservation.ResourceId);
 
-            var isConflicting = await dbContext
-                .Reservations
-                .Where(x => x.ResourceId == reservation.ResourceId && x.Status != ReservationStatus.Cancelled)
-                .AnyAsync(
-                    x =>
-                        (reservation.From < x.To && reservation.To > x.From)
-                        || (reservation.From == x.From && reservation.To == x.To),
-                    cancellationToken
-                );
-
-            if (isConflicting)
+            try
             {
-                throw new ValidationException(
-                    $"Ресурс уже забронирован на выбранное время {reservation.From.Date:yyyy-M-d} {reservation.From:hh:mm:ss z}-{reservation.To:hh:mm:ss z}"
-                );
+                await semaphore.WaitAsync(cancellationToken);
+
+                var isConflicting = await dbContext
+                    .Reservations
+                    .Where(x => x.ResourceId == reservation.ResourceId && x.Status != ReservationStatus.Cancelled)
+                    .AnyAsync(
+                        x =>
+                            (reservation.From < x.To && reservation.To > x.From)
+                            || (reservation.From == x.From && reservation.To == x.To),
+                        cancellationToken
+                    );
+
+                if (isConflicting)
+                {
+                    throw new ReservationConflictException(
+                        $"Ресурс уже забронирован на выбранное время {reservation.From.Date:yyyy-M-d} {reservation.From:hh:mm:ss z}-{reservation.To:hh:mm:ss z}"
+                    );
+                }
+
+                reservation.Status = ReservationStatus.Created;
+                await dbContext.Reservations.AddAsync(reservation, cancellationToken);
+                await dbContext.SaveChangesAsync(cancellationToken);
             }
-
-            await dbContext.Reservations.AddAsync(reservation, cancellationToken);
-            await dbContext.SaveChangesAsync(cancellationToken);
-
-            Semaphore.Release();
+            finally
+            {
+                semaphore.Release();
+            }
 
             return mapper.Map<ReservationDto>(reservation);
         }

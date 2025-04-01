@@ -12,22 +12,26 @@ public static class CancelReservationCommand
 
     internal class Handler(IBaCSDbContext dbContext) : IRequestHandler<Command>
     {
-        // TODO: семафор должен быть глобальным для всех операций над резервациями
-        private static readonly SemaphoreSlim Semaphore = new(1);
-
         public async Task Handle(Command request, CancellationToken cancellationToken)
         {
             var reservation = await dbContext.Reservations.FindAsync([request.ReservationId], cancellationToken)
                               ?? throw new EntityNotFoundException<Reservation>(request.ReservationId);
 
-            await Semaphore.WaitAsync(cancellationToken);
+            var semaphore = GlobalSemaphores.GetForResource(reservation.ResourceId);
 
-            reservation.Status = ReservationStatus.Cancelled;
+            try
+            {
+                await semaphore.WaitAsync(cancellationToken);
 
-            dbContext.Reservations.Update(reservation);
-            await dbContext.SaveChangesAsync(cancellationToken);
+                reservation.Status = ReservationStatus.Cancelled;
 
-            Semaphore.Release();
+                dbContext.Reservations.Update(reservation);
+                await dbContext.SaveChangesAsync(cancellationToken);
+            }
+            finally
+            {
+                semaphore.Release();
+            }
         }
     }
 }

@@ -1,0 +1,124 @@
+namespace BaCS.Unit.Tests.TestCases.Reservations;
+
+using AutoFixture;
+using AutoFixture.Xunit2;
+using Application.Abstractions.Persistence;
+using Application.Contracts.Exceptions;
+using Application.Handlers.Reservations.Commands;
+using Domain.Core.Entities;
+using Domain.Core.Enums;
+using Fixture.Attributes;
+using FluentAssertions;
+using MapsterMapper;
+using MockQueryable.NSubstitute;
+using NSubstitute;
+
+public class UpdateReservationTests
+{
+    [Theory]
+    [AutoNSubstituteData]
+    public async Task UpdateReservation_WithExistingConflictReservation_ThrowsReservationConflictException(
+        [Frozen] IFixture fixture,
+        [Frozen] IMapper mapper,
+        [Frozen] IBaCSDbContext dbContext,
+        Guid reservationId
+    )
+    {
+        // Arrange
+        var from = fixture.Create<DateTime>();
+        var to = from.AddHours(fixture.Create<int>() % 5);
+
+        var command = fixture
+            .Build<UpdateReservationCommand.Command>()
+            .With(x => x.ReservationId, reservationId)
+            .With(x => x.From, from)
+            .With(x => x.To, to)
+            .Create();
+
+        var existingReservation = fixture
+            .Build<Reservation>()
+            .Without(x => x.Resource)
+            .Without(x => x.User)
+            .Without(x => x.Location)
+            .With(x => x.Id, reservationId)
+            .With(x => x.Status, ReservationStatus.Created)
+            .Create();
+
+        var conflictingReservation = fixture
+            .Build<Reservation>()
+            .Without(x => x.Resource)
+            .Without(x => x.User)
+            .Without(x => x.Location)
+            .With(x => x.Status, ReservationStatus.Created)
+            .With(x => x.ResourceId, existingReservation.ResourceId)
+            .With(x => x.From, from)
+            .With(x => x.To, to)
+            .Create();
+
+        var dbSetMock = new[] { conflictingReservation, existingReservation }.AsQueryable().BuildMockDbSet();
+        dbContext.Reservations.Returns(dbSetMock);
+        dbContext
+            .Reservations
+            .FindAsync(Arg.Any<object[]>(), Arg.Any<CancellationToken>())
+            .Returns(existingReservation);
+
+        // Act && Assert
+        var handler = new UpdateReservationCommand.Handler(dbContext, mapper);
+
+        await handler
+            .Invoking(async h => await h.Handle(command, CancellationToken.None))
+            .Should()
+            .ThrowExactlyAsync<ReservationConflictException>();
+
+        dbContext.Reservations.DidNotReceive().Update(Arg.Any<Reservation>());
+        await dbContext.DidNotReceive().SaveChangesAsync(Arg.Any<CancellationToken>());
+    }
+
+    [Theory]
+    [AutoNSubstituteData]
+    public async Task UpdateReservation_WithoutExistingConflictReservation_Success(
+        [Frozen] IFixture fixture,
+        [Frozen] IMapper mapper,
+        [Frozen] IBaCSDbContext dbContext,
+        Guid reservationId
+    )
+    {
+        // Arrange
+        var from = fixture.Create<DateTime>();
+        var to = from.AddHours(fixture.Create<int>() % 5);
+
+        var command = fixture
+            .Build<UpdateReservationCommand.Command>()
+            .With(x => x.ReservationId, reservationId)
+            .With(x => x.From, from)
+            .With(x => x.To, to)
+            .Create();
+
+        var existingReservation = fixture
+            .Build<Reservation>()
+            .Without(x => x.Resource)
+            .Without(x => x.User)
+            .Without(x => x.Location)
+            .With(x => x.Id, reservationId)
+            .With(x => x.Status, ReservationStatus.Created)
+            .Create();
+
+        var dbSetMock = new[] { existingReservation }.AsQueryable().BuildMockDbSet();
+        dbContext.Reservations.Returns(dbSetMock);
+        dbContext
+            .Reservations
+            .FindAsync(Arg.Any<object[]>(), Arg.Any<CancellationToken>())
+            .Returns(existingReservation);
+
+        // Act && Assert
+        var handler = new UpdateReservationCommand.Handler(dbContext, mapper);
+
+        await handler
+            .Invoking(async h => await h.Handle(command, CancellationToken.None))
+            .Should()
+            .NotThrowAsync();
+
+        dbContext.Reservations.Received().Update(Arg.Any<Reservation>());
+        await dbContext.Received(1).SaveChangesAsync(Arg.Any<CancellationToken>());
+    }
+}

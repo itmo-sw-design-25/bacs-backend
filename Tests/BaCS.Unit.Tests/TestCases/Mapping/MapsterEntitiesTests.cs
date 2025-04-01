@@ -1,9 +1,9 @@
-namespace BaCS.Unit.Tests.Mapping;
+namespace BaCS.Unit.Tests.TestCases.Mapping;
 
-using Application.Contracts.Dto;
-using Application.Mapping.Configs;
 using AutoFixture;
 using AutoFixture.Xunit2;
+using Application.Contracts.Dto;
+using BaCS.Application.Mapping.Configs;
 using Domain.Core.Entities;
 using FluentAssertions;
 using Mapster;

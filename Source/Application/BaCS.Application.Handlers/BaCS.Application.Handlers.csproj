@@ -5,6 +5,10 @@
     </PropertyGroup>
 
     <ItemGroup>
+        <InternalsVisibleTo Include="BaCS.Unit.Tests"/>
+    </ItemGroup>
+
+    <ItemGroup>
         <PackageReference Include="Dapper"/>
         <PackageReference Include="Mapster"/>
         <PackageReference Include="Mapster.EFCore"/>
