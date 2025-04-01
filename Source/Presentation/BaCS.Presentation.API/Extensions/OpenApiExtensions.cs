@@ -4,7 +4,9 @@ using Keycloak.AuthServices.Authentication;
 using Microsoft.OpenApi.Any;
 using Microsoft.OpenApi.Interfaces;
 using Microsoft.OpenApi.Models;
+using Microsoft.OpenApi.Writers;
 using Scalar.AspNetCore;
+using Swashbuckle.AspNetCore.Swagger;
 
 public static class OpenApiExtensions
 {
@@ -95,6 +97,28 @@ public static class OpenApiExtensions
                     }
                 )
         );
+
+        return app;
+    }
+
+    public static WebApplication WithOpenApiDocument(this WebApplication app, string documentName)
+    {
+        var solutionRootDir = Directory.GetParent(Directory.GetCurrentDirectory())?.Parent?.Parent;
+
+        if (solutionRootDir is null) return app;
+
+        var swaggerProvider = app.Services.GetRequiredService<ISwaggerProvider>();
+        var swagger = swaggerProvider.GetSwagger("v1");
+
+        using var stringWriter = new StringWriter();
+        swagger.SerializeAsV3(new OpenApiYamlWriter(stringWriter));
+
+        var openApiDocumentPath = Path.Combine(
+            solutionRootDir.FullName,
+            "openapi",
+            $"{documentName}.yaml"
+        );
+        File.WriteAllText(openApiDocumentPath, stringWriter.ToString());
 
         return app;
     }

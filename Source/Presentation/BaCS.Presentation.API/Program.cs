@@ -14,7 +14,6 @@ builder.Host.UseSerilogLogging();
 
 builder.Services.AddControllers();
 builder.Services.AddApplication(configuration);
-
 builder.Services.AddOpenApi(configuration);
 
 // Observability
@@ -29,6 +28,7 @@ var app = builder.Build();
 
 app
     .UseOpenApi(configuration)
+    .WithOpenApiDocument("openapi")
     .UseHttpMetrics()
     .UseSerilogRequestLogging();
 
