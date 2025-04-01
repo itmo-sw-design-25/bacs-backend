@@ -1,6 +1,7 @@
 namespace BaCS.Unit.Tests.TestCases.Reservations;
 
 using Application.Abstractions.Persistence;
+using Application.Abstractions.Services;
 using Application.Contracts.Exceptions;
 using Application.Handlers.Reservations.Commands;
 using AutoFixture;
@@ -25,7 +26,9 @@ public class ParallelReservationTests
         Guid resourceId,
         [Frozen] IFixture fixture,
         [Frozen] IMapper mapper,
-        [Frozen] IBaCSDbContext dbContext
+        [Frozen] IBaCSDbContext dbContext,
+        [Frozen] IReservationCalendarValidator calendarValidator,
+        [Frozen] [Greedy] Location location
     )
     {
         // Arrange
@@ -36,6 +39,7 @@ public class ParallelReservationTests
         var commands = fixture
             .Build<CreateReservationCommand.Command>()
             .With(x => x.ResourceId, resourceId)
+            .With(x => x.LocationId, location.Id)
             .With(x => x.From, from)
             .With(x => x.To, to)
             .CreateMany(reservationsCount);
@@ -54,9 +58,10 @@ public class ParallelReservationTests
                     return ValueTask.FromResult<EntityEntry<Reservation>>(null);
                 }
             );
+        dbContext.Locations.FindAsync(Arg.Any<object[]>(), Arg.Any<CancellationToken>()).Returns(location);
 
         // Act
-        var handler = new CreateReservationCommand.Handler(dbContext, mapper);
+        var handler = new CreateReservationCommand.Handler(dbContext, calendarValidator, mapper);
         var tasks = commands.Select(task => handler.Handle(task, CancellationToken.None)).ToArray();
 
         try { await Task.WhenAll(tasks.Select(task => Task.Run(() => task))); }
@@ -88,7 +93,9 @@ public class ParallelReservationTests
         int reservationsCount,
         [Frozen] IFixture fixture,
         [Frozen] IMapper mapper,
-        [Frozen] IBaCSDbContext dbContext
+        [Frozen] IBaCSDbContext dbContext,
+        [Frozen] IReservationCalendarValidator calendarValidator,
+        [Frozen] [Greedy] Location location
     )
     {
         // Arrange
@@ -98,6 +105,7 @@ public class ParallelReservationTests
 
         var commands = fixture
             .Build<CreateReservationCommand.Command>()
+            .With(x => x.LocationId, location.Id)
             .With(x => x.From, from)
             .With(x => x.To, to)
             .CreateMany(reservationsCount);
@@ -116,9 +124,10 @@ public class ParallelReservationTests
                     return ValueTask.FromResult<EntityEntry<Reservation>>(null);
                 }
             );
+        dbContext.Locations.FindAsync(Arg.Any<object[]>(), Arg.Any<CancellationToken>()).Returns(location);
 
         // Act
-        var handler = new CreateReservationCommand.Handler(dbContext, mapper);
+        var handler = new CreateReservationCommand.Handler(dbContext, calendarValidator, mapper);
         var tasks = commands.Select(task => handler.Handle(task, CancellationToken.None)).ToArray();
 
         await Task.WhenAll(tasks.Select(task => Task.Run(() => task)));

@@ -26,7 +26,7 @@ public static class DeleteLocationCommand
 
             if (hasActiveReservations)
             {
-                throw new ValidationException(
+                throw new BusinessRulesException(
                     $"Локацию с ID {location.Id} нельзя удалить, т.к. в ней присутствуют активные бронирования."
                 );
             }

@@ -1,6 +1,7 @@
 namespace BaCS.Application.Handlers.Reservations.Commands;
 
 using Abstractions.Persistence;
+using Abstractions.Services;
 using Contracts.Dto;
 using Contracts.Exceptions;
 using Domain.Core.Entities;
@@ -14,11 +15,17 @@ public static class CreateReservationCommand
     public record Command(Guid ResourceId, Guid LocationId, DateTime From, DateTime To)
         : IRequest<ReservationDto>;
 
-    internal class Handler(IBaCSDbContext dbContext, IMapper mapper) : IRequestHandler<Command, ReservationDto>
+    internal class Handler(IBaCSDbContext dbContext, IReservationCalendarValidator calendarValidator, IMapper mapper)
+        : IRequestHandler<Command, ReservationDto>
     {
         public async Task<ReservationDto> Handle(Command request, CancellationToken cancellationToken)
         {
             var reservation = mapper.Map<Reservation>(request);
+
+            var location = await dbContext.Locations.FindAsync([request.LocationId], cancellationToken)
+                           ?? throw new EntityNotFoundException<Location>(request.LocationId);
+
+            calendarValidator.ValidateAndThrow(reservation, location.CalendarSettings);
 
             var semaphore = GlobalSemaphores.GetForResource(reservation.ResourceId);
 

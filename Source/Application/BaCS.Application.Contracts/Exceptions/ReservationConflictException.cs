@@ -1,6 +1,6 @@
 namespace BaCS.Application.Contracts.Exceptions;
 
-public class ReservationConflictException : ValidationException
+public class ReservationConflictException : BusinessRulesException
 {
     public ReservationConflictException() { }
 

@@ -26,7 +26,7 @@ public static class DeleteResourceCommand
 
             if (hasActiveReservations)
             {
-                throw new ValidationException(
+                throw new BusinessRulesException(
                     $"Ресурс с ID {resource.Id} нельзя удалить, т.к. на нём присутствуют активные бронирования."
                 );
             }

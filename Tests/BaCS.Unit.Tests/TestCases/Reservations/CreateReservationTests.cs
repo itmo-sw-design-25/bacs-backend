@@ -3,6 +3,7 @@ namespace BaCS.Unit.Tests.TestCases.Reservations;
 using AutoFixture;
 using AutoFixture.Xunit2;
 using Application.Abstractions.Persistence;
+using Application.Abstractions.Services;
 using Application.Contracts.Exceptions;
 using Application.Handlers.Reservations.Commands;
 using Domain.Core.Entities;
@@ -20,6 +21,8 @@ public class CreateReservationTests
         [Frozen] IFixture fixture,
         [Frozen] IMapper mapper,
         [Frozen] IBaCSDbContext dbContext,
+        [Frozen] IReservationCalendarValidator calendarValidator,
+        [Frozen] [Greedy] Location location,
         Guid resourceId
     )
     {
@@ -29,6 +32,7 @@ public class CreateReservationTests
 
         var command = fixture
             .Build<CreateReservationCommand.Command>()
+            .With(x => x.LocationId, location.Id)
             .With(x => x.ResourceId, resourceId)
             .With(x => x.From, from)
             .With(x => x.To, to)
@@ -36,11 +40,12 @@ public class CreateReservationTests
 
         var existingReservation = mapper.Map<Reservation>(command);
 
-        var dbSetMock = new[] { existingReservation }.AsQueryable().BuildMockDbSet();
-        dbContext.Reservations.Returns(dbSetMock);
+        var reservationsDbSetMock = new[] { existingReservation }.AsQueryable().BuildMockDbSet();
+        dbContext.Reservations.Returns(reservationsDbSetMock);
+        dbContext.Locations.FindAsync(Arg.Any<object[]>(), Arg.Any<CancellationToken>()).Returns(location);
 
         // Act && Assert
-        var handler = new CreateReservationCommand.Handler(dbContext, mapper);
+        var handler = new CreateReservationCommand.Handler(dbContext, calendarValidator, mapper);
 
         await handler
             .Invoking(async h => await h.Handle(command, CancellationToken.None))
@@ -61,6 +66,8 @@ public class CreateReservationTests
         [Frozen] IFixture fixture,
         [Frozen] IMapper mapper,
         [Frozen] IBaCSDbContext dbContext,
+        [Frozen] IReservationCalendarValidator calendarValidator,
+        [Frozen] [Greedy] Location location,
         Guid resourceId
     )
     {
@@ -71,15 +78,17 @@ public class CreateReservationTests
         var command = fixture
             .Build<CreateReservationCommand.Command>()
             .With(x => x.ResourceId, resourceId)
+            .With(x => x.LocationId, location.Id)
             .With(x => x.From, from)
             .With(x => x.To, to)
             .Create();
 
         var dbSetMock = Array.Empty<Reservation>().AsQueryable().BuildMockDbSet();
         dbContext.Reservations.Returns(dbSetMock);
+        dbContext.Locations.FindAsync(Arg.Any<object[]>(), Arg.Any<CancellationToken>()).Returns(location);
 
         // Act && Assert
-        var handler = new CreateReservationCommand.Handler(dbContext, mapper);
+        var handler = new CreateReservationCommand.Handler(dbContext, calendarValidator, mapper);
 
         await handler
             .Invoking(async h => await h.Handle(command, CancellationToken.None))

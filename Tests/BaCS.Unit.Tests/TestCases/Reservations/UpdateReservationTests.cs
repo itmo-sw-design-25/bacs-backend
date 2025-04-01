@@ -3,6 +3,7 @@ namespace BaCS.Unit.Tests.TestCases.Reservations;
 using AutoFixture;
 using AutoFixture.Xunit2;
 using Application.Abstractions.Persistence;
+using Application.Abstractions.Services;
 using Application.Contracts.Exceptions;
 using Application.Handlers.Reservations.Commands;
 using Domain.Core.Entities;
@@ -21,6 +22,8 @@ public class UpdateReservationTests
         [Frozen] IFixture fixture,
         [Frozen] IMapper mapper,
         [Frozen] IBaCSDbContext dbContext,
+        [Frozen] IReservationCalendarValidator calendarValidator,
+        [Frozen] [Greedy] Location location,
         Guid reservationId
     )
     {
@@ -41,6 +44,7 @@ public class UpdateReservationTests
             .Without(x => x.User)
             .Without(x => x.Location)
             .With(x => x.Id, reservationId)
+            .With(x => x.LocationId, location.Id)
             .With(x => x.Status, ReservationStatus.Created)
             .Create();
 
@@ -51,6 +55,7 @@ public class UpdateReservationTests
             .Without(x => x.Location)
             .With(x => x.Status, ReservationStatus.Created)
             .With(x => x.ResourceId, existingReservation.ResourceId)
+            .With(x => x.LocationId, location.Id)
             .With(x => x.From, from)
             .With(x => x.To, to)
             .Create();
@@ -61,9 +66,10 @@ public class UpdateReservationTests
             .Reservations
             .FindAsync(Arg.Any<object[]>(), Arg.Any<CancellationToken>())
             .Returns(existingReservation);
+        dbContext.Locations.FindAsync(Arg.Any<object[]>(), Arg.Any<CancellationToken>()).Returns(location);
 
         // Act && Assert
-        var handler = new UpdateReservationCommand.Handler(dbContext, mapper);
+        var handler = new UpdateReservationCommand.Handler(dbContext, calendarValidator, mapper);
 
         await handler
             .Invoking(async h => await h.Handle(command, CancellationToken.None))
@@ -80,6 +86,8 @@ public class UpdateReservationTests
         [Frozen] IFixture fixture,
         [Frozen] IMapper mapper,
         [Frozen] IBaCSDbContext dbContext,
+        [Frozen] IReservationCalendarValidator calendarValidator,
+        [Frozen] [Greedy] Location location,
         Guid reservationId
     )
     {
@@ -100,6 +108,7 @@ public class UpdateReservationTests
             .Without(x => x.User)
             .Without(x => x.Location)
             .With(x => x.Id, reservationId)
+            .With(x => x.LocationId, location.Id)
             .With(x => x.Status, ReservationStatus.Created)
             .Create();
 
@@ -109,9 +118,10 @@ public class UpdateReservationTests
             .Reservations
             .FindAsync(Arg.Any<object[]>(), Arg.Any<CancellationToken>())
             .Returns(existingReservation);
+        dbContext.Locations.FindAsync(Arg.Any<object[]>(), Arg.Any<CancellationToken>()).Returns(location);
 
         // Act && Assert
-        var handler = new UpdateReservationCommand.Handler(dbContext, mapper);
+        var handler = new UpdateReservationCommand.Handler(dbContext, calendarValidator, mapper);
 
         await handler
             .Invoking(async h => await h.Handle(command, CancellationToken.None))
