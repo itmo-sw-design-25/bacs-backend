@@ -22,7 +22,7 @@ public class UsersController(IMediator mediator) : ControllerBase
     [ProducesResponseType<ProblemDetails>(StatusCodes.Status400BadRequest, "application/problem+json")]
     public async Task<IActionResult> GetUsers([FromQuery] GetUsersRequest request, CancellationToken cancellationToken)
     {
-        var query = new GetUsersQuery.Query(request.Ids, request.Skip, request.Take);
+        var query = new GetUsersQuery.Query(request.Ids, request.Offset, request.Limit);
         var result = await mediator.Send(query, cancellationToken);
 
         return Ok(result);

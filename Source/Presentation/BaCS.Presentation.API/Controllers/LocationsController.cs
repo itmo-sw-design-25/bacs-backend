@@ -26,7 +26,7 @@ public class LocationsController(IMediator mediator) : ControllerBase
         CancellationToken cancellationToken
     )
     {
-        var query = new GetLocationsQuery.Query(request.Ids, request.Skip, request.Take);
+        var query = new GetLocationsQuery.Query(request.Ids, request.Offset, request.Limit);
         var result = await mediator.Send(query, cancellationToken);
 
         return Ok(result);

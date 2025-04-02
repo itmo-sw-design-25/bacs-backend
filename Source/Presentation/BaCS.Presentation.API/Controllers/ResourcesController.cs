@@ -30,8 +30,8 @@ public class ResourcesController(IMediator mediator) : ControllerBase
             request.Ids,
             request.LocationIds,
             request.Types,
-            request.Skip,
-            request.Take
+            request.Offset,
+            request.Limit
         );
         var result = await mediator.Send(query, cancellationToken);
 

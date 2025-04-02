@@ -10,7 +10,7 @@ using Microsoft.EntityFrameworkCore;
 
 public static class GetUsersQuery
 {
-    public record Query(Guid[] Ids, int Skip, int Take) : IRequest<PaginatedResponse<UserDto>>;
+    public record Query(Guid[] Ids, int Offset, int Limit) : IRequest<PaginatedResponse<UserDto>>;
 
     internal class Handler(IBaCSDbContext dbContext, IMapper mapper)
         : IRequestHandler<Query, PaginatedResponse<UserDto>>
@@ -25,7 +25,7 @@ public static class GetUsersQuery
             }
 
             var totalCount = await query.CountAsync(cancellationToken);
-            var users = query.OrderBy(x => x.Name).Skip(request.Skip).Take(request.Take);
+            var users = query.OrderBy(x => x.Name).Skip(request.Offset).Take(request.Limit);
 
             var userDtos = await mapper.From(users).ProjectToType<UserDto>().ToListAsync(cancellationToken);
 

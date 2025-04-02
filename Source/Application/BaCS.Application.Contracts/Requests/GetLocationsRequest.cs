@@ -6,15 +6,15 @@ using FluentValidation;
 public record GetLocationsRequest(
     [property: Description("Фильтр по ID резерваций.")]
     Guid[] Ids,
-    int Skip = 0,
-    int Take = 10
+    int Offset = 0,
+    int Limit = 10
 );
 
 public class GetLocationsRequestValidator : AbstractValidator<GetLocationsRequest>
 {
     public GetLocationsRequestValidator()
     {
-        RuleFor(x => x.Skip).GreaterThanOrEqualTo(0);
-        RuleFor(x => x.Take).GreaterThanOrEqualTo(0);
+        RuleFor(x => x.Offset).GreaterThanOrEqualTo(0);
+        RuleFor(x => x.Limit).InclusiveBetween(0, 100);
     }
 }

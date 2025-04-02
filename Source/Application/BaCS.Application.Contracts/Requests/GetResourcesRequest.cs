@@ -11,15 +11,15 @@ public record GetResourcesRequest(
     Guid[] LocationIds,
     [property: Description("Фильтр по типам ресурсов.")]
     ResourceType[] Types,
-    int Skip = 0,
-    int Take = 10
+    int Offset = 0,
+    int Limit = 10
 );
 
 public class GetResourcesRequestValidator : AbstractValidator<GetResourcesRequest>
 {
     public GetResourcesRequestValidator()
     {
-        RuleFor(x => x.Skip).GreaterThanOrEqualTo(0);
-        RuleFor(x => x.Take).GreaterThanOrEqualTo(0);
+        RuleFor(x => x.Offset).GreaterThanOrEqualTo(0);
+        RuleFor(x => x.Limit).InclusiveBetween(0, 100);
     }
 }

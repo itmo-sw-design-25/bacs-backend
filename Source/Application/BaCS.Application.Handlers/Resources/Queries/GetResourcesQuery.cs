@@ -15,8 +15,8 @@ public static class GetResourcesQuery
         Guid[] Ids,
         Guid[] LocationIds,
         ResourceType[] Types,
-        int Skip,
-        int Take
+        int Offset,
+        int Limit
     ) : IRequest<PaginatedResponse<ResourceDto>>;
 
     internal class Handler(IBaCSDbContext dbContext, IMapper mapper)
@@ -42,7 +42,7 @@ public static class GetResourcesQuery
             }
 
             var totalCount = await query.CountAsync(cancellationToken);
-            var resources = query.OrderBy(x => x.CreatedAt).Skip(request.Skip).Take(request.Take);
+            var resources = query.OrderBy(x => x.CreatedAt).Skip(request.Offset).Take(request.Limit);
 
             var resourceDtos = await mapper.From(resources).ProjectToType<ResourceDto>().ToListAsync(cancellationToken);
 

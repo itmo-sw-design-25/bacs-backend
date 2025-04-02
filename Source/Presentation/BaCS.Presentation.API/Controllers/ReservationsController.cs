@@ -30,8 +30,8 @@ public class ReservationsController(IMediator mediator) : ControllerBase
             request.UserIds,
             request.ResourceIds,
             request.LocationIds,
-            request.Skip,
-            request.Take
+            request.Offset,
+            request.Limit
         );
         var reservations = await mediator.Send(query, cancellationToken);
 

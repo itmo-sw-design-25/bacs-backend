@@ -15,8 +15,8 @@ public static class GetReservationsQuery
         Guid[] UserIds,
         Guid[] ResourceIds,
         Guid[] LocationIds,
-        int Skip,
-        int Take
+        int Offset,
+        int Limit
     ) : IRequest<PaginatedResponse<ReservationDto>>;
 
     internal class Handler(IBaCSDbContext dbContext, IMapper mapper)
@@ -47,7 +47,7 @@ public static class GetReservationsQuery
             }
 
             var totalCount = await query.CountAsync(cancellationToken);
-            var reservations = query.OrderBy(x => x.CreatedAt).Skip(request.Skip).Take(request.Take);
+            var reservations = query.OrderBy(x => x.CreatedAt).Skip(request.Offset).Take(request.Limit);
 
             var reservationDtos =
                 await mapper.From(reservations).ProjectToType<ReservationDto>().ToListAsync(cancellationToken);

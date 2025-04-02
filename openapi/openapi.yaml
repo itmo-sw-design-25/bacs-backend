@@ -20,15 +20,16 @@ paths:
               format: uuid
             description: Фильтр по ID резерваций.
             nullable: true
-        - name: skip
+        - name: offset
           in: query
           schema:
             minimum: 0
             type: integer
             format: int32
-        - name: take
+        - name: limit
           in: query
           schema:
+            maximum: 100
             minimum: 0
             type: integer
             format: int32
@@ -316,15 +317,16 @@ paths:
               format: uuid
             description: Фильтр по ID ресурсов.
             nullable: true
-        - name: skip
+        - name: offset
           in: query
           schema:
             minimum: 0
             type: integer
             format: int32
-        - name: take
+        - name: limit
           in: query
           schema:
+            maximum: 100
             minimum: 0
             type: integer
             format: int32
@@ -485,15 +487,16 @@ paths:
               $ref: '#/components/schemas/ResourceType'
             description: Фильтр по типам ресурсов.
             nullable: true
-        - name: skip
+        - name: offset
           in: query
           schema:
             minimum: 0
             type: integer
             format: int32
-        - name: take
+        - name: limit
           in: query
           schema:
+            maximum: 100
             minimum: 0
             type: integer
             format: int32
@@ -690,15 +693,16 @@ paths:
               format: uuid
             description: Фильтр по ID пользователей.
             nullable: true
-        - name: skip
+        - name: offset
           in: query
           schema:
             minimum: 0
             type: integer
             format: int32
-        - name: take
+        - name: limit
           in: query
           schema:
+            maximum: 100
             minimum: 0
             type: integer
             format: int32
@@ -905,11 +909,12 @@ components:
             format: uuid
           description: Фильтр по ID резерваций.
           nullable: true
-        skip:
+        offset:
           minimum: 0
           type: integer
           format: int32
-        take:
+        limit:
+          maximum: 100
           minimum: 0
           type: integer
           format: int32
@@ -945,11 +950,12 @@ components:
             format: uuid
           description: Фильтр по ID ресурсов.
           nullable: true
-        skip:
+        offset:
           minimum: 0
           type: integer
           format: int32
-        take:
+        limit:
+          maximum: 100
           minimum: 0
           type: integer
           format: int32
@@ -977,11 +983,12 @@ components:
             $ref: '#/components/schemas/ResourceType'
           description: Фильтр по типам ресурсов.
           nullable: true
-        skip:
+        offset:
           minimum: 0
           type: integer
           format: int32
-        take:
+        limit:
+          maximum: 100
           minimum: 0
           type: integer
           format: int32
@@ -996,11 +1003,12 @@ components:
             format: uuid
           description: Фильтр по ID пользователей.
           nullable: true
-        skip:
+        offset:
           minimum: 0
           type: integer
           format: int32
-        take:
+        limit:
+          maximum: 100
           minimum: 0
           type: integer
           format: int32

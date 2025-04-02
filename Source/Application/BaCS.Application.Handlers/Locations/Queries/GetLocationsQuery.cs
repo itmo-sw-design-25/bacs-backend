@@ -10,7 +10,7 @@ using Microsoft.EntityFrameworkCore;
 
 public static class GetLocationsQuery
 {
-    public record Query(Guid[] LocationIds, int Skip, int Take) : IRequest<PaginatedResponse<LocationDto>>;
+    public record Query(Guid[] LocationIds, int Offset, int Limit) : IRequest<PaginatedResponse<LocationDto>>;
 
     internal class Handler(IBaCSDbContext dbContext, IMapper mapper)
         : IRequestHandler<Query, PaginatedResponse<LocationDto>>
@@ -28,7 +28,7 @@ public static class GetLocationsQuery
             }
 
             var totalCount = await query.CountAsync(cancellationToken);
-            var locations = query.OrderBy(x => x.Name).Skip(request.Skip).Take(request.Take);
+            var locations = query.OrderBy(x => x.Name).Skip(request.Offset).Take(request.Limit);
 
             var locationDtos = await mapper.From(locations).ProjectToType<LocationDto>().ToListAsync(cancellationToken);
 
