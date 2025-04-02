@@ -1056,21 +1056,27 @@ components:
       properties:
         type:
           type: string
+          description: Тип ошибки.
           nullable: true
         title:
           type: string
+          description: Краткое человеко-читаемое описание ошибки.
           nullable: true
         status:
           type: integer
+          description: HTTP-статус код ошибки.
           format: int32
           nullable: true
         detail:
           type: string
+          description: Детальное человеко-читаемое описание ошибки.
           nullable: true
         instance:
           type: string
+          description: 'URI, на котором произошла ошибка.'
           nullable: true
       additionalProperties: { }
+      description: 'Машино-читаемый формат ошибок API, в соответствии со стандартом <a href="https://www.rfc-editor.org/rfc/rfc9457">RFC 9457</a>.'
     ReservationDto:
       type: object
       properties:

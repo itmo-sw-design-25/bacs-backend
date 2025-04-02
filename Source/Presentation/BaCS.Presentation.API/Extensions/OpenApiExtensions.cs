@@ -1,27 +1,21 @@
 namespace BaCS.Presentation.API.Extensions;
 
 using Keycloak.AuthServices.Authentication;
-using Microsoft.OpenApi.Any;
-using Microsoft.OpenApi.Interfaces;
 using Microsoft.OpenApi.Models;
 using Microsoft.OpenApi.Writers;
 using Scalar.AspNetCore;
+using Swagger;
 using Swashbuckle.AspNetCore.Swagger;
 
 public static class OpenApiExtensions
 {
     public static IServiceCollection AddOpenApi(this IServiceCollection services, IConfiguration configuration)
     {
-        var keycloakOptions = configuration
-            .GetSection("Keycloak")
-            .Get<KeycloakAuthenticationOptions>(x => x.BindNonPublicProperties = true)!;
-
         services
             .AddEndpointsApiExplorer()
             .AddSwaggerGen(
                 options =>
                 {
-                    options.DescribeAllParametersInCamelCase();
                     options.SwaggerDoc(
                         "v1",
                         new OpenApiInfo
@@ -32,44 +26,7 @@ public static class OpenApiExtensions
                         }
                     );
 
-                    var keycloakSecurityScheme = new OpenApiSecurityScheme
-                    {
-                        Description = "Аутентификация через Keycloak",
-                        Name = "JWT Authentication",
-                        In = ParameterLocation.Header,
-                        Type = SecuritySchemeType.OAuth2,
-                        Scheme = "Bearer",
-                        BearerFormat = "JWT",
-                        Reference = new OpenApiReference
-                        {
-                            Id = "Keycloak",
-                            Type = ReferenceType.SecurityScheme
-                        },
-                        Flows = new OpenApiOAuthFlows
-                        {
-                            AuthorizationCode = new OpenApiOAuthFlow
-                            {
-                                AuthorizationUrl = new Uri(
-                                    keycloakOptions.KeycloakUrlRealm + "protocol/openid-connect/auth"
-                                ),
-                                TokenUrl = new Uri(keycloakOptions.KeycloakTokenEndpoint),
-                                Scopes = new Dictionary<string, string>
-                                {
-                                    {
-                                        keycloakOptions.Resource,
-                                        "Обязательный скоуп, необходимый для авторизации на BaCS API"
-                                    }
-                                },
-                                Extensions = new Dictionary<string, IOpenApiExtension>
-                                {
-                                    ["x-usePkce"] = new OpenApiString("SHA-256")
-                                }
-                            }
-                        }
-                    };
-
-                    options.AddSecurityDefinition(keycloakSecurityScheme.Reference.Id, keycloakSecurityScheme);
-                    options.AddSecurityRequirement(new OpenApiSecurityRequirement { { keycloakSecurityScheme, [] } });
+                    options.ConfigureSwaggerOptions(configuration);
                 }
             );
 
