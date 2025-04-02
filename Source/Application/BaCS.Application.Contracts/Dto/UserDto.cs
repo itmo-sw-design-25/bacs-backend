@@ -10,5 +10,7 @@ public record UserDto(
     [property: Description("Email-адрес пользователя.")]
     string Email,
     [property: Description("ФИО пользователя.")]
-    string Name
+    string Name,
+    [property: Description("Уведомлять о бронированиях по электронной почте.")]
+    bool EnableEmailNotifications
 );

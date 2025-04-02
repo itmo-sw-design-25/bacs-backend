@@ -1279,6 +1279,9 @@ components:
           type: string
           description: ФИО пользователя.
           nullable: true
+        enableEmailNotifications:
+          type: boolean
+          description: Уведомлять о бронированиях по электронной почте.
       additionalProperties: false
     UserDtoPaginatedResponse:
       type: object
