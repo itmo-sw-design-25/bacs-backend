@@ -76,7 +76,7 @@ public class LocationsController(IMediator mediator) : ControllerBase
     [ProducesResponseType<LocationDto>(StatusCodes.Status200OK, "application/json")]
     [ProducesResponseType<ProblemDetails>(StatusCodes.Status400BadRequest, "application/problem+json")]
     public async Task<IActionResult> UpdateLocation(
-        [FromRoute] Guid locationId,
+        [Description("ID локации.")] Guid locationId,
         [FromBody] UpdateLocationRequest request,
         CancellationToken cancellationToken
     )

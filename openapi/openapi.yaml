@@ -101,9 +101,11 @@ paths:
       parameters:
         - name: locationId
           in: path
+          description: ID локации.
           required: true
           schema:
             type: string
+            description: ID локации.
             format: uuid
       requestBody:
         content:

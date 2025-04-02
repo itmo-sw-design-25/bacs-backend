@@ -13,5 +13,3 @@ public static class RegistrationExtensions
         return services;
     }
 }
-
-internal interface IApplicationHandlersAssemblyMarker;

@@ -32,7 +32,7 @@ public static class AddResourceImageCommand
             dbContext.Resources.Update(resource);
             await dbContext.SaveChangesAsync(cancellationToken);
 
-            return result.Path;
+            return resource.ImageUrl;
         }
     }
 }

@@ -32,7 +32,7 @@ public static class AddLocationImageCommand
             dbContext.Locations.Update(location);
             await dbContext.SaveChangesAsync(cancellationToken);
 
-            return result.Path;
+            return location.ImageUrl;
         }
     }
 }

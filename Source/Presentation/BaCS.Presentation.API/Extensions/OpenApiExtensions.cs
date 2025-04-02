@@ -103,9 +103,11 @@ public static class OpenApiExtensions
 
     public static WebApplication WithOpenApiDocument(this WebApplication app, string documentName)
     {
-        var solutionRootDir = Directory.GetParent(Directory.GetCurrentDirectory())?.Parent?.Parent;
+        if (app.Environment.IsProduction()) return app;
 
-        if (solutionRootDir is null) return app;
+        var solutionDirectory = Directory.GetParent(Directory.GetCurrentDirectory())?.Parent?.Parent;
+
+        if (solutionDirectory is null) return app;
 
         var swaggerProvider = app.Services.GetRequiredService<ISwaggerProvider>();
         var swagger = swaggerProvider.GetSwagger("v1");
@@ -114,7 +116,7 @@ public static class OpenApiExtensions
         swagger.SerializeAsV3(new OpenApiYamlWriter(stringWriter));
 
         var openApiDocumentPath = Path.Combine(
-            solutionRootDir.FullName,
+            solutionDirectory.FullName,
             "openapi",
             $"{documentName}.yaml"
         );
