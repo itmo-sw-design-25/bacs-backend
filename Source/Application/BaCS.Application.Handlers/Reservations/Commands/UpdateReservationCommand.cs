@@ -6,6 +6,7 @@ using Contracts.Dto;
 using Contracts.Exceptions;
 using Domain.Core.Entities;
 using Domain.Core.Enums;
+using Domain.Core.ValueObjects;
 using MapsterMapper;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
@@ -32,7 +33,8 @@ public static class UpdateReservationCommand
             if (reservation.UserId != currentUser.UserId && currentUser.IsAdminIn(reservation.LocationId) is false)
                 throw new ForbiddenException("Недостаточно прав для обновления брони другого пользователя");
 
-            calendarValidator.ValidateAndThrow(reservation, location.CalendarSettings);
+            var interval = new DateTimeInterval(request.From, request.To);
+            calendarValidator.ValidateAndThrow(interval, location.CalendarSettings);
 
             var semaphore = GlobalSemaphores.GetForResource(reservation.ResourceId);
 

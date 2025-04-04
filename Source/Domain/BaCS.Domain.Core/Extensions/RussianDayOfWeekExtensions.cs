@@ -25,6 +25,6 @@ public static class RussianDayOfWeekExtensions
     {
         var field = dayOfWeek.GetType().GetField(dayOfWeek.ToString());
         var attribute = field?.GetCustomAttribute<DisplayAttribute>();
-        return attribute?.Description ?? dayOfWeek.ToString();
+        return attribute?.Name ?? dayOfWeek.ToString();
     }
 }

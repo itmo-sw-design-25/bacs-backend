@@ -12,7 +12,11 @@ public class ReservationCalendarValidator : IReservationCalendarValidator
     public void ValidateAndThrow(Reservation reservation, CalendarSettings calendarSettings)
     {
         var interval = new DateTimeInterval(reservation.From, reservation.To);
+        ValidateAndThrow(interval, calendarSettings);
+    }
 
+    public void ValidateAndThrow(DateTimeInterval interval, CalendarSettings calendarSettings)
+    {
         if (interval.Duration.TotalHours >= DateTimeConstants.HoursPerDay)
         {
             throw new BusinessRulesException(
