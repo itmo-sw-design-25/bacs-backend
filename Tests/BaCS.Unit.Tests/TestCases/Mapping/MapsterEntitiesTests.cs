@@ -60,7 +60,6 @@ public class MapsterEntitiesTests
         var location = fixture
             .Build<Location>()
             .Without(x => x.Resources)
-            .Without(x => x.Admins)
             .Without(x => x.CalendarSettings)
             .Create();
 
@@ -68,7 +67,8 @@ public class MapsterEntitiesTests
         var locationDto = _mapper.Map<LocationDto>(location);
 
         // Assert
-        location.Should().BeEquivalentTo(locationDto);
+        location.Admins.Select(x => x.Id).Should().BeEquivalentTo(locationDto.AdminIds);
+        location.Should().BeEquivalentTo(locationDto, opt => opt.Excluding(x => x.AdminIds));
     }
 
     [Theory]
