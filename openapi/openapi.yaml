@@ -1252,19 +1252,12 @@ components:
       additionalProperties: false
     UpdateUserRequest:
       required:
-        - email
-        - name
+        - enableEmailNotifications
       type: object
       properties:
-        name:
-          minLength: 1
-          type: string
-          description: ФИО пользователя.
-        email:
-          minLength: 1
-          type: string
-          description: Email-адрес пользователя.
-          format: email
+        enableEmailNotifications:
+          type: boolean
+          description: Уведомлять о бронированиях по электронной почте.
       additionalProperties: false
     UserDto:
       type: object
@@ -1273,10 +1266,6 @@ components:
           type: string
           description: ID пользователя.
           format: uuid
-        username:
-          type: string
-          description: Уникальный логин пользователя.
-          nullable: true
         email:
           type: string
           description: Email-адрес пользователя.
@@ -1284,6 +1273,10 @@ components:
         name:
           type: string
           description: ФИО пользователя.
+          nullable: true
+        imageUrl:
+          type: string
+          description: Ссылка на фотографию пользователя.
           nullable: true
         enableEmailNotifications:
           type: boolean

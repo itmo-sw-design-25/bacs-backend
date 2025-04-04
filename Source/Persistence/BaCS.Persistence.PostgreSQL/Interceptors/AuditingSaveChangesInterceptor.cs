@@ -1,6 +1,6 @@
 namespace BaCS.Persistence.PostgreSQL.Interceptors;
 
-using Application.Abstractions;
+using Application.Abstractions.Services;
 using Domain.Core.Abstractions;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Diagnostics;

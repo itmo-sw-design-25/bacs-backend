@@ -1,4 +1,4 @@
-namespace BaCS.Application.Abstractions;
+namespace BaCS.Application.Abstractions.Services;
 
 public interface IDateTimeService
 {

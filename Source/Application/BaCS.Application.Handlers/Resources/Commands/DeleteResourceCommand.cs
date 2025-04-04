@@ -1,7 +1,7 @@
 namespace BaCS.Application.Handlers.Resources.Commands;
 
-using Abstractions;
 using Abstractions.Persistence;
+using Abstractions.Services;
 using Contracts.Exceptions;
 using Domain.Core.Entities;
 using MediatR;

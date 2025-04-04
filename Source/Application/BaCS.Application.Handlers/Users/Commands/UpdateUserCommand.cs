@@ -2,15 +2,27 @@ namespace BaCS.Application.Handlers.Users.Commands;
 
 using Abstractions.Persistence;
 using Contracts.Dto;
+using Contracts.Exceptions;
+using Domain.Core.Entities;
+using MapsterMapper;
 using MediatR;
 
 public static class UpdateUserCommand
 {
-    public record Command(Guid UserId, string Name, string Email) : IRequest<UserDto>;
+    public record Command(Guid UserId, bool EnableEmailNotifications) : IRequest<UserDto>;
 
-    internal class Handler(IBaCSDbContext dbContext) : IRequestHandler<Command, UserDto>
+    internal class Handler(IBaCSDbContext dbContext, IMapper mapper) : IRequestHandler<Command, UserDto>
     {
-        public Task<UserDto> Handle(Command request, CancellationToken cancellationToken) =>
-            throw new NotImplementedException();
+        public async Task<UserDto> Handle(Command request, CancellationToken cancellationToken)
+        {
+            var user = await dbContext.Users.FindAsync([request.UserId], cancellationToken)
+                       ?? throw new EntityNotFoundException<User>(request.UserId);
+
+            user.EnableEmailNotifications = request.EnableEmailNotifications;
+            dbContext.Users.Update(user);
+            await dbContext.SaveChangesAsync(cancellationToken);
+
+            return mapper.Map<UserDto>(user);
+        }
     }
 }

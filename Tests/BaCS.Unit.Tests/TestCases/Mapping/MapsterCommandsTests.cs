@@ -5,6 +5,7 @@ using AutoFixture.Xunit2;
 using Application.Handlers.Locations.Commands;
 using Application.Handlers.Reservations.Commands;
 using Application.Handlers.Resources.Commands;
+using Application.Handlers.Users.Commands;
 using Application.Mapping.Configs;
 using Domain.Core.Entities;
 using FluentAssertions;
@@ -31,13 +32,13 @@ public class MapsterCommandsTests
     public void ShouldMapFromCreateLocationCommandToLocation_Successful([Frozen] IFixture fixture)
     {
         // Arrange
-        var createLocationCommand = fixture.Create<CreateLocationCommand.Command>();
+        var command = fixture.Create<CreateLocationCommand.Command>();
 
         // Act
-        var location = _mapper.Map<Location>(createLocationCommand);
+        var location = _mapper.Map<Location>(command);
 
         // Assert
-        createLocationCommand
+        command
             .Should()
             .BeEquivalentTo(location, opt => opt.ExcludingMissingMembers());
     }
@@ -47,13 +48,13 @@ public class MapsterCommandsTests
     public void ShouldMapFromCreateReservationCommandToReservation_Successful([Frozen] IFixture fixture)
     {
         // Arrange
-        var createReservationCommand = fixture.Create<CreateReservationCommand.Command>();
+        var command = fixture.Create<CreateReservationCommand.Command>();
 
         // Act
-        var reservation = _mapper.Map<Reservation>(createReservationCommand);
+        var reservation = _mapper.Map<Reservation>(command);
 
         // Assert
-        createReservationCommand
+        command
             .Should()
             .BeEquivalentTo(reservation, opt => opt.ExcludingMissingMembers());
     }
@@ -63,14 +64,30 @@ public class MapsterCommandsTests
     public void ShouldMapFromCreateResourceCommandToResource_Successful([Frozen] IFixture fixture)
     {
         // Arrange
-        var createResourceCommand = fixture.Create<CreateResourceCommand.Command>();
+        var command = fixture.Create<CreateResourceCommand.Command>();
 
         // Act
-        var resource = _mapper.Map<Resource>(createResourceCommand);
+        var resource = _mapper.Map<Resource>(command);
 
         // Assert
-        createResourceCommand
+        command
             .Should()
             .BeEquivalentTo(resource, opt => opt.ExcludingMissingMembers());
+    }
+
+    [Theory]
+    [AutoData]
+    public void ShouldMapFromCreateUserCommandToUser_Successful([Frozen] IFixture fixture)
+    {
+        // Arrange
+        var command = fixture.Create<CreateUserCommand.Command>();
+
+        // Act
+        var user = _mapper.Map<User>(command);
+
+        // Assert
+        command
+            .Should()
+            .BeEquivalentTo(user, opt => opt.ExcludingMissingMembers());
     }
 }

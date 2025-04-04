@@ -55,7 +55,7 @@ public class UsersController(IMediator mediator) : ControllerBase
         CancellationToken cancellationToken
     )
     {
-        var command = new UpdateUserCommand.Command(userId, request.Name, request.Email);
+        var command = new UpdateUserCommand.Command(userId, request.EnableEmailNotifications);
         var result = await mediator.Send(command, cancellationToken);
 
         return Ok(result);

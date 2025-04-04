@@ -48,8 +48,8 @@ public class MapsterEntitiesConfig : IRegister
             .NewConfig<User, UserDto>()
             .Map(dest => dest.Id, src => src.Id)
             .Map(dest => dest.Email, src => src.Email)
-            .Map(dest => dest.Username, src => src.Username)
             .Map(dest => dest.Name, src => src.Name)
+            .Map(dest => dest.ImageUrl, src => src.ImageUrl)
             .Map(dest => dest.EnableEmailNotifications, src => src.EnableEmailNotifications);
     }
 }

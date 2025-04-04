@@ -20,7 +20,6 @@
 
     <ItemGroup>
         <PackageReference Include="Keycloak.AuthServices.Authentication"/>
-        <PackageReference Include="Keycloak.AuthServices.Authorization"/>
         <PackageReference Include="MediatR"/>
         <PackageReference Include="MicroElements.Swashbuckle.FluentValidation"/>
         <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer"/>

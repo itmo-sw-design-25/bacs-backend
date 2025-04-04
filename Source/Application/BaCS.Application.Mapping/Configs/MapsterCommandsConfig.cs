@@ -4,6 +4,7 @@ using Domain.Core.Entities;
 using Handlers.Locations.Commands;
 using Handlers.Reservations.Commands;
 using Handlers.Resources.Commands;
+using Handlers.Users.Commands;
 using Mapster;
 
 public class MapsterCommandsConfig : IRegister
@@ -31,5 +32,12 @@ public class MapsterCommandsConfig : IRegister
             .Map(dest => dest.Type, src => src.Type)
             .Map(dest => dest.Description, src => src.Description)
             .Map(dest => dest.Equipment, src => src.Equipment);
+
+        config
+            .NewConfig<CreateUserCommand.Command, User>()
+            .Map(dest => dest.Id, src => src.UserId)
+            .Map(dest => dest.Name, src => src.Name)
+            .Map(dest => dest.ImageUrl, src => src.ImageUrl)
+            .Map(dest => dest.Email, src => src.Email);
     }
 }
