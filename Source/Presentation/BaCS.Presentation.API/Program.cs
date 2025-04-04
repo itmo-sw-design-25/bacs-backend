@@ -33,6 +33,7 @@ app
     .UseSerilogRequestLogging();
 
 app
+    .UseStatusCodePages()
     .UseExceptionHandler(_ => { })
     .UsePathBase("/api")
     .UseRouting()
