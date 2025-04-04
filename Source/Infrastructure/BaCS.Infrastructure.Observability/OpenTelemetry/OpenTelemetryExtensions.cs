@@ -49,7 +49,15 @@ public static class OpenTelemetryExtensions
                         activity.SetTag("stackTrace", exception.StackTrace);
                 }
             )
-            .AddAspNetCoreInstrumentation(opt => opt.RecordException = true);
+            .AddAspNetCoreInstrumentation(
+                opt =>
+                {
+                    opt.RecordException = true;
+                    opt.Filter = context =>
+                        context.Request.Path.HasValue &&
+                        options.EndpointFilter.All(filter => context.Request.Path.Value.StartsWith(filter) is false);
+                }
+            );
 
     private static TracerProviderBuilder WithExporter(this TracerProviderBuilder tracing, TracingOptions options)
     {
