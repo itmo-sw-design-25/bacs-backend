@@ -1,6 +1,7 @@
 namespace BaCS.Application.Handlers.Locations.Commands;
 
 using Abstractions.Persistence;
+using Abstractions.Services;
 using Contracts.Dto;
 using Contracts.Exceptions;
 using Domain.Core.Entities;
@@ -17,10 +18,14 @@ public static class UpdateLocationCommand
         CalendarSettingsDto CalendarSettings
     ) : IRequest<LocationDto>;
 
-    internal class Handler(IBaCSDbContext dbContext, IMapper mapper) : IRequestHandler<Command, LocationDto>
+    internal class Handler(IBaCSDbContext dbContext, ICurrentUser currentUser, IMapper mapper)
+        : IRequestHandler<Command, LocationDto>
     {
         public async Task<LocationDto> Handle(Command request, CancellationToken cancellationToken)
         {
+            if (currentUser.IsAdminIn(request.LocationId) is false)
+                throw new ForbiddenException("Недостаточно прав для обновления локации");
+
             var location = await dbContext.Locations.FindAsync([request.LocationId], cancellationToken)
                            ?? throw new EntityNotFoundException<Location>(request.LocationId);
 

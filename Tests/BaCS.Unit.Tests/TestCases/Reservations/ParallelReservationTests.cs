@@ -27,6 +27,7 @@ public class ParallelReservationTests
         [Frozen] IFixture fixture,
         [Frozen] IMapper mapper,
         [Frozen] IBaCSDbContext dbContext,
+        [Frozen] ICurrentUser currentUser,
         [Frozen] IReservationCalendarValidator calendarValidator,
         [Frozen] [Greedy] Location location
     )
@@ -61,7 +62,7 @@ public class ParallelReservationTests
         dbContext.Locations.FindAsync(Arg.Any<object[]>(), Arg.Any<CancellationToken>()).Returns(location);
 
         // Act
-        var handler = new CreateReservationCommand.Handler(dbContext, calendarValidator, mapper);
+        var handler = new CreateReservationCommand.Handler(dbContext, calendarValidator, currentUser, mapper);
         var tasks = commands.Select(task => handler.Handle(task, CancellationToken.None)).ToArray();
 
         try { await Task.WhenAll(tasks.Select(task => Task.Run(() => task))); }
@@ -94,6 +95,7 @@ public class ParallelReservationTests
         [Frozen] IFixture fixture,
         [Frozen] IMapper mapper,
         [Frozen] IBaCSDbContext dbContext,
+        [Frozen] ICurrentUser currentUser,
         [Frozen] IReservationCalendarValidator calendarValidator,
         [Frozen] [Greedy] Location location
     )
@@ -127,7 +129,7 @@ public class ParallelReservationTests
         dbContext.Locations.FindAsync(Arg.Any<object[]>(), Arg.Any<CancellationToken>()).Returns(location);
 
         // Act
-        var handler = new CreateReservationCommand.Handler(dbContext, calendarValidator, mapper);
+        var handler = new CreateReservationCommand.Handler(dbContext, calendarValidator, currentUser, mapper);
         var tasks = commands.Select(task => handler.Handle(task, CancellationToken.None)).ToArray();
 
         await Task.WhenAll(tasks.Select(task => Task.Run(() => task)));

@@ -1,6 +1,7 @@
 namespace BaCS.Application.Handlers.Users.Commands;
 
 using Abstractions.Persistence;
+using Abstractions.Services;
 using Contracts.Dto;
 using Contracts.Exceptions;
 using Domain.Core.Entities;
@@ -11,10 +12,14 @@ public static class UpdateUserCommand
 {
     public record Command(Guid UserId, bool EnableEmailNotifications) : IRequest<UserDto>;
 
-    internal class Handler(IBaCSDbContext dbContext, IMapper mapper) : IRequestHandler<Command, UserDto>
+    internal class Handler(IBaCSDbContext dbContext, ICurrentUser currentUser, IMapper mapper)
+        : IRequestHandler<Command, UserDto>
     {
         public async Task<UserDto> Handle(Command request, CancellationToken cancellationToken)
         {
+            if (currentUser.UserId != request.UserId)
+                throw new ForbiddenException("Недостаточно прав для обновления данных другого пользователя");
+
             var user = await dbContext.Users.FindAsync([request.UserId], cancellationToken)
                        ?? throw new EntityNotFoundException<User>(request.UserId);
 

@@ -1,6 +1,7 @@
 namespace BaCS.Application.Handlers.Resources.Commands;
 
 using Abstractions.Persistence;
+using Abstractions.Services;
 using Contracts.Dto;
 using Contracts.Exceptions;
 using Domain.Core.Entities;
@@ -18,13 +19,16 @@ public static class UpdateResourceCommand
         ResourceType Type
     ) : IRequest<ResourceDto>;
 
-    internal class Handler(IBaCSDbContext dbContext, IMapper mapper)
+    internal class Handler(IBaCSDbContext dbContext, ICurrentUser currentUser, IMapper mapper)
         : IRequestHandler<Command, ResourceDto>
     {
         public async Task<ResourceDto> Handle(Command request, CancellationToken cancellationToken)
         {
             var resource = await dbContext.Resources.FindAsync([request.ResourceId], cancellationToken)
                            ?? throw new EntityNotFoundException<Resource>(request.ResourceId);
+
+            if (currentUser.IsAdminIn(resource.LocationId) is false)
+                throw new ForbiddenException("Недостаточно прав для обновления ресурса");
 
             resource.Name = request.Name;
             resource.Description = request.Description;

@@ -11,10 +11,14 @@ public static class DeleteLocationCommand
 {
     public record Command(Guid LocationId) : IRequest;
 
-    internal class Handler(IBaCSDbContext dbContext, IDateTimeService dateTimeService) : IRequestHandler<Command>
+    internal class Handler(IBaCSDbContext dbContext, ICurrentUser currentUser, IDateTimeService dateTimeService)
+        : IRequestHandler<Command>
     {
         public async Task Handle(Command request, CancellationToken cancellationToken)
         {
+            if (currentUser.IsSuperAdmin() is false)
+                throw new ForbiddenException("Недостаточно прав для удаления локации");
+
             var location = await dbContext.Locations.FindAsync([request.LocationId], cancellationToken)
                            ?? throw new EntityNotFoundException<Location>(request.LocationId);
 

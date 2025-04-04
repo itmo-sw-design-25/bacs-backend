@@ -23,13 +23,21 @@ public class CurrentUser(IHttpContextAccessor httpContextAccessor) : ICurrentUse
 
     public bool IsAdminIn(params Guid[] locationIds)
     {
-        var roleClaims = _principal.FindAll(ApplicationClaimDefaults.RolesClaimType).ToArray();
+        if (locationIds is not { Length: > 0 }) return false;
 
-        var isSuperAdmin = roleClaims.Any(x => x.Value == ApplicationClaimRoles.SuperAdminRole);
+        var roleClaims = _principal.FindAll(ApplicationClaimDefaults.RolesClaimType);
+
         var isLocationsAdmin = locationIds.All(
             id => roleClaims.Any(claim => claim.Value == $"{ApplicationClaimRoles.AdminRolePrefix}{id}")
         );
 
-        return isSuperAdmin && isLocationsAdmin;
+        return IsSuperAdmin() || isLocationsAdmin;
+    }
+
+    public bool IsSuperAdmin()
+    {
+        var roleClaims = _principal.FindAll(ApplicationClaimDefaults.RolesClaimType);
+
+        return roleClaims.Any(x => x.Value == ApplicationClaimRoles.SuperAdminRole);
     }
 }

@@ -1,7 +1,9 @@
 namespace BaCS.Application.Handlers.Resources.Commands;
 
 using Abstractions.Persistence;
+using Abstractions.Services;
 using Contracts.Dto;
+using Contracts.Exceptions;
 using Domain.Core.Entities;
 using Domain.Core.Enums;
 using MapsterMapper;
@@ -17,11 +19,14 @@ public static class CreateResourceCommand
         ResourceType Type
     ) : IRequest<ResourceDto>;
 
-    internal class Handler(IBaCSDbContext dbContext, IMapper mapper)
+    internal class Handler(IBaCSDbContext dbContext, ICurrentUser currentUser, IMapper mapper)
         : IRequestHandler<Command, ResourceDto>
     {
         public async Task<ResourceDto> Handle(Command request, CancellationToken cancellationToken)
         {
+            if (currentUser.IsAdminIn(request.LocationId) is false)
+                throw new ForbiddenException("Недостаточно прав для добавления ресурса");
+
             var resource = mapper.Map<Resource>(request);
 
             await dbContext.Resources.AddAsync(resource, cancellationToken);

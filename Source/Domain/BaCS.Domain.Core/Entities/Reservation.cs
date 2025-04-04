@@ -8,7 +8,7 @@ public class Reservation : AuditableEntity
     public Guid Id { get; init; } = Guid.CreateVersion7();
     public Guid ResourceId { get; init; }
     public Guid LocationId { get; init; }
-    public Guid UserId { get; init; }
+    public Guid UserId { get; set; }
 
     public DateTime From { get; set; }
     public DateTime To { get; set; }

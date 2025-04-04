@@ -14,8 +14,12 @@ public static class UpdateReservationCommand
 {
     public record Command(Guid ReservationId, DateTime From, DateTime To) : IRequest<ReservationDto>;
 
-    internal class Handler(IBaCSDbContext dbContext, IReservationCalendarValidator calendarValidator, IMapper mapper)
-        : IRequestHandler<Command, ReservationDto>
+    internal class Handler(
+        IBaCSDbContext dbContext,
+        IReservationCalendarValidator calendarValidator,
+        ICurrentUser currentUser,
+        IMapper mapper
+    ) : IRequestHandler<Command, ReservationDto>
     {
         public async Task<ReservationDto> Handle(Command request, CancellationToken cancellationToken)
         {
@@ -24,6 +28,9 @@ public static class UpdateReservationCommand
 
             var location = await dbContext.Locations.FindAsync([reservation.LocationId], cancellationToken)
                            ?? throw new EntityNotFoundException<Location>(reservation.LocationId);
+
+            if (reservation.UserId != currentUser.UserId && currentUser.IsAdminIn(reservation.LocationId) is false)
+                throw new ForbiddenException("Недостаточно прав для обновления брони другого пользователя");
 
             calendarValidator.ValidateAndThrow(reservation, location.CalendarSettings);
 

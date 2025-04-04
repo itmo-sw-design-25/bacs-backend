@@ -1,6 +1,7 @@
 namespace BaCS.Application.Handlers.Locations.Commands;
 
 using Abstractions.Persistence;
+using Abstractions.Services;
 using Contracts.Constants;
 using Contracts.Exceptions;
 using Domain.Core.Entities;
@@ -11,10 +12,14 @@ public static class AddLocationImageCommand
 {
     public record Command(Guid LocationId, ImageInfo ImageInfo) : IRequest<string>;
 
-    internal class Handler(IBaCSDbContext dbContext, IFileStorage fileStorage) : IRequestHandler<Command, string>
+    internal class Handler(IBaCSDbContext dbContext, IFileStorage fileStorage, ICurrentUser currentUser)
+        : IRequestHandler<Command, string>
     {
         public async Task<string> Handle(Command request, CancellationToken cancellationToken)
         {
+            if (currentUser.IsAdminIn(request.LocationId) is false)
+                throw new ForbiddenException("Недостаточно прав для добавления фотографии локации");
+
             var location = await dbContext.Locations.FindAsync([request.LocationId], cancellationToken)
                            ?? throw new EntityNotFoundException<Location>(request.LocationId);
 

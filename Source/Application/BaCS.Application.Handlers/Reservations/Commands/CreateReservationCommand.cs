@@ -15,8 +15,12 @@ public static class CreateReservationCommand
     public record Command(Guid ResourceId, Guid LocationId, DateTime From, DateTime To)
         : IRequest<ReservationDto>;
 
-    internal class Handler(IBaCSDbContext dbContext, IReservationCalendarValidator calendarValidator, IMapper mapper)
-        : IRequestHandler<Command, ReservationDto>
+    internal class Handler(
+        IBaCSDbContext dbContext,
+        IReservationCalendarValidator calendarValidator,
+        ICurrentUser currentUser,
+        IMapper mapper
+    ) : IRequestHandler<Command, ReservationDto>
     {
         public async Task<ReservationDto> Handle(Command request, CancellationToken cancellationToken)
         {
@@ -50,7 +54,9 @@ public static class CreateReservationCommand
                     );
                 }
 
+                reservation.UserId = currentUser.UserId;
                 reservation.Status = ReservationStatus.Created;
+
                 await dbContext.Reservations.AddAsync(reservation, cancellationToken);
                 await dbContext.SaveChangesAsync(cancellationToken);
             }

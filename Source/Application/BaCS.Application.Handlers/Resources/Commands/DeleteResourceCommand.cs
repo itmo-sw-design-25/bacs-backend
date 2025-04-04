@@ -11,12 +11,16 @@ public static class DeleteResourceCommand
 {
     public record Command(Guid ResourceId) : IRequest;
 
-    internal class Handler(IBaCSDbContext dbContext, IDateTimeService dateTimeService) : IRequestHandler<Command>
+    internal class Handler(IBaCSDbContext dbContext, ICurrentUser currentUser, IDateTimeService dateTimeService)
+        : IRequestHandler<Command>
     {
         public async Task Handle(Command request, CancellationToken cancellationToken)
         {
             var resource = await dbContext.Resources.FindAsync([request.ResourceId], cancellationToken)
                            ?? throw new EntityNotFoundException<Resource>(request.ResourceId);
+
+            if (currentUser.IsAdminIn(resource.LocationId) is false)
+                throw new ForbiddenException("Недостаточно прав для удаления ресурса");
 
             var now = dateTimeService.UtcNow;
             var hasActiveReservations = await dbContext.Reservations.AnyAsync(
