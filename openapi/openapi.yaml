@@ -317,6 +317,29 @@ paths:
               format: uuid
             description: Фильтр по ID ресурсов.
             nullable: true
+        - name: statuses
+          in: query
+          description: Фильтр по статусам резерваций.
+          schema:
+            type: array
+            items:
+              $ref: '#/components/schemas/ReservationStatus'
+            description: Фильтр по статусам резерваций.
+            nullable: true
+        - name: afterDate
+          in: query
+          description: Фильтр по времени начала бронирования (включительно).
+          schema:
+            type: string
+            description: Фильтр по времени начала бронирования (включительно).
+            format: date-time
+        - name: beforeDate
+          in: query
+          description: Фильтр по времени окончания бронирования (включительно).
+          schema:
+            type: string
+            description: Фильтр по времени окончания бронирования (включительно).
+            format: date-time
         - name: offset
           in: query
           schema:
@@ -950,6 +973,20 @@ components:
             format: uuid
           description: Фильтр по ID ресурсов.
           nullable: true
+        statuses:
+          type: array
+          items:
+            $ref: '#/components/schemas/ReservationStatus'
+          description: Фильтр по статусам резерваций.
+          nullable: true
+        afterDate:
+          type: string
+          description: Фильтр по времени начала бронирования (включительно).
+          format: date-time
+        beforeDate:
+          type: string
+          description: Фильтр по времени окончания бронирования (включительно).
+          format: date-time
         offset:
           minimum: 0
           type: integer

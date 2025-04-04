@@ -3,6 +3,7 @@ namespace BaCS.Application.Handlers.Reservations.Queries;
 using Abstractions.Persistence;
 using Contracts.Dto;
 using Contracts.Responces;
+using Domain.Core.Enums;
 using Mapster;
 using MapsterMapper;
 using MediatR;
@@ -15,6 +16,9 @@ public static class GetReservationsQuery
         Guid[] UserIds,
         Guid[] ResourceIds,
         Guid[] LocationIds,
+        ReservationStatus[] Statuses,
+        DateTime BeforeDate,
+        DateTime AfterDate,
         int Offset,
         int Limit
     ) : IRequest<PaginatedResponse<ReservationDto>>;
@@ -44,6 +48,21 @@ public static class GetReservationsQuery
             if (request.ResourceIds is { Length: > 0 })
             {
                 query = query.Where(x => request.ResourceIds.Contains(x.ResourceId));
+            }
+
+            if (request.Statuses is { Length: > 0 })
+            {
+                query = query.Where(x => request.Statuses.Contains(x.Status));
+            }
+
+            if (request.BeforeDate is var beforeDate)
+            {
+                query = query.Where(x => x.To <= beforeDate);
+            }
+
+            if (request.AfterDate is var afterDate)
+            {
+                query = query.Where(x => x.From >= afterDate);
             }
 
             var totalCount = await query.CountAsync(cancellationToken);

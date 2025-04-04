@@ -30,6 +30,9 @@ public class ReservationsController(IMediator mediator) : ControllerBase
             request.UserIds,
             request.ResourceIds,
             request.LocationIds,
+            request.Statuses,
+            request.BeforeDate,
+            request.AfterDate,
             request.Offset,
             request.Limit
         );

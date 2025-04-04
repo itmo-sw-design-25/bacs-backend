@@ -1,6 +1,7 @@
 namespace BaCS.Application.Contracts.Requests;
 
 using System.ComponentModel;
+using Domain.Core.Enums;
 using FluentValidation;
 
 public record GetReservationsRequest(
@@ -12,6 +13,12 @@ public record GetReservationsRequest(
     Guid[] LocationIds,
     [property: Description("Фильтр по ID ресурсов.")]
     Guid[] ResourceIds,
+    [property: Description("Фильтр по статусам резерваций.")]
+    ReservationStatus[] Statuses,
+    [property: Description("Фильтр по времени начала бронирования (включительно).")]
+    DateTime AfterDate,
+    [property: Description("Фильтр по времени окончания бронирования (включительно).")]
+    DateTime BeforeDate,
     int Offset = 0,
     int Limit = 10
 );
