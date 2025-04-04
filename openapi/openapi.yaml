@@ -1038,6 +1038,13 @@ components:
           nullable: true
         calendarSettings:
           $ref: '#/components/schemas/CalendarSettingsDto'
+        adminIds:
+          type: array
+          items:
+            type: string
+            format: uuid
+          description: ID администраторов локации.
+          nullable: true
       additionalProperties: false
     LocationDtoPaginatedResponse:
       type: object

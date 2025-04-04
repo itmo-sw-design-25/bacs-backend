@@ -21,7 +21,8 @@ public class MapsterEntitiesConfig : IRegister
             .Map(dest => dest.Description, src => src.Description)
             .Map(dest => dest.Address, src => src.Address)
             .Map(dest => dest.ImageUrl, src => src.ImageUrl)
-            .Map(dest => dest.CalendarSettings, src => src.CalendarSettings);
+            .Map(dest => dest.CalendarSettings, src => src.CalendarSettings)
+            .Map(dest => dest.AdminIds, src => src.Admins.Select(x => x.Id));
 
         config
             .NewConfig<Reservation, ReservationDto>()
