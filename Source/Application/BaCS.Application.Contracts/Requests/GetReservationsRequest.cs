@@ -29,5 +29,6 @@ public class GetReservationsRequestValidator : AbstractValidator<GetReservations
     {
         RuleFor(x => x.Offset).GreaterThanOrEqualTo(0);
         RuleFor(x => x.Limit).InclusiveBetween(0, 100);
+        RuleForEach(x => x.Statuses).IsInEnum().When(x => x.Statuses is { Length: > 0 });
     }
 }
