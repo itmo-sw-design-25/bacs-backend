@@ -19,6 +19,7 @@ public static class GetLocationQuery
             var location = await dbContext
                                .Locations
                                .Include(x => x.Admins)
+                               .AsNoTracking()
                                .SingleOrDefaultAsync(x => x.Id == request.LocationId, cancellationToken)
                            ?? throw new EntityNotFoundException<Location>(request.LocationId);
 
