@@ -2,7 +2,7 @@ namespace BaCS.Application.Handlers.Locations.Queries;
 
 using Abstractions.Persistence;
 using Contracts.Dto;
-using Contracts.Responces;
+using Contracts.Responses;
 using Mapster;
 using MapsterMapper;
 using MediatR;

@@ -3,7 +3,7 @@ namespace BaCS.Presentation.API.Controllers;
 using System.ComponentModel;
 using Application.Contracts.Dto;
 using Application.Contracts.Requests;
-using Application.Contracts.Responces;
+using Application.Contracts.Responses;
 using Application.Handlers.Reservations.Commands;
 using Application.Handlers.Reservations.Queries;
 using MediatR;

@@ -2,7 +2,7 @@ namespace BaCS.Application.Handlers.Reservations.Queries;
 
 using Abstractions.Persistence;
 using Contracts.Dto;
-using Contracts.Responces;
+using Contracts.Responses;
 using Domain.Core.Enums;
 using Mapster;
 using MapsterMapper;

@@ -895,6 +895,7 @@ components:
       additionalProperties: false
     CreateResourceRequest:
       required:
+        - floor
         - locationId
         - name
         - type
@@ -913,6 +914,10 @@ components:
           type: string
           description: Описание ресурса.
           nullable: true
+        floor:
+          type: integer
+          description: 'Этаж, на котором расположен ресурс.'
+          format: int32
         equipment:
           type: array
           items:
@@ -1090,9 +1095,11 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/LocationDto'
+          description: Коллекция элементов.
           nullable: true
         totalCount:
           type: integer
+          description: Общее количество элементов в коллекции.
           format: int32
       additionalProperties: false
     ProblemDetails:
@@ -1158,9 +1165,11 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/ReservationDto'
+          description: Коллекция элементов.
           nullable: true
         totalCount:
           type: integer
+          description: Общее количество элементов в коллекции.
           format: int32
       additionalProperties: false
     ReservationStatus:
@@ -1211,9 +1220,11 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/ResourceDto'
+          description: Коллекция элементов.
           nullable: true
         totalCount:
           type: integer
+          description: Общее количество элементов в коллекции.
           format: int32
       additionalProperties: false
     ResourceType:
@@ -1273,6 +1284,7 @@ components:
       additionalProperties: false
     UpdateResourceRequest:
       required:
+        - floor
         - name
         - type
       type: object
@@ -1285,6 +1297,10 @@ components:
           type: string
           description: Описание ресурса.
           nullable: true
+        floor:
+          type: integer
+          description: 'Этаж, на котором расположен ресурс.'
+          format: int32
         equipment:
           type: array
           items:
@@ -1333,9 +1349,11 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/UserDto'
+          description: Коллекция элементов.
           nullable: true
         totalCount:
           type: integer
+          description: Общее количество элементов в коллекции.
           format: int32
       additionalProperties: false
   securitySchemes:
