@@ -15,6 +15,7 @@ public static class CreateResourceCommand
         Guid LocationId,
         string Name,
         string Description,
+        int Floor,
         string[] Equipment,
         ResourceType Type
     ) : IRequest<ResourceDto>;

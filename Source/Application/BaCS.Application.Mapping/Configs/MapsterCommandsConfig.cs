@@ -31,6 +31,7 @@ public class MapsterCommandsConfig : IRegister
             .Map(dest => dest.Name, src => src.Name)
             .Map(dest => dest.Type, src => src.Type)
             .Map(dest => dest.Description, src => src.Description)
+            .Map(dest => dest.Floor, src => src.Floor)
             .Map(dest => dest.Equipment, src => src.Equipment);
 
         config
