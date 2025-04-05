@@ -24,5 +24,6 @@ public class CreateResourceRequestValidator : AbstractValidator<CreateResourceRe
         RuleFor(x => x.LocationId).NotEmpty();
         RuleFor(x => x.Name).NotEmpty();
         RuleFor(x => x.Type).NotNull().IsInEnum();
+        RuleForEach(x => x.Equipment).NotEmpty().When(x => x.Equipment is { Length: > 0 });
     }
 }
