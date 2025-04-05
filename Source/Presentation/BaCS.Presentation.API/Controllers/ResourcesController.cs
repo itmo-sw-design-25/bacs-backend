@@ -92,6 +92,7 @@ public class ResourcesController(IMediator mediator) : ControllerBase
             resourceId,
             request.Name,
             request.Description,
+            request.Floor,
             request.Equipment,
             request.Type
         );

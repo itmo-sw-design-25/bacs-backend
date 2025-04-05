@@ -15,6 +15,7 @@ public static class UpdateResourceCommand
         Guid ResourceId,
         string Name,
         string Description,
+        int Floor,
         string[] Equipment,
         ResourceType Type
     ) : IRequest<ResourceDto>;
@@ -32,6 +33,7 @@ public static class UpdateResourceCommand
 
             resource.Name = request.Name;
             resource.Description = request.Description;
+            resource.Floor = request.Floor;
             resource.Equipment = request.Equipment;
             resource.Type = request.Type;
 
