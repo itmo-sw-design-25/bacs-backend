@@ -62,6 +62,7 @@ public class ReservationsController(IMediator mediator) : ControllerBase
     [Consumes("application/json")]
     [ProducesResponseType<ReservationDto>(StatusCodes.Status201Created, "application/json")]
     [ProducesResponseType<ProblemDetails>(StatusCodes.Status400BadRequest, "application/problem+json")]
+    [ProducesResponseType<ProblemDetails>(StatusCodes.Status404NotFound, "application/problem+json")]
     public async Task<IActionResult> CreateReservation(
         [FromBody] CreateReservationRequest request,
         CancellationToken cancellationToken
@@ -83,6 +84,7 @@ public class ReservationsController(IMediator mediator) : ControllerBase
     [Consumes("application/json")]
     [ProducesResponseType<ReservationDto>(StatusCodes.Status200OK, "application/json")]
     [ProducesResponseType<ProblemDetails>(StatusCodes.Status400BadRequest, "application/problem+json")]
+    [ProducesResponseType<ProblemDetails>(StatusCodes.Status403Forbidden, "application/problem+json")]
     [ProducesResponseType<ProblemDetails>(StatusCodes.Status404NotFound, "application/problem+json")]
     public async Task<IActionResult> UpdateReservation(
         [Description("ID резервации.")] Guid reservationId,
@@ -99,6 +101,7 @@ public class ReservationsController(IMediator mediator) : ControllerBase
     [EndpointSummary("Отменить резервацию.")]
     [HttpPut("{reservationId:guid}/Cancel")]
     [ProducesResponseType(StatusCodes.Status204NoContent)]
+    [ProducesResponseType<ProblemDetails>(StatusCodes.Status403Forbidden, "application/problem+json")]
     [ProducesResponseType<ProblemDetails>(StatusCodes.Status404NotFound, "application/problem+json")]
     public async Task<IActionResult> CancelReservation(
         [Description("ID резервации.")] Guid reservationId,

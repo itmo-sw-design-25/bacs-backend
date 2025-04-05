@@ -53,6 +53,7 @@ public class LocationsController(IMediator mediator) : ControllerBase
     [Consumes("application/json")]
     [ProducesResponseType<LocationDto>(StatusCodes.Status201Created, "application/json")]
     [ProducesResponseType<ProblemDetails>(StatusCodes.Status400BadRequest, "application/problem+json")]
+    [ProducesResponseType<ProblemDetails>(StatusCodes.Status403Forbidden, "application/problem+json")]
     public async Task<IActionResult> CreateLocation(
         [FromBody] CreateLocationRequest request,
         CancellationToken cancellationToken
@@ -75,6 +76,8 @@ public class LocationsController(IMediator mediator) : ControllerBase
     [Consumes("application/json")]
     [ProducesResponseType<LocationDto>(StatusCodes.Status200OK, "application/json")]
     [ProducesResponseType<ProblemDetails>(StatusCodes.Status400BadRequest, "application/problem+json")]
+    [ProducesResponseType<ProblemDetails>(StatusCodes.Status403Forbidden, "application/problem+json")]
+    [ProducesResponseType<ProblemDetails>(StatusCodes.Status404NotFound, "application/problem+json")]
     public async Task<IActionResult> UpdateLocation(
         [Description("ID локации.")] Guid locationId,
         [FromBody] UpdateLocationRequest request,
@@ -99,6 +102,8 @@ public class LocationsController(IMediator mediator) : ControllerBase
     [Consumes("multipart/form-data")]
     [ProducesResponseType<string>(StatusCodes.Status200OK, "application/json")]
     [ProducesResponseType<ProblemDetails>(StatusCodes.Status400BadRequest, "application/problem+json")]
+    [ProducesResponseType<ProblemDetails>(StatusCodes.Status403Forbidden, "application/problem+json")]
+    [ProducesResponseType<ProblemDetails>(StatusCodes.Status404NotFound, "application/problem+json")]
     public async Task<IActionResult> AddLocationImage(
         [Description("ID локации.")] Guid locationId,
         [Description("Фотография локации.")] IFormFile file,
@@ -125,6 +130,8 @@ public class LocationsController(IMediator mediator) : ControllerBase
     [HttpPut("{locationId:guid}/admins/{userId:guid}")]
     [ProducesResponseType(StatusCodes.Status204NoContent)]
     [ProducesResponseType<ProblemDetails>(StatusCodes.Status403Forbidden, "application/problem+json")]
+    [ProducesResponseType<ProblemDetails>(StatusCodes.Status403Forbidden, "application/problem+json")]
+    [ProducesResponseType<ProblemDetails>(StatusCodes.Status404NotFound, "application/problem+json")]
     public async Task<IActionResult> AddLocationAdmin(
         [Description("ID локации.")] Guid locationId,
         [Description("ID пользователя.")] Guid userId,
@@ -141,6 +148,8 @@ public class LocationsController(IMediator mediator) : ControllerBase
     [HttpDelete("{locationId:guid}/admins/{userId:guid}")]
     [ProducesResponseType(StatusCodes.Status204NoContent)]
     [ProducesResponseType<ProblemDetails>(StatusCodes.Status403Forbidden, "application/problem+json")]
+    [ProducesResponseType<ProblemDetails>(StatusCodes.Status403Forbidden, "application/problem+json")]
+    [ProducesResponseType<ProblemDetails>(StatusCodes.Status404NotFound, "application/problem+json")]
     public async Task<IActionResult> DeleteLocationAdmin(
         [Description("ID локации.")] Guid locationId,
         [Description("ID пользователя.")] Guid userId,
@@ -157,6 +166,8 @@ public class LocationsController(IMediator mediator) : ControllerBase
     [HttpDelete("{locationId:guid}/image")]
     [ProducesResponseType(StatusCodes.Status204NoContent)]
     [ProducesResponseType<ProblemDetails>(StatusCodes.Status400BadRequest, "application/problem+json")]
+    [ProducesResponseType<ProblemDetails>(StatusCodes.Status403Forbidden, "application/problem+json")]
+    [ProducesResponseType<ProblemDetails>(StatusCodes.Status404NotFound, "application/problem+json")]
     public async Task<IActionResult> DeleteLocationImage(
         [Description("ID локации.")] Guid locationId,
         CancellationToken cancellationToken
@@ -171,6 +182,8 @@ public class LocationsController(IMediator mediator) : ControllerBase
     [EndpointSummary("Удалить локацию.")]
     [HttpDelete("{locationId:guid}")]
     [ProducesResponseType(StatusCodes.Status204NoContent)]
+    [ProducesResponseType<ProblemDetails>(StatusCodes.Status400BadRequest, "application/problem+json")]
+    [ProducesResponseType<ProblemDetails>(StatusCodes.Status403Forbidden, "application/problem+json")]
     [ProducesResponseType<ProblemDetails>(StatusCodes.Status404NotFound, "application/problem+json")]
     public async Task<IActionResult> DeleteLocation(
         [Description("ID локации.")] Guid locationId,

@@ -49,6 +49,8 @@ public class UsersController(IMediator mediator) : ControllerBase
     [Consumes("application/json")]
     [ProducesResponseType<UserDto>(StatusCodes.Status200OK, "application/json")]
     [ProducesResponseType<ProblemDetails>(StatusCodes.Status400BadRequest, "application/problem+json")]
+    [ProducesResponseType<ProblemDetails>(StatusCodes.Status403Forbidden, "application/problem+json")]
+    [ProducesResponseType<ProblemDetails>(StatusCodes.Status404NotFound, "application/problem+json")]
     public async Task<IActionResult> UpdateUser(
         [Description("ID пользователя.")] Guid userId,
         [FromBody] UpdateUserRequest request,
@@ -64,6 +66,7 @@ public class UsersController(IMediator mediator) : ControllerBase
     [EndpointSummary("Удалить пользователя.")]
     [HttpDelete("{userId:guid}")]
     [ProducesResponseType(StatusCodes.Status204NoContent)]
+    [ProducesResponseType<ProblemDetails>(StatusCodes.Status403Forbidden, "application/problem+json")]
     [ProducesResponseType<ProblemDetails>(StatusCodes.Status404NotFound, "application/problem+json")]
     public async Task<IActionResult> DeleteUser(
         [Description("ID пользователя.")] Guid userId,

@@ -59,6 +59,7 @@ public class ResourcesController(IMediator mediator) : ControllerBase
     [Consumes("application/json")]
     [ProducesResponseType<ResourceDto>(StatusCodes.Status201Created, "application/json")]
     [ProducesResponseType<ProblemDetails>(StatusCodes.Status400BadRequest, "application/problem+json")]
+    [ProducesResponseType<ProblemDetails>(StatusCodes.Status403Forbidden, "application/problem+json")]
     public async Task<IActionResult> CreateResource(
         [FromBody] CreateResourceRequest request,
         CancellationToken cancellationToken
@@ -82,6 +83,8 @@ public class ResourcesController(IMediator mediator) : ControllerBase
     [Consumes("application/json")]
     [ProducesResponseType<ResourceDto>(StatusCodes.Status200OK, "application/json")]
     [ProducesResponseType<ProblemDetails>(StatusCodes.Status400BadRequest, "application/problem+json")]
+    [ProducesResponseType<ProblemDetails>(StatusCodes.Status403Forbidden, "application/problem+json")]
+    [ProducesResponseType<ProblemDetails>(StatusCodes.Status404NotFound, "application/problem+json")]
     public async Task<IActionResult> UpdateResource(
         [Description("ID ресурса.")] Guid resourceId,
         [FromBody] UpdateResourceRequest request,
@@ -106,6 +109,8 @@ public class ResourcesController(IMediator mediator) : ControllerBase
     [Consumes("multipart/form-data")]
     [ProducesResponseType<string>(StatusCodes.Status200OK, "application/json")]
     [ProducesResponseType<ProblemDetails>(StatusCodes.Status400BadRequest, "application/problem+json")]
+    [ProducesResponseType<ProblemDetails>(StatusCodes.Status403Forbidden, "application/problem+json")]
+    [ProducesResponseType<ProblemDetails>(StatusCodes.Status404NotFound, "application/problem+json")]
     public async Task<IActionResult> AddResourceImage(
         [Description("ID ресурса.")] Guid resourceId,
         [Description("Фотография ресурса.")] IFormFile file,
@@ -132,6 +137,8 @@ public class ResourcesController(IMediator mediator) : ControllerBase
     [HttpDelete("{resourceId:guid}/image")]
     [ProducesResponseType(StatusCodes.Status204NoContent)]
     [ProducesResponseType<ProblemDetails>(StatusCodes.Status400BadRequest, "application/problem+json")]
+    [ProducesResponseType<ProblemDetails>(StatusCodes.Status403Forbidden, "application/problem+json")]
+    [ProducesResponseType<ProblemDetails>(StatusCodes.Status404NotFound, "application/problem+json")]
     public async Task<IActionResult> DeleteResourceImage(
         [Description("ID ресурса.")] Guid resourceId,
         CancellationToken cancellationToken
@@ -146,7 +153,9 @@ public class ResourcesController(IMediator mediator) : ControllerBase
     [EndpointSummary("Удалить ресурс.")]
     [HttpDelete("{resourceId:guid}")]
     [ProducesResponseType(StatusCodes.Status204NoContent)]
+    [ProducesResponseType<ProblemDetails>(StatusCodes.Status400BadRequest, "application/problem+json")]
     [ProducesResponseType<ProblemDetails>(StatusCodes.Status404NotFound, "application/problem+json")]
+    [ProducesResponseType<ProblemDetails>(StatusCodes.Status403Forbidden, "application/problem+json")]
     public async Task<IActionResult> DeleteResource(
         [Description("ID ресурса.")] Guid resourceId,
         CancellationToken cancellationToken
