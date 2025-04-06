@@ -1,7 +1,7 @@
 namespace BaCS.Persistence.Minio.Services;
 
 using System.Net;
-using Application.Abstractions;
+using Application.Abstractions.Persistence;
 using Application.Contracts.Results;
 using Domain.Core.ValueObjects;
 using global::Minio;
@@ -81,9 +81,10 @@ public class MinioFileStorage(
     {
         await EnsureBucketExists(bucket, cancellationToken);
 
+        var imagePrefix = $"{_minioOptions.ProxyUrl}/{bucket}/";
         var removeObjectArgs = new RemoveObjectArgs()
             .WithBucket(bucket)
-            .WithObject(fileName);
+            .WithObject(fileName[imagePrefix.Length..]);
 
         try
         {

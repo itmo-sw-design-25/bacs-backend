@@ -4,7 +4,7 @@
     <DataCollectors>
       <DataCollector friendlyName="XPlat code coverage">
         <Configuration>
-          <Exclude>[*.Tests?]*</Exclude> <!-- [Assembly-Filter]Type-Filter -->
+          <Exclude>[*.Tests?]*,[*.Abstractions?]*</Exclude> <!-- [Assembly-Filter]Type-Filter -->
           <ExcludeByFile>**/Migrations/*.cs,**/Program.cs,**/appsettings*.json</ExcludeByFile> <!-- Globbing filter -->
           <ExcludeByAttribute>GeneratedCodeAttribute,CompilerGeneratedAttribute</ExcludeByAttribute>
           <SkipAutoProps>true</SkipAutoProps>

@@ -1,7 +1,7 @@
 using BaCS.Infrastructure.Observability.HealthChecks;
 using BaCS.Infrastructure.Observability.Logging;
 using BaCS.Infrastructure.Observability.OpenTelemetry;
-using BaCS.Persistence.PostgreSQL.Extensions;
+using BaCS.Persistence.PostgreSQL;
 using BaCS.Presentation.API.Extensions;
 using Prometheus;
 using Serilog;
@@ -13,8 +13,7 @@ var configuration = builder.Configuration;
 builder.Host.UseSerilogLogging();
 
 builder.Services.AddControllers();
-builder.Services.AddApplicationServices(configuration);
-
+builder.Services.AddApplication(configuration);
 builder.Services.AddOpenApi(configuration);
 
 // Observability
@@ -29,10 +28,12 @@ var app = builder.Build();
 
 app
     .UseOpenApi(configuration)
+    .WithOpenApiDocument("openapi")
     .UseHttpMetrics()
     .UseSerilogRequestLogging();
 
 app
+    .UseStatusCodePages()
     .UseExceptionHandler(_ => { })
     .UsePathBase("/api")
     .UseRouting()

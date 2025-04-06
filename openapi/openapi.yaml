@@ -1,0 +1,2052 @@
+openapi: 3.0.1
+info:
+  title: BaCS API
+  description: API сервиса по бронированию рабочих мест в коворкингах BaCS.
+  version: v1
+paths:
+  /locations:
+    get:
+      tags:
+        - Locations
+      summary: Получить список локаций.
+      parameters:
+        - name: ids
+          in: query
+          description: Фильтр по ID резерваций.
+          schema:
+            type: array
+            items:
+              type: string
+              format: uuid
+            description: Фильтр по ID резерваций.
+            nullable: true
+        - name: offset
+          in: query
+          schema:
+            minimum: 0
+            type: integer
+            format: int32
+        - name: limit
+          in: query
+          schema:
+            maximum: 100
+            minimum: 0
+            type: integer
+            format: int32
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/LocationDtoPaginatedResponse'
+        '400':
+          description: Bad Request
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ProblemDetails'
+              examples:
+                Bad Request:
+                  description: Bad Request
+                  value:
+                    type: https://tools.ietf.org/html/rfc7231#section-6.5.1
+                    title: Bad Request
+                    status: 400
+                    instance: GET /locations
+                    errors:
+                      Ids:
+                        - The 'Ids' field is not valid
+                      Offset:
+                        - The 'Offset' field is not valid
+                      Limit:
+                        - The 'Limit' field is not valid
+    post:
+      tags:
+        - Locations
+      summary: Создать локацию.
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateLocationRequest'
+      responses:
+        '201':
+          description: Created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/LocationDto'
+        '400':
+          description: Bad Request
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ProblemDetails'
+              examples:
+                Bad Request:
+                  description: Bad Request
+                  value:
+                    type: https://tools.ietf.org/html/rfc7231#section-6.5.1
+                    title: Bad Request
+                    status: 400
+                    instance: POST /locations
+                    errors:
+                      Name:
+                        - The 'Name' field is not valid
+                      Address:
+                        - The 'Address' field is not valid
+                      Description:
+                        - The 'Description' field is not valid
+                      CalendarSettings:
+                        - The 'CalendarSettings' field is not valid
+        '403':
+          description: Forbidden
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ProblemDetails'
+              examples:
+                Forbidden:
+                  description: Forbidden
+                  value:
+                    type: https://tools.ietf.org/html/rfc7231#section-6.5.3
+                    title: Forbidden
+                    status: 403
+                    instance: POST /locations
+  '/locations/{locationId}':
+    get:
+      tags:
+        - Locations
+      summary: Получить локацию по ID.
+      parameters:
+        - name: locationId
+          in: path
+          description: ID локации.
+          required: true
+          schema:
+            type: string
+            description: ID локации.
+            format: uuid
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/LocationDto'
+        '404':
+          description: Not Found
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ProblemDetails'
+              examples:
+                Not Found:
+                  description: Not Found
+                  value:
+                    type: https://tools.ietf.org/html/rfc7231#section-6.5.4
+                    title: Not Found
+                    status: 404
+                    instance: 'GET /locations/{locationId}'
+    put:
+      tags:
+        - Locations
+      summary: Обновить локацию.
+      parameters:
+        - name: locationId
+          in: path
+          description: ID локации.
+          required: true
+          schema:
+            type: string
+            description: ID локации.
+            format: uuid
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdateLocationRequest'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/LocationDto'
+        '400':
+          description: Bad Request
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ProblemDetails'
+              examples:
+                Bad Request:
+                  description: Bad Request
+                  value:
+                    type: https://tools.ietf.org/html/rfc7231#section-6.5.1
+                    title: Bad Request
+                    status: 400
+                    instance: 'PUT /locations/{locationId}'
+                    errors:
+                      Name:
+                        - The 'Name' field is not valid
+                      Address:
+                        - The 'Address' field is not valid
+                      Description:
+                        - The 'Description' field is not valid
+                      CalendarSettings:
+                        - The 'CalendarSettings' field is not valid
+        '403':
+          description: Forbidden
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ProblemDetails'
+              examples:
+                Forbidden:
+                  description: Forbidden
+                  value:
+                    type: https://tools.ietf.org/html/rfc7231#section-6.5.3
+                    title: Forbidden
+                    status: 403
+                    instance: 'PUT /locations/{locationId}'
+        '404':
+          description: Not Found
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ProblemDetails'
+              examples:
+                Not Found:
+                  description: Not Found
+                  value:
+                    type: https://tools.ietf.org/html/rfc7231#section-6.5.4
+                    title: Not Found
+                    status: 404
+                    instance: 'PUT /locations/{locationId}'
+    delete:
+      tags:
+        - Locations
+      summary: Удалить локацию.
+      parameters:
+        - name: locationId
+          in: path
+          description: ID локации.
+          required: true
+          schema:
+            type: string
+            description: ID локации.
+            format: uuid
+      responses:
+        '204':
+          description: No Content
+        '400':
+          description: Bad Request
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ProblemDetails'
+              examples:
+                Bad Request:
+                  description: Bad Request
+                  value:
+                    type: https://tools.ietf.org/html/rfc7231#section-6.5.1
+                    title: Bad Request
+                    status: 400
+                    instance: 'DELETE /locations/{locationId}'
+        '403':
+          description: Forbidden
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ProblemDetails'
+              examples:
+                Forbidden:
+                  description: Forbidden
+                  value:
+                    type: https://tools.ietf.org/html/rfc7231#section-6.5.3
+                    title: Forbidden
+                    status: 403
+                    instance: 'DELETE /locations/{locationId}'
+        '404':
+          description: Not Found
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ProblemDetails'
+              examples:
+                Not Found:
+                  description: Not Found
+                  value:
+                    type: https://tools.ietf.org/html/rfc7231#section-6.5.4
+                    title: Not Found
+                    status: 404
+                    instance: 'DELETE /locations/{locationId}'
+  '/locations/{locationId}/image':
+    put:
+      tags:
+        - Locations
+      summary: Загрузить фотографию локации.
+      parameters:
+        - name: locationId
+          in: path
+          description: ID локации.
+          required: true
+          schema:
+            type: string
+            description: ID локации.
+            format: uuid
+      requestBody:
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                file:
+                  type: string
+                  description: Фотография локации.
+                  format: binary
+            encoding:
+              file:
+                style: form
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: string
+        '400':
+          description: Bad Request
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ProblemDetails'
+              examples:
+                Bad Request:
+                  description: Bad Request
+                  value:
+                    type: https://tools.ietf.org/html/rfc7231#section-6.5.1
+                    title: Bad Request
+                    status: 400
+                    instance: 'PUT /locations/{locationId}/image'
+                    errors:
+                      file:
+                        - The 'file' field is not valid
+        '403':
+          description: Forbidden
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ProblemDetails'
+              examples:
+                Forbidden:
+                  description: Forbidden
+                  value:
+                    type: https://tools.ietf.org/html/rfc7231#section-6.5.3
+                    title: Forbidden
+                    status: 403
+                    instance: 'PUT /locations/{locationId}/image'
+        '404':
+          description: Not Found
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ProblemDetails'
+              examples:
+                Not Found:
+                  description: Not Found
+                  value:
+                    type: https://tools.ietf.org/html/rfc7231#section-6.5.4
+                    title: Not Found
+                    status: 404
+                    instance: 'PUT /locations/{locationId}/image'
+    delete:
+      tags:
+        - Locations
+      summary: Удалить фотографию локации.
+      parameters:
+        - name: locationId
+          in: path
+          description: ID локации.
+          required: true
+          schema:
+            type: string
+            description: ID локации.
+            format: uuid
+      responses:
+        '204':
+          description: No Content
+        '400':
+          description: Bad Request
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ProblemDetails'
+              examples:
+                Bad Request:
+                  description: Bad Request
+                  value:
+                    type: https://tools.ietf.org/html/rfc7231#section-6.5.1
+                    title: Bad Request
+                    status: 400
+                    instance: 'DELETE /locations/{locationId}/image'
+        '403':
+          description: Forbidden
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ProblemDetails'
+              examples:
+                Forbidden:
+                  description: Forbidden
+                  value:
+                    type: https://tools.ietf.org/html/rfc7231#section-6.5.3
+                    title: Forbidden
+                    status: 403
+                    instance: 'DELETE /locations/{locationId}/image'
+        '404':
+          description: Not Found
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ProblemDetails'
+              examples:
+                Not Found:
+                  description: Not Found
+                  value:
+                    type: https://tools.ietf.org/html/rfc7231#section-6.5.4
+                    title: Not Found
+                    status: 404
+                    instance: 'DELETE /locations/{locationId}/image'
+  '/locations/{locationId}/admins/{userId}':
+    put:
+      tags:
+        - Locations
+      summary: Добавить администратора локации.
+      parameters:
+        - name: locationId
+          in: path
+          description: ID локации.
+          required: true
+          schema:
+            type: string
+            description: ID локации.
+            format: uuid
+        - name: userId
+          in: path
+          description: ID пользователя.
+          required: true
+          schema:
+            type: string
+            description: ID пользователя.
+            format: uuid
+      responses:
+        '204':
+          description: No Content
+        '403':
+          description: Forbidden
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ProblemDetails'
+              examples:
+                Forbidden:
+                  description: Forbidden
+                  value:
+                    type: https://tools.ietf.org/html/rfc7231#section-6.5.3
+                    title: Forbidden
+                    status: 403
+                    instance: 'PUT /locations/{locationId}/admins/{userId}'
+        '404':
+          description: Not Found
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ProblemDetails'
+              examples:
+                Not Found:
+                  description: Not Found
+                  value:
+                    type: https://tools.ietf.org/html/rfc7231#section-6.5.4
+                    title: Not Found
+                    status: 404
+                    instance: 'PUT /locations/{locationId}/admins/{userId}'
+    delete:
+      tags:
+        - Locations
+      summary: Удалить администратора локации.
+      parameters:
+        - name: locationId
+          in: path
+          description: ID локации.
+          required: true
+          schema:
+            type: string
+            description: ID локации.
+            format: uuid
+        - name: userId
+          in: path
+          description: ID пользователя.
+          required: true
+          schema:
+            type: string
+            description: ID пользователя.
+            format: uuid
+      responses:
+        '204':
+          description: No Content
+        '403':
+          description: Forbidden
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ProblemDetails'
+              examples:
+                Forbidden:
+                  description: Forbidden
+                  value:
+                    type: https://tools.ietf.org/html/rfc7231#section-6.5.3
+                    title: Forbidden
+                    status: 403
+                    instance: 'DELETE /locations/{locationId}/admins/{userId}'
+        '404':
+          description: Not Found
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ProblemDetails'
+              examples:
+                Not Found:
+                  description: Not Found
+                  value:
+                    type: https://tools.ietf.org/html/rfc7231#section-6.5.4
+                    title: Not Found
+                    status: 404
+                    instance: 'DELETE /locations/{locationId}/admins/{userId}'
+  /reservations:
+    get:
+      tags:
+        - Reservations
+      summary: Получить список резерваций.
+      parameters:
+        - name: ids
+          in: query
+          description: Фильтр по ID резерваций.
+          schema:
+            type: array
+            items:
+              type: string
+              format: uuid
+            description: Фильтр по ID резерваций.
+            nullable: true
+        - name: userIds
+          in: query
+          description: Фильтр по ID пользователей.
+          schema:
+            type: array
+            items:
+              type: string
+              format: uuid
+            description: Фильтр по ID пользователей.
+            nullable: true
+        - name: locationIds
+          in: query
+          description: Фильтр по ID локаций.
+          schema:
+            type: array
+            items:
+              type: string
+              format: uuid
+            description: Фильтр по ID локаций.
+            nullable: true
+        - name: resourceIds
+          in: query
+          description: Фильтр по ID ресурсов.
+          schema:
+            type: array
+            items:
+              type: string
+              format: uuid
+            description: Фильтр по ID ресурсов.
+            nullable: true
+        - name: statuses
+          in: query
+          description: Фильтр по статусам резерваций.
+          schema:
+            type: array
+            items:
+              $ref: '#/components/schemas/ReservationStatus'
+            description: Фильтр по статусам резерваций.
+            nullable: true
+        - name: afterDate
+          in: query
+          description: Фильтр по времени начала бронирования (включительно).
+          schema:
+            type: string
+            description: Фильтр по времени начала бронирования (включительно).
+            format: date-time
+        - name: beforeDate
+          in: query
+          description: Фильтр по времени окончания бронирования (включительно).
+          schema:
+            type: string
+            description: Фильтр по времени окончания бронирования (включительно).
+            format: date-time
+        - name: offset
+          in: query
+          schema:
+            minimum: 0
+            type: integer
+            format: int32
+        - name: limit
+          in: query
+          schema:
+            maximum: 100
+            minimum: 0
+            type: integer
+            format: int32
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ReservationDtoPaginatedResponse'
+        '400':
+          description: Bad Request
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ProblemDetails'
+              examples:
+                Bad Request:
+                  description: Bad Request
+                  value:
+                    type: https://tools.ietf.org/html/rfc7231#section-6.5.1
+                    title: Bad Request
+                    status: 400
+                    instance: GET /reservations
+                    errors:
+                      Ids:
+                        - The 'Ids' field is not valid
+                      UserIds:
+                        - The 'UserIds' field is not valid
+                      LocationIds:
+                        - The 'LocationIds' field is not valid
+                      ResourceIds:
+                        - The 'ResourceIds' field is not valid
+                      Statuses:
+                        - The 'Statuses' field is not valid
+                      AfterDate:
+                        - The 'AfterDate' field is not valid
+                      BeforeDate:
+                        - The 'BeforeDate' field is not valid
+                      Offset:
+                        - The 'Offset' field is not valid
+                      Limit:
+                        - The 'Limit' field is not valid
+    post:
+      tags:
+        - Reservations
+      summary: Создать резервацию.
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateReservationRequest'
+      responses:
+        '201':
+          description: Created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ReservationDto'
+        '400':
+          description: Bad Request
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ProblemDetails'
+              examples:
+                Bad Request:
+                  description: Bad Request
+                  value:
+                    type: https://tools.ietf.org/html/rfc7231#section-6.5.1
+                    title: Bad Request
+                    status: 400
+                    instance: POST /reservations
+                    errors:
+                      ResourceId:
+                        - The 'ResourceId' field is not valid
+                      LocationId:
+                        - The 'LocationId' field is not valid
+                      From:
+                        - The 'From' field is not valid
+                      To:
+                        - The 'To' field is not valid
+        '404':
+          description: Not Found
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ProblemDetails'
+              examples:
+                Not Found:
+                  description: Not Found
+                  value:
+                    type: https://tools.ietf.org/html/rfc7231#section-6.5.4
+                    title: Not Found
+                    status: 404
+                    instance: POST /reservations
+  '/reservations/{reservationId}':
+    get:
+      tags:
+        - Reservations
+      summary: Получить резервацию по ID.
+      parameters:
+        - name: reservationId
+          in: path
+          description: ID резервации.
+          required: true
+          schema:
+            type: string
+            description: ID резервации.
+            format: uuid
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ReservationDto'
+        '404':
+          description: Not Found
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ProblemDetails'
+              examples:
+                Not Found:
+                  description: Not Found
+                  value:
+                    type: https://tools.ietf.org/html/rfc7231#section-6.5.4
+                    title: Not Found
+                    status: 404
+                    instance: 'GET /reservations/{reservationId}'
+    put:
+      tags:
+        - Reservations
+      summary: Обновить резервацию.
+      parameters:
+        - name: reservationId
+          in: path
+          description: ID резервации.
+          required: true
+          schema:
+            type: string
+            description: ID резервации.
+            format: uuid
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdateReservationRequest'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ReservationDto'
+        '400':
+          description: Bad Request
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ProblemDetails'
+              examples:
+                Bad Request:
+                  description: Bad Request
+                  value:
+                    type: https://tools.ietf.org/html/rfc7231#section-6.5.1
+                    title: Bad Request
+                    status: 400
+                    instance: 'PUT /reservations/{reservationId}'
+                    errors:
+                      From:
+                        - The 'From' field is not valid
+                      To:
+                        - The 'To' field is not valid
+        '403':
+          description: Forbidden
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ProblemDetails'
+              examples:
+                Forbidden:
+                  description: Forbidden
+                  value:
+                    type: https://tools.ietf.org/html/rfc7231#section-6.5.3
+                    title: Forbidden
+                    status: 403
+                    instance: 'PUT /reservations/{reservationId}'
+        '404':
+          description: Not Found
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ProblemDetails'
+              examples:
+                Not Found:
+                  description: Not Found
+                  value:
+                    type: https://tools.ietf.org/html/rfc7231#section-6.5.4
+                    title: Not Found
+                    status: 404
+                    instance: 'PUT /reservations/{reservationId}'
+  '/reservations/{reservationId}/Cancel':
+    put:
+      tags:
+        - Reservations
+      summary: Отменить резервацию.
+      parameters:
+        - name: reservationId
+          in: path
+          description: ID резервации.
+          required: true
+          schema:
+            type: string
+            description: ID резервации.
+            format: uuid
+      responses:
+        '204':
+          description: No Content
+        '403':
+          description: Forbidden
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ProblemDetails'
+              examples:
+                Forbidden:
+                  description: Forbidden
+                  value:
+                    type: https://tools.ietf.org/html/rfc7231#section-6.5.3
+                    title: Forbidden
+                    status: 403
+                    instance: 'PUT /reservations/{reservationId}/Cancel'
+        '404':
+          description: Not Found
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ProblemDetails'
+              examples:
+                Not Found:
+                  description: Not Found
+                  value:
+                    type: https://tools.ietf.org/html/rfc7231#section-6.5.4
+                    title: Not Found
+                    status: 404
+                    instance: 'PUT /reservations/{reservationId}/Cancel'
+  /resources:
+    get:
+      tags:
+        - Resources
+      summary: Получить список ресурсов.
+      parameters:
+        - name: ids
+          in: query
+          description: Фильтр по ID ресурсов.
+          schema:
+            type: array
+            items:
+              type: string
+              format: uuid
+            description: Фильтр по ID ресурсов.
+            nullable: true
+        - name: locationIds
+          in: query
+          description: Фильтр по ID локаций.
+          schema:
+            type: array
+            items:
+              type: string
+              format: uuid
+            description: Фильтр по ID локаций.
+            nullable: true
+        - name: types
+          in: query
+          description: Фильтр по типам ресурсов.
+          schema:
+            type: array
+            items:
+              $ref: '#/components/schemas/ResourceType'
+            description: Фильтр по типам ресурсов.
+            nullable: true
+        - name: offset
+          in: query
+          schema:
+            minimum: 0
+            type: integer
+            format: int32
+        - name: limit
+          in: query
+          schema:
+            maximum: 100
+            minimum: 0
+            type: integer
+            format: int32
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ResourceDtoPaginatedResponse'
+        '400':
+          description: Bad Request
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ProblemDetails'
+              examples:
+                Bad Request:
+                  description: Bad Request
+                  value:
+                    type: https://tools.ietf.org/html/rfc7231#section-6.5.1
+                    title: Bad Request
+                    status: 400
+                    instance: GET /resources
+                    errors:
+                      Ids:
+                        - The 'Ids' field is not valid
+                      LocationIds:
+                        - The 'LocationIds' field is not valid
+                      Types:
+                        - The 'Types' field is not valid
+                      Offset:
+                        - The 'Offset' field is not valid
+                      Limit:
+                        - The 'Limit' field is not valid
+    post:
+      tags:
+        - Resources
+      summary: Создать ресурс.
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateResourceRequest'
+      responses:
+        '201':
+          description: Created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ResourceDto'
+        '400':
+          description: Bad Request
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ProblemDetails'
+              examples:
+                Bad Request:
+                  description: Bad Request
+                  value:
+                    type: https://tools.ietf.org/html/rfc7231#section-6.5.1
+                    title: Bad Request
+                    status: 400
+                    instance: POST /resources
+                    errors:
+                      LocationId:
+                        - The 'LocationId' field is not valid
+                      Name:
+                        - The 'Name' field is not valid
+                      Description:
+                        - The 'Description' field is not valid
+                      Floor:
+                        - The 'Floor' field is not valid
+                      Equipment:
+                        - The 'Equipment' field is not valid
+                      Type:
+                        - The 'Type' field is not valid
+        '403':
+          description: Forbidden
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ProblemDetails'
+              examples:
+                Forbidden:
+                  description: Forbidden
+                  value:
+                    type: https://tools.ietf.org/html/rfc7231#section-6.5.3
+                    title: Forbidden
+                    status: 403
+                    instance: POST /resources
+  '/resources/{resourceId}':
+    get:
+      tags:
+        - Resources
+      summary: Получить ресурс по ID.
+      parameters:
+        - name: resourceId
+          in: path
+          description: ID ресурса.
+          required: true
+          schema:
+            type: string
+            description: ID ресурса.
+            format: uuid
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ResourceDto'
+        '404':
+          description: Not Found
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ProblemDetails'
+              examples:
+                Not Found:
+                  description: Not Found
+                  value:
+                    type: https://tools.ietf.org/html/rfc7231#section-6.5.4
+                    title: Not Found
+                    status: 404
+                    instance: 'GET /resources/{resourceId}'
+    put:
+      tags:
+        - Resources
+      summary: Обновить ресурс.
+      parameters:
+        - name: resourceId
+          in: path
+          description: ID ресурса.
+          required: true
+          schema:
+            type: string
+            description: ID ресурса.
+            format: uuid
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdateResourceRequest'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ResourceDto'
+        '400':
+          description: Bad Request
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ProblemDetails'
+              examples:
+                Bad Request:
+                  description: Bad Request
+                  value:
+                    type: https://tools.ietf.org/html/rfc7231#section-6.5.1
+                    title: Bad Request
+                    status: 400
+                    instance: 'PUT /resources/{resourceId}'
+                    errors:
+                      Name:
+                        - The 'Name' field is not valid
+                      Description:
+                        - The 'Description' field is not valid
+                      Floor:
+                        - The 'Floor' field is not valid
+                      Equipment:
+                        - The 'Equipment' field is not valid
+                      Type:
+                        - The 'Type' field is not valid
+        '403':
+          description: Forbidden
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ProblemDetails'
+              examples:
+                Forbidden:
+                  description: Forbidden
+                  value:
+                    type: https://tools.ietf.org/html/rfc7231#section-6.5.3
+                    title: Forbidden
+                    status: 403
+                    instance: 'PUT /resources/{resourceId}'
+        '404':
+          description: Not Found
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ProblemDetails'
+              examples:
+                Not Found:
+                  description: Not Found
+                  value:
+                    type: https://tools.ietf.org/html/rfc7231#section-6.5.4
+                    title: Not Found
+                    status: 404
+                    instance: 'PUT /resources/{resourceId}'
+    delete:
+      tags:
+        - Resources
+      summary: Удалить ресурс.
+      parameters:
+        - name: resourceId
+          in: path
+          description: ID ресурса.
+          required: true
+          schema:
+            type: string
+            description: ID ресурса.
+            format: uuid
+      responses:
+        '204':
+          description: No Content
+        '400':
+          description: Bad Request
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ProblemDetails'
+              examples:
+                Bad Request:
+                  description: Bad Request
+                  value:
+                    type: https://tools.ietf.org/html/rfc7231#section-6.5.1
+                    title: Bad Request
+                    status: 400
+                    instance: 'DELETE /resources/{resourceId}'
+        '404':
+          description: Not Found
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ProblemDetails'
+              examples:
+                Not Found:
+                  description: Not Found
+                  value:
+                    type: https://tools.ietf.org/html/rfc7231#section-6.5.4
+                    title: Not Found
+                    status: 404
+                    instance: 'DELETE /resources/{resourceId}'
+        '403':
+          description: Forbidden
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ProblemDetails'
+              examples:
+                Forbidden:
+                  description: Forbidden
+                  value:
+                    type: https://tools.ietf.org/html/rfc7231#section-6.5.3
+                    title: Forbidden
+                    status: 403
+                    instance: 'DELETE /resources/{resourceId}'
+  '/resources/{resourceId}/image':
+    put:
+      tags:
+        - Resources
+      summary: Загрузить фотографию ресурса.
+      parameters:
+        - name: resourceId
+          in: path
+          description: ID ресурса.
+          required: true
+          schema:
+            type: string
+            description: ID ресурса.
+            format: uuid
+      requestBody:
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                file:
+                  type: string
+                  description: Фотография ресурса.
+                  format: binary
+            encoding:
+              file:
+                style: form
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: string
+        '400':
+          description: Bad Request
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ProblemDetails'
+              examples:
+                Bad Request:
+                  description: Bad Request
+                  value:
+                    type: https://tools.ietf.org/html/rfc7231#section-6.5.1
+                    title: Bad Request
+                    status: 400
+                    instance: 'PUT /resources/{resourceId}/image'
+                    errors:
+                      file:
+                        - The 'file' field is not valid
+        '403':
+          description: Forbidden
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ProblemDetails'
+              examples:
+                Forbidden:
+                  description: Forbidden
+                  value:
+                    type: https://tools.ietf.org/html/rfc7231#section-6.5.3
+                    title: Forbidden
+                    status: 403
+                    instance: 'PUT /resources/{resourceId}/image'
+        '404':
+          description: Not Found
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ProblemDetails'
+              examples:
+                Not Found:
+                  description: Not Found
+                  value:
+                    type: https://tools.ietf.org/html/rfc7231#section-6.5.4
+                    title: Not Found
+                    status: 404
+                    instance: 'PUT /resources/{resourceId}/image'
+    delete:
+      tags:
+        - Resources
+      summary: Удалить фотографию ресурса.
+      parameters:
+        - name: resourceId
+          in: path
+          description: ID ресурса.
+          required: true
+          schema:
+            type: string
+            description: ID ресурса.
+            format: uuid
+      responses:
+        '204':
+          description: No Content
+        '400':
+          description: Bad Request
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ProblemDetails'
+              examples:
+                Bad Request:
+                  description: Bad Request
+                  value:
+                    type: https://tools.ietf.org/html/rfc7231#section-6.5.1
+                    title: Bad Request
+                    status: 400
+                    instance: 'DELETE /resources/{resourceId}/image'
+        '403':
+          description: Forbidden
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ProblemDetails'
+              examples:
+                Forbidden:
+                  description: Forbidden
+                  value:
+                    type: https://tools.ietf.org/html/rfc7231#section-6.5.3
+                    title: Forbidden
+                    status: 403
+                    instance: 'DELETE /resources/{resourceId}/image'
+        '404':
+          description: Not Found
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ProblemDetails'
+              examples:
+                Not Found:
+                  description: Not Found
+                  value:
+                    type: https://tools.ietf.org/html/rfc7231#section-6.5.4
+                    title: Not Found
+                    status: 404
+                    instance: 'DELETE /resources/{resourceId}/image'
+  /users:
+    get:
+      tags:
+        - Users
+      summary: Получить список пользователей.
+      parameters:
+        - name: ids
+          in: query
+          description: Фильтр по ID пользователей.
+          schema:
+            type: array
+            items:
+              type: string
+              format: uuid
+            description: Фильтр по ID пользователей.
+            nullable: true
+        - name: offset
+          in: query
+          schema:
+            minimum: 0
+            type: integer
+            format: int32
+        - name: limit
+          in: query
+          schema:
+            maximum: 100
+            minimum: 0
+            type: integer
+            format: int32
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserDtoPaginatedResponse'
+        '400':
+          description: Bad Request
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ProblemDetails'
+              examples:
+                Bad Request:
+                  description: Bad Request
+                  value:
+                    type: https://tools.ietf.org/html/rfc7231#section-6.5.1
+                    title: Bad Request
+                    status: 400
+                    instance: GET /users
+                    errors:
+                      Ids:
+                        - The 'Ids' field is not valid
+                      Offset:
+                        - The 'Offset' field is not valid
+                      Limit:
+                        - The 'Limit' field is not valid
+  '/users/{userId}':
+    get:
+      tags:
+        - Users
+      summary: Получить пользователя по ID.
+      parameters:
+        - name: userId
+          in: path
+          description: ID пользователя.
+          required: true
+          schema:
+            type: string
+            description: ID пользователя.
+            format: uuid
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserDto'
+        '404':
+          description: Not Found
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ProblemDetails'
+              examples:
+                Not Found:
+                  description: Not Found
+                  value:
+                    type: https://tools.ietf.org/html/rfc7231#section-6.5.4
+                    title: Not Found
+                    status: 404
+                    instance: 'GET /users/{userId}'
+    put:
+      tags:
+        - Users
+      summary: Обновить пользователя.
+      parameters:
+        - name: userId
+          in: path
+          description: ID пользователя.
+          required: true
+          schema:
+            type: string
+            description: ID пользователя.
+            format: uuid
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdateUserRequest'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserDto'
+        '400':
+          description: Bad Request
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ProblemDetails'
+              examples:
+                Bad Request:
+                  description: Bad Request
+                  value:
+                    type: https://tools.ietf.org/html/rfc7231#section-6.5.1
+                    title: Bad Request
+                    status: 400
+                    instance: 'PUT /users/{userId}'
+                    errors:
+                      EnableEmailNotifications:
+                        - The 'EnableEmailNotifications' field is not valid
+        '403':
+          description: Forbidden
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ProblemDetails'
+              examples:
+                Forbidden:
+                  description: Forbidden
+                  value:
+                    type: https://tools.ietf.org/html/rfc7231#section-6.5.3
+                    title: Forbidden
+                    status: 403
+                    instance: 'PUT /users/{userId}'
+        '404':
+          description: Not Found
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ProblemDetails'
+              examples:
+                Not Found:
+                  description: Not Found
+                  value:
+                    type: https://tools.ietf.org/html/rfc7231#section-6.5.4
+                    title: Not Found
+                    status: 404
+                    instance: 'PUT /users/{userId}'
+    delete:
+      tags:
+        - Users
+      summary: Удалить пользователя.
+      parameters:
+        - name: userId
+          in: path
+          description: ID пользователя.
+          required: true
+          schema:
+            type: string
+            description: ID пользователя.
+            format: uuid
+      responses:
+        '204':
+          description: No Content
+        '403':
+          description: Forbidden
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ProblemDetails'
+              examples:
+                Forbidden:
+                  description: Forbidden
+                  value:
+                    type: https://tools.ietf.org/html/rfc7231#section-6.5.3
+                    title: Forbidden
+                    status: 403
+                    instance: 'DELETE /users/{userId}'
+        '404':
+          description: Not Found
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ProblemDetails'
+              examples:
+                Not Found:
+                  description: Not Found
+                  value:
+                    type: https://tools.ietf.org/html/rfc7231#section-6.5.4
+                    title: Not Found
+                    status: 404
+                    instance: 'DELETE /users/{userId}'
+components:
+  schemas:
+    CalendarSettingsDto:
+      type: object
+      properties:
+        availableFrom:
+          type: string
+          description: Время начала работы локации.
+          format: time
+        availableTo:
+          type: string
+          description: Время окончания работы локации.
+          format: time
+        availableDaysOfWeek:
+          type: array
+          items:
+            $ref: '#/components/schemas/RussianDayOfWeek'
+          description: Набор рабочих дней недели локации.
+          nullable: true
+      additionalProperties: false
+    CreateLocationRequest:
+      required:
+        - address
+        - calendarSettings
+        - name
+      type: object
+      properties:
+        name:
+          minLength: 1
+          type: string
+          description: Название локации.
+        address:
+          minLength: 1
+          type: string
+          description: Адресс локации.
+        description:
+          type: string
+          description: Описание локации.
+          nullable: true
+        calendarSettings:
+          $ref: '#/components/schemas/CalendarSettingsDto'
+      additionalProperties: false
+    CreateReservationRequest:
+      required:
+        - from
+        - locationId
+        - resourceId
+        - to
+      type: object
+      properties:
+        resourceId:
+          minLength: 1
+          type: string
+          description: ID ресурса для бронирования.
+          format: uuid
+        locationId:
+          minLength: 1
+          type: string
+          description: 'ID локации, в которой находится ресурс.'
+          format: uuid
+        from:
+          minLength: 1
+          type: string
+          description: Дата и время начала бронирования.
+          format: date-time
+        to:
+          minLength: 1
+          type: string
+          description: Дата и время окончания бронирования.
+          format: date-time
+      additionalProperties: false
+    CreateResourceRequest:
+      required:
+        - floor
+        - locationId
+        - name
+        - type
+      type: object
+      properties:
+        locationId:
+          minLength: 1
+          type: string
+          description: 'ID локации, в которой будет создан ресурс.'
+          format: uuid
+        name:
+          minLength: 1
+          type: string
+          description: Название ресурса.
+        description:
+          type: string
+          description: Описание ресурса.
+          nullable: true
+        floor:
+          type: integer
+          description: 'Этаж, на котором расположен ресурс.'
+          format: int32
+        equipment:
+          type: array
+          items:
+            type: string
+          description: 'Оборудование, прикреплённое к ресурсу.'
+          nullable: true
+        type:
+          $ref: '#/components/schemas/ResourceType'
+      additionalProperties: false
+    GetLocationsRequest:
+      type: object
+      properties:
+        ids:
+          type: array
+          items:
+            type: string
+            format: uuid
+          description: Фильтр по ID резерваций.
+          nullable: true
+        offset:
+          minimum: 0
+          type: integer
+          format: int32
+        limit:
+          maximum: 100
+          minimum: 0
+          type: integer
+          format: int32
+      additionalProperties: false
+    GetReservationsRequest:
+      type: object
+      properties:
+        ids:
+          type: array
+          items:
+            type: string
+            format: uuid
+          description: Фильтр по ID резерваций.
+          nullable: true
+        userIds:
+          type: array
+          items:
+            type: string
+            format: uuid
+          description: Фильтр по ID пользователей.
+          nullable: true
+        locationIds:
+          type: array
+          items:
+            type: string
+            format: uuid
+          description: Фильтр по ID локаций.
+          nullable: true
+        resourceIds:
+          type: array
+          items:
+            type: string
+            format: uuid
+          description: Фильтр по ID ресурсов.
+          nullable: true
+        statuses:
+          type: array
+          items:
+            $ref: '#/components/schemas/ReservationStatus'
+          description: Фильтр по статусам резерваций.
+          nullable: true
+        afterDate:
+          type: string
+          description: Фильтр по времени начала бронирования (включительно).
+          format: date-time
+        beforeDate:
+          type: string
+          description: Фильтр по времени окончания бронирования (включительно).
+          format: date-time
+        offset:
+          minimum: 0
+          type: integer
+          format: int32
+        limit:
+          maximum: 100
+          minimum: 0
+          type: integer
+          format: int32
+      additionalProperties: false
+    GetResourcesRequest:
+      type: object
+      properties:
+        ids:
+          type: array
+          items:
+            type: string
+            format: uuid
+          description: Фильтр по ID ресурсов.
+          nullable: true
+        locationIds:
+          type: array
+          items:
+            type: string
+            format: uuid
+          description: Фильтр по ID локаций.
+          nullable: true
+        types:
+          type: array
+          items:
+            $ref: '#/components/schemas/ResourceType'
+          description: Фильтр по типам ресурсов.
+          nullable: true
+        offset:
+          minimum: 0
+          type: integer
+          format: int32
+        limit:
+          maximum: 100
+          minimum: 0
+          type: integer
+          format: int32
+      additionalProperties: false
+    GetUsersRequest:
+      type: object
+      properties:
+        ids:
+          type: array
+          items:
+            type: string
+            format: uuid
+          description: Фильтр по ID пользователей.
+          nullable: true
+        offset:
+          minimum: 0
+          type: integer
+          format: int32
+        limit:
+          maximum: 100
+          minimum: 0
+          type: integer
+          format: int32
+      additionalProperties: false
+    LocationDto:
+      type: object
+      properties:
+        id:
+          type: string
+          description: ID локации.
+          format: uuid
+        name:
+          type: string
+          description: Название локации.
+          nullable: true
+        address:
+          type: string
+          description: Адрес локации.
+          nullable: true
+        description:
+          type: string
+          description: Описание локации.
+          nullable: true
+        imageUrl:
+          type: string
+          description: Ссылка на фотографию локации.
+          nullable: true
+        calendarSettings:
+          $ref: '#/components/schemas/CalendarSettingsDto'
+        adminIds:
+          type: array
+          items:
+            type: string
+            format: uuid
+          description: ID администраторов локации.
+          nullable: true
+      additionalProperties: false
+    LocationDtoPaginatedResponse:
+      type: object
+      properties:
+        collection:
+          type: array
+          items:
+            $ref: '#/components/schemas/LocationDto'
+          description: Коллекция элементов.
+          nullable: true
+        totalCount:
+          type: integer
+          description: Общее количество элементов в коллекции.
+          format: int32
+      additionalProperties: false
+    ProblemDetails:
+      type: object
+      properties:
+        type:
+          type: string
+          description: Тип ошибки.
+          nullable: true
+        title:
+          type: string
+          description: Краткое человеко-читаемое описание ошибки.
+          nullable: true
+        status:
+          type: integer
+          description: HTTP-статус код ошибки.
+          format: int32
+          nullable: true
+        detail:
+          type: string
+          description: Детальное человеко-читаемое описание ошибки.
+          nullable: true
+        instance:
+          type: string
+          description: 'URI, на котором произошла ошибка.'
+          nullable: true
+      additionalProperties: { }
+      description: 'Машино-читаемый формат ошибок API, в соответствии со стандартом <a href="https://www.rfc-editor.org/rfc/rfc9457">RFC 9457</a>.'
+    ReservationDto:
+      type: object
+      properties:
+        id:
+          type: string
+          description: ID резервации.
+          format: uuid
+        resourceId:
+          type: string
+          description: ID забронированного ресурса.
+          format: uuid
+        locationId:
+          type: string
+          description: 'ID локации, в которой забронирован ресурс.'
+          format: uuid
+        userId:
+          type: string
+          description: 'ID пользователя, забронировавшего ресурс.'
+          format: uuid
+        from:
+          type: string
+          description: Дата и время начала резервации.
+          format: date-time
+        to:
+          type: string
+          description: Дата и время окончания резервации.
+          format: date-time
+        status:
+          $ref: '#/components/schemas/ReservationStatus'
+      additionalProperties: false
+    ReservationDtoPaginatedResponse:
+      type: object
+      properties:
+        collection:
+          type: array
+          items:
+            $ref: '#/components/schemas/ReservationDto'
+          description: Коллекция элементов.
+          nullable: true
+        totalCount:
+          type: integer
+          description: Общее количество элементов в коллекции.
+          format: int32
+      additionalProperties: false
+    ReservationStatus:
+      enum:
+        - Created
+        - Cancelled
+      type: string
+    ResourceDto:
+      type: object
+      properties:
+        id:
+          type: string
+          description: ID ресурса.
+          format: uuid
+        locationId:
+          type: string
+          description: ID локации.
+          format: uuid
+        name:
+          type: string
+          description: Название ресурса.
+          nullable: true
+        description:
+          type: string
+          description: Описание ресурса.
+          nullable: true
+        floor:
+          type: integer
+          description: 'Этаж, на котором расположен ресурс.'
+          format: int32
+        equipment:
+          type: array
+          items:
+            type: string
+          description: 'Оборудование, прикреплённое к ресурсу.'
+          nullable: true
+        type:
+          $ref: '#/components/schemas/ResourceType'
+        imageUrl:
+          type: string
+          description: Ссылка на фотографию ресурса.
+          nullable: true
+      additionalProperties: false
+    ResourceDtoPaginatedResponse:
+      type: object
+      properties:
+        collection:
+          type: array
+          items:
+            $ref: '#/components/schemas/ResourceDto'
+          description: Коллекция элементов.
+          nullable: true
+        totalCount:
+          type: integer
+          description: Общее количество элементов в коллекции.
+          format: int32
+      additionalProperties: false
+    ResourceType:
+      enum:
+        - Unspecified
+        - MeetingRoom
+        - Workplace
+      type: string
+    RussianDayOfWeek:
+      enum:
+        - Monday
+        - Tuesday
+        - Wednesday
+        - Thursday
+        - Friday
+        - Saturday
+        - Sunday
+      type: string
+    UpdateLocationRequest:
+      required:
+        - address
+        - calendarSettings
+        - name
+      type: object
+      properties:
+        name:
+          minLength: 1
+          type: string
+          description: Название локации.
+        address:
+          minLength: 1
+          type: string
+          description: Адрес локации.
+        description:
+          type: string
+          description: Описание локации.
+          nullable: true
+        calendarSettings:
+          $ref: '#/components/schemas/CalendarSettingsDto'
+      additionalProperties: false
+    UpdateReservationRequest:
+      required:
+        - from
+        - to
+      type: object
+      properties:
+        from:
+          minLength: 1
+          type: string
+          description: Время начала резервации.
+          format: date-time
+        to:
+          minLength: 1
+          type: string
+          description: Время окончания резервации.
+          format: date-time
+      additionalProperties: false
+    UpdateResourceRequest:
+      required:
+        - floor
+        - name
+        - type
+      type: object
+      properties:
+        name:
+          minLength: 1
+          type: string
+          description: Название ресурса.
+        description:
+          type: string
+          description: Описание ресурса.
+          nullable: true
+        floor:
+          type: integer
+          description: 'Этаж, на котором расположен ресурс.'
+          format: int32
+        equipment:
+          type: array
+          items:
+            type: string
+          description: 'Оборудование, прикреплённое к ресурсу.'
+          nullable: true
+        type:
+          $ref: '#/components/schemas/ResourceType'
+      additionalProperties: false
+    UpdateUserRequest:
+      required:
+        - enableEmailNotifications
+      type: object
+      properties:
+        enableEmailNotifications:
+          type: boolean
+          description: Уведомлять о бронированиях по электронной почте.
+      additionalProperties: false
+    UserDto:
+      type: object
+      properties:
+        id:
+          type: string
+          description: ID пользователя.
+          format: uuid
+        email:
+          type: string
+          description: Email-адрес пользователя.
+          nullable: true
+        name:
+          type: string
+          description: ФИО пользователя.
+          nullable: true
+        imageUrl:
+          type: string
+          description: Ссылка на фотографию пользователя.
+          nullable: true
+        enableEmailNotifications:
+          type: boolean
+          description: Уведомлять о бронированиях по электронной почте.
+      additionalProperties: false
+    UserDtoPaginatedResponse:
+      type: object
+      properties:
+        collection:
+          type: array
+          items:
+            $ref: '#/components/schemas/UserDto'
+          description: Коллекция элементов.
+          nullable: true
+        totalCount:
+          type: integer
+          description: Общее количество элементов в коллекции.
+          format: int32
+      additionalProperties: false
+  securitySchemes:
+    Keycloak:
+      type: oauth2
+      description: Аутентификация через Keycloak
+      flows:
+        authorizationCode:
+          authorizationUrl: http://localhost:7080/keycloak/realms/bacs/protocol/openid-connect/auth
+          tokenUrl: http://localhost:7080/keycloak/realms/bacs/protocol/openid-connect/token
+          scopes:
+            bacs-api: 'Обязательный скоуп, необходимый для авторизации на BaCS API'
+          x-usePkce: SHA-256
+security:
+  - Keycloak: [ ]

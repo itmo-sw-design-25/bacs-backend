@@ -43,12 +43,15 @@ build:
     COVERAGE_FLAG: "XPlat Code Coverage"
     LOGGER_FLAG: "junit;LogFilePath=$CI_PROJECT_DIR/junit/junit-test-result.xml;MethodFormat=Class;FailureBodyFormat=Verbose"
   artifacts:
+    when: always
+    expire_in: 1 day
     reports:
       coverage_report:
         coverage_format: cobertura
         path: $CI_PROJECT_DIR/cobertura/*/coverage.cobertura.xml
       junit:
         - $CI_PROJECT_DIR/junit/junit-test-result.xml
+  coverage: /TOTAL_COVERAGE=(\d+.\d+)/
 
 unit tests:
   stage: test
@@ -60,6 +63,9 @@ unit tests:
     - cd $TESTS_PATH
     - dotnet restore
     - dotnet test --no-restore -c $CONFIGURATION --results-directory $CI_PROJECT_DIR/cobertura --collect:"$COVERAGE_FLAG" --test-adapter-path:. --logger:"$LOGGER_FLAG" --settings ../coverage.runsettings
+    - cd $CI_PROJECT_DIR
+    - chmod +x ./dotnet-coverage.sh
+    - ./dotnet-coverage.sh $CI_PROJECT_DIR/cobertura
   dependencies:
     - build
   rules:

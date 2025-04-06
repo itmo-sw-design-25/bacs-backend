@@ -1,3 +1,3 @@
 namespace BaCS.Application.Contracts;
 
-public interface IApplicationContractsAssemblyMarker { }
+public interface IApplicationContractsAssemblyMarker;

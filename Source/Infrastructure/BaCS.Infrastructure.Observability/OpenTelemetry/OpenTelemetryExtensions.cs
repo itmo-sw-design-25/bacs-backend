@@ -1,11 +1,11 @@
 namespace BaCS.Infrastructure.Observability.OpenTelemetry;
 
-using Options;
 using global::OpenTelemetry;
 using global::OpenTelemetry.Resources;
 using global::OpenTelemetry.Trace;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Options;
 
 public static class OpenTelemetryExtensions
 {
@@ -49,7 +49,15 @@ public static class OpenTelemetryExtensions
                         activity.SetTag("stackTrace", exception.StackTrace);
                 }
             )
-            .AddAspNetCoreInstrumentation(opt => opt.RecordException = true);
+            .AddAspNetCoreInstrumentation(
+                opt =>
+                {
+                    opt.RecordException = true;
+                    opt.Filter = context =>
+                        context.Request.Path.HasValue &&
+                        options.EndpointFilter.All(filter => context.Request.Path.Value.StartsWith(filter) is false);
+                }
+            );
 
     private static TracerProviderBuilder WithExporter(this TracerProviderBuilder tracing, TracingOptions options)
     {

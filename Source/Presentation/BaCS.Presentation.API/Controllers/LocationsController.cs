@@ -1,99 +1,198 @@
 namespace BaCS.Presentation.API.Controllers;
 
 using System.ComponentModel;
-using Application.Contracts.Commands;
 using Application.Contracts.Dto;
+using Application.Contracts.Requests;
+using Application.Contracts.Responses;
+using Application.Handlers.Locations.Commands;
+using Application.Handlers.Locations.Queries;
+using Domain.Core.ValueObjects;
+using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 [Authorize]
 [ApiController]
 [Route("locations")]
-public class LocationsController : ControllerBase
+public class LocationsController(IMediator mediator) : ControllerBase
 {
     [AllowAnonymous]
     [EndpointSummary("Получить список локаций.")]
     [HttpGet]
-    [ProducesResponseType<LocationDto[]>(StatusCodes.Status200OK, "application/json")]
-    public IActionResult GetLocations(CancellationToken cancellationToken) => Ok();
+    [ProducesResponseType<PaginatedResponse<LocationDto>>(StatusCodes.Status200OK, "application/json")]
+    [ProducesResponseType<ProblemDetails>(StatusCodes.Status400BadRequest, "application/problem+json")]
+    public async Task<IActionResult> GetLocations(
+        [FromQuery] GetLocationsRequest request,
+        CancellationToken cancellationToken
+    )
+    {
+        var query = new GetLocationsQuery.Query(request.Ids, request.Offset, request.Limit);
+        var result = await mediator.Send(query, cancellationToken);
+
+        return Ok(result);
+    }
 
     [AllowAnonymous]
     [EndpointSummary("Получить локацию по ID.")]
     [HttpGet("{locationId:guid}")]
     [ProducesResponseType<LocationDto>(StatusCodes.Status200OK, "application/json")]
     [ProducesResponseType<ProblemDetails>(StatusCodes.Status404NotFound, "application/problem+json")]
-    public IActionResult GetLocation(
+    public async Task<IActionResult> GetLocation(
         [Description("ID локации.")] Guid locationId,
         CancellationToken cancellationToken
-    ) => Ok();
+    )
+    {
+        var query = new GetLocationQuery.Query(locationId);
+        var result = await mediator.Send(query, cancellationToken);
+
+        return Ok(result);
+    }
 
     [EndpointSummary("Создать локацию.")]
     [HttpPost]
     [Consumes("application/json")]
     [ProducesResponseType<LocationDto>(StatusCodes.Status201Created, "application/json")]
     [ProducesResponseType<ProblemDetails>(StatusCodes.Status400BadRequest, "application/problem+json")]
-    public IActionResult CreateLocation(
-        [FromBody] CreateLocationCommand command,
+    [ProducesResponseType<ProblemDetails>(StatusCodes.Status403Forbidden, "application/problem+json")]
+    public async Task<IActionResult> CreateLocation(
+        [FromBody] CreateLocationRequest request,
         CancellationToken cancellationToken
-    ) => CreatedAtAction(nameof(CreateLocation), null);
+    )
+    {
+        var command = new CreateLocationCommand.Command(
+            request.Name,
+            request.Address,
+            request.Description,
+            request.CalendarSettings
+        );
+
+        var result = await mediator.Send(command, cancellationToken);
+
+        return CreatedAtAction(nameof(CreateLocation), result);
+    }
 
     [EndpointSummary("Обновить локацию.")]
     [HttpPut("{locationId:guid}")]
     [Consumes("application/json")]
     [ProducesResponseType<LocationDto>(StatusCodes.Status200OK, "application/json")]
     [ProducesResponseType<ProblemDetails>(StatusCodes.Status400BadRequest, "application/problem+json")]
-    public IActionResult UpdateLocation(
+    [ProducesResponseType<ProblemDetails>(StatusCodes.Status403Forbidden, "application/problem+json")]
+    [ProducesResponseType<ProblemDetails>(StatusCodes.Status404NotFound, "application/problem+json")]
+    public async Task<IActionResult> UpdateLocation(
         [Description("ID локации.")] Guid locationId,
-        [FromBody] UpdateLocationCommand command,
+        [FromBody] UpdateLocationRequest request,
         CancellationToken cancellationToken
-    ) => Ok();
+    )
+    {
+        var command = new UpdateLocationCommand.Command(
+            locationId,
+            request.Name,
+            request.Address,
+            request.Description,
+            request.CalendarSettings
+        );
+
+        var result = await mediator.Send(command, cancellationToken);
+
+        return Ok(result);
+    }
 
     [EndpointSummary("Загрузить фотографию локации.")]
     [HttpPut("{locationId:guid}/image")]
     [Consumes("multipart/form-data")]
     [ProducesResponseType<string>(StatusCodes.Status200OK, "application/json")]
     [ProducesResponseType<ProblemDetails>(StatusCodes.Status400BadRequest, "application/problem+json")]
-    public IActionResult AddLocationImage(
+    [ProducesResponseType<ProblemDetails>(StatusCodes.Status403Forbidden, "application/problem+json")]
+    [ProducesResponseType<ProblemDetails>(StatusCodes.Status404NotFound, "application/problem+json")]
+    public async Task<IActionResult> AddLocationImage(
         [Description("ID локации.")] Guid locationId,
         [Description("Фотография локации.")] IFormFile file,
         CancellationToken cancellationToken
-    ) => Ok();
+    )
+    {
+        var command = new AddLocationImageCommand.Command(
+            locationId,
+            new ImageInfo
+            {
+                FileName = file.FileName,
+                FileSize = file.Length,
+                ContentType = file.ContentType,
+                ImageData = file.OpenReadStream()
+            }
+        );
+
+        var result = await mediator.Send(command, cancellationToken);
+
+        return Ok(result);
+    }
 
     [EndpointSummary("Добавить администратора локации.")]
     [HttpPut("{locationId:guid}/admins/{userId:guid}")]
     [ProducesResponseType(StatusCodes.Status204NoContent)]
     [ProducesResponseType<ProblemDetails>(StatusCodes.Status403Forbidden, "application/problem+json")]
-    public IActionResult AddLocationAdmin(
+    [ProducesResponseType<ProblemDetails>(StatusCodes.Status403Forbidden, "application/problem+json")]
+    [ProducesResponseType<ProblemDetails>(StatusCodes.Status404NotFound, "application/problem+json")]
+    public async Task<IActionResult> AddLocationAdmin(
         [Description("ID локации.")] Guid locationId,
         [Description("ID пользователя.")] Guid userId,
         CancellationToken cancellationToken
-    ) => NoContent();
+    )
+    {
+        var command = new AddLocationAdminCommand.Command(locationId, userId);
+        await mediator.Send(command, cancellationToken);
+
+        return NoContent();
+    }
 
     [EndpointSummary("Удалить администратора локации.")]
     [HttpDelete("{locationId:guid}/admins/{userId:guid}")]
     [ProducesResponseType(StatusCodes.Status204NoContent)]
     [ProducesResponseType<ProblemDetails>(StatusCodes.Status403Forbidden, "application/problem+json")]
-    public IActionResult DeleteLocationAdmin(
+    [ProducesResponseType<ProblemDetails>(StatusCodes.Status403Forbidden, "application/problem+json")]
+    [ProducesResponseType<ProblemDetails>(StatusCodes.Status404NotFound, "application/problem+json")]
+    public async Task<IActionResult> DeleteLocationAdmin(
         [Description("ID локации.")] Guid locationId,
         [Description("ID пользователя.")] Guid userId,
         CancellationToken cancellationToken
-    ) => NoContent();
+    )
+    {
+        var command = new DeleteLocationAdminCommand.Command(locationId, userId);
+        await mediator.Send(command, cancellationToken);
+
+        return NoContent();
+    }
 
     [EndpointSummary("Удалить фотографию локации.")]
     [HttpDelete("{locationId:guid}/image")]
     [ProducesResponseType(StatusCodes.Status204NoContent)]
     [ProducesResponseType<ProblemDetails>(StatusCodes.Status400BadRequest, "application/problem+json")]
-    public IActionResult DeleteLocationImage(
+    [ProducesResponseType<ProblemDetails>(StatusCodes.Status403Forbidden, "application/problem+json")]
+    [ProducesResponseType<ProblemDetails>(StatusCodes.Status404NotFound, "application/problem+json")]
+    public async Task<IActionResult> DeleteLocationImage(
         [Description("ID локации.")] Guid locationId,
         CancellationToken cancellationToken
-    ) => NoContent();
+    )
+    {
+        var command = new DeleteLocationImageCommand.Command(locationId);
+        await mediator.Send(command, cancellationToken);
+
+        return NoContent();
+    }
 
     [EndpointSummary("Удалить локацию.")]
     [HttpDelete("{locationId:guid}")]
     [ProducesResponseType(StatusCodes.Status204NoContent)]
+    [ProducesResponseType<ProblemDetails>(StatusCodes.Status400BadRequest, "application/problem+json")]
+    [ProducesResponseType<ProblemDetails>(StatusCodes.Status403Forbidden, "application/problem+json")]
     [ProducesResponseType<ProblemDetails>(StatusCodes.Status404NotFound, "application/problem+json")]
-    public IActionResult DeleteLocation(
+    public async Task<IActionResult> DeleteLocation(
         [Description("ID локации.")] Guid locationId,
         CancellationToken cancellationToken
-    ) => NoContent();
+    )
+    {
+        var command = new DeleteLocationCommand.Command(locationId);
+        await mediator.Send(command, cancellationToken);
+
+        return NoContent();
+    }
 }
