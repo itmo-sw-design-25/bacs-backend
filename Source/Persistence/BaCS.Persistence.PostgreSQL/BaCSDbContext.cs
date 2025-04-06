@@ -1,6 +1,6 @@
 namespace BaCS.Persistence.PostgreSQL;
 
-using Application.Abstractions;
+using Application.Abstractions.Persistence;
 using Domain.Core.Entities;
 using Microsoft.EntityFrameworkCore;
 

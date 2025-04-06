@@ -236,6 +236,14 @@ namespace BaCS.Persistence.PostgreSQL.Migrations
                         .HasColumnType("text")
                         .HasColumnName("email");
 
+                    b.Property<bool>("EnableEmailNotifications")
+                        .HasColumnType("boolean")
+                        .HasColumnName("enable_email_notifications");
+
+                    b.Property<string>("ImageUrl")
+                        .HasColumnType("text")
+                        .HasColumnName("image_url");
+
                     b.Property<string>("Name")
                         .HasColumnType("text")
                         .HasColumnName("name");
@@ -244,16 +252,12 @@ namespace BaCS.Persistence.PostgreSQL.Migrations
                         .HasColumnType("timestamp with time zone")
                         .HasColumnName("updated_at");
 
-                    b.Property<string>("Username")
-                        .HasColumnType("text")
-                        .HasColumnName("username");
-
                     b.HasKey("Id")
                         .HasName("pk_users");
 
-                    b.HasIndex("Username")
+                    b.HasIndex("Email")
                         .IsUnique()
-                        .HasDatabaseName("ix_users_username");
+                        .HasDatabaseName("ix_users_email");
 
                     b.ToTable("users", (string)null);
                 });

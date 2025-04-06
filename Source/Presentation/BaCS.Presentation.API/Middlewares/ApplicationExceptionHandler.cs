@@ -64,7 +64,11 @@ public class ApplicationExceptionHandler(
             NotFoundException => StatusCodes.Status404NotFound,
             ForbiddenException => StatusCodes.Status403Forbidden,
             UnauthorizedException => StatusCodes.Status401Unauthorized,
-            FluentValidation.ValidationException or ApplicationException or ArgumentException or AggregateException
+            FluentValidation.ValidationException
+                or ApplicationException
+                or ArgumentException
+                or AggregateException
+                or NotImplementedException
                 => StatusCodes.Status400BadRequest,
             OperationCanceledException or ConnectionResetException => StatusCodes.Status499ClientClosedRequest,
             _ => StatusCodes.Status500InternalServerError
@@ -72,6 +76,7 @@ public class ApplicationExceptionHandler(
 
         var title = exception switch
         {
+            NotImplementedException => "Функционал находится в разработке",
             FluentValidation.ValidationException or ValidationException => "Ошибка валидации параметров запроса",
             NotFoundException => "Объект не найден",
             ForbiddenException => "Недостаточно прав",

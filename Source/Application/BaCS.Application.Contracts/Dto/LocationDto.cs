@@ -14,5 +14,7 @@ public record LocationDto(
     [property: Description("Ссылка на фотографию локации.")]
     string ImageUrl,
     [property: Description("Настройки времени работы локации.")]
-    CalendarSettingsDto CalendarSettings
+    CalendarSettingsDto CalendarSettings,
+    [property: Description("ID администраторов локации.")]
+    Guid[] AdminIds
 );

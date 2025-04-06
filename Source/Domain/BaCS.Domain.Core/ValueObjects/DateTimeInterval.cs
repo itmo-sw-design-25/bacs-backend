@@ -1,7 +1,7 @@
 namespace BaCS.Domain.Core.ValueObjects;
 
-public record DateTimeInterval
+public record DateTimeInterval(DateTime From, DateTime To)
 {
-    public DateTime From { get; init; }
-    public DateTime To { get; init; }
-}
+    public bool Empty => From == To;
+    public TimeSpan Duration => To - From;
+};
