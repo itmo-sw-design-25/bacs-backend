@@ -56,11 +56,11 @@ paths:
                     instance: GET /locations
                     errors:
                       Ids:
-                        - The 'Ids' field is invalid
+                        - The 'Ids' field is not valid
                       Offset:
-                        - The 'Offset' field is invalid
+                        - The 'Offset' field is not valid
                       Limit:
-                        - The 'Limit' field is invalid
+                        - The 'Limit' field is not valid
     post:
       tags:
         - Locations
@@ -93,13 +93,13 @@ paths:
                     instance: POST /locations
                     errors:
                       Name:
-                        - The 'Name' field is invalid
+                        - The 'Name' field is not valid
                       Address:
-                        - The 'Address' field is invalid
+                        - The 'Address' field is not valid
                       Description:
-                        - The 'Description' field is invalid
+                        - The 'Description' field is not valid
                       CalendarSettings:
-                        - The 'CalendarSettings' field is invalid
+                        - The 'CalendarSettings' field is not valid
         '403':
           description: Forbidden
           content:
@@ -190,13 +190,13 @@ paths:
                     instance: 'PUT /locations/{locationId}'
                     errors:
                       Name:
-                        - The 'Name' field is invalid
+                        - The 'Name' field is not valid
                       Address:
-                        - The 'Address' field is invalid
+                        - The 'Address' field is not valid
                       Description:
-                        - The 'Description' field is invalid
+                        - The 'Description' field is not valid
                       CalendarSettings:
-                        - The 'CalendarSettings' field is invalid
+                        - The 'CalendarSettings' field is not valid
         '403':
           description: Forbidden
           content:
@@ -334,7 +334,7 @@ paths:
                     instance: 'PUT /locations/{locationId}/image'
                     errors:
                       file:
-                        - The 'file' field is invalid
+                        - The 'file' field is not valid
         '403':
           description: Forbidden
           content:
@@ -632,23 +632,23 @@ paths:
                     instance: GET /reservations
                     errors:
                       Ids:
-                        - The 'Ids' field is invalid
+                        - The 'Ids' field is not valid
                       UserIds:
-                        - The 'UserIds' field is invalid
+                        - The 'UserIds' field is not valid
                       LocationIds:
-                        - The 'LocationIds' field is invalid
+                        - The 'LocationIds' field is not valid
                       ResourceIds:
-                        - The 'ResourceIds' field is invalid
+                        - The 'ResourceIds' field is not valid
                       Statuses:
-                        - The 'Statuses' field is invalid
+                        - The 'Statuses' field is not valid
                       AfterDate:
-                        - The 'AfterDate' field is invalid
+                        - The 'AfterDate' field is not valid
                       BeforeDate:
-                        - The 'BeforeDate' field is invalid
+                        - The 'BeforeDate' field is not valid
                       Offset:
-                        - The 'Offset' field is invalid
+                        - The 'Offset' field is not valid
                       Limit:
-                        - The 'Limit' field is invalid
+                        - The 'Limit' field is not valid
     post:
       tags:
         - Reservations
@@ -681,13 +681,13 @@ paths:
                     instance: POST /reservations
                     errors:
                       ResourceId:
-                        - The 'ResourceId' field is invalid
+                        - The 'ResourceId' field is not valid
                       LocationId:
-                        - The 'LocationId' field is invalid
+                        - The 'LocationId' field is not valid
                       From:
-                        - The 'From' field is invalid
+                        - The 'From' field is not valid
                       To:
-                        - The 'To' field is invalid
+                        - The 'To' field is not valid
         '404':
           description: Not Found
           content:
@@ -778,9 +778,9 @@ paths:
                     instance: 'PUT /reservations/{reservationId}'
                     errors:
                       From:
-                        - The 'From' field is invalid
+                        - The 'From' field is not valid
                       To:
-                        - The 'To' field is invalid
+                        - The 'To' field is not valid
         '403':
           description: Forbidden
           content:
@@ -925,15 +925,15 @@ paths:
                     instance: GET /resources
                     errors:
                       Ids:
-                        - The 'Ids' field is invalid
+                        - The 'Ids' field is not valid
                       LocationIds:
-                        - The 'LocationIds' field is invalid
+                        - The 'LocationIds' field is not valid
                       Types:
-                        - The 'Types' field is invalid
+                        - The 'Types' field is not valid
                       Offset:
-                        - The 'Offset' field is invalid
+                        - The 'Offset' field is not valid
                       Limit:
-                        - The 'Limit' field is invalid
+                        - The 'Limit' field is not valid
     post:
       tags:
         - Resources
@@ -966,17 +966,17 @@ paths:
                     instance: POST /resources
                     errors:
                       LocationId:
-                        - The 'LocationId' field is invalid
+                        - The 'LocationId' field is not valid
                       Name:
-                        - The 'Name' field is invalid
+                        - The 'Name' field is not valid
                       Description:
-                        - The 'Description' field is invalid
+                        - The 'Description' field is not valid
                       Floor:
-                        - The 'Floor' field is invalid
+                        - The 'Floor' field is not valid
                       Equipment:
-                        - The 'Equipment' field is invalid
+                        - The 'Equipment' field is not valid
                       Type:
-                        - The 'Type' field is invalid
+                        - The 'Type' field is not valid
         '403':
           description: Forbidden
           content:
@@ -1067,15 +1067,15 @@ paths:
                     instance: 'PUT /resources/{resourceId}'
                     errors:
                       Name:
-                        - The 'Name' field is invalid
+                        - The 'Name' field is not valid
                       Description:
-                        - The 'Description' field is invalid
+                        - The 'Description' field is not valid
                       Floor:
-                        - The 'Floor' field is invalid
+                        - The 'Floor' field is not valid
                       Equipment:
-                        - The 'Equipment' field is invalid
+                        - The 'Equipment' field is not valid
                       Type:
-                        - The 'Type' field is invalid
+                        - The 'Type' field is not valid
         '403':
           description: Forbidden
           content:
@@ -1213,7 +1213,7 @@ paths:
                     instance: 'PUT /resources/{resourceId}/image'
                     errors:
                       file:
-                        - The 'file' field is invalid
+                        - The 'file' field is not valid
         '403':
           description: Forbidden
           content:
@@ -1353,11 +1353,11 @@ paths:
                     instance: GET /users
                     errors:
                       Ids:
-                        - The 'Ids' field is invalid
+                        - The 'Ids' field is not valid
                       Offset:
-                        - The 'Offset' field is invalid
+                        - The 'Offset' field is not valid
                       Limit:
-                        - The 'Limit' field is invalid
+                        - The 'Limit' field is not valid
   '/users/{userId}':
     get:
       tags:
@@ -1434,7 +1434,7 @@ paths:
                     instance: 'PUT /users/{userId}'
                     errors:
                       EnableEmailNotifications:
-                        - The 'EnableEmailNotifications' field is invalid
+                        - The 'EnableEmailNotifications' field is not valid
         '403':
           description: Forbidden
           content:

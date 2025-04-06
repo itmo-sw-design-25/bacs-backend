@@ -112,7 +112,7 @@ public class ProblemDetailsOperationFilter : IOperationFilter
                 {
                     errorsObject.Add(
                         property,
-                        new OpenApiArray { new OpenApiString($"The '{property}' field is invalid") }
+                        new OpenApiArray { new OpenApiString($"The '{property}' field is not valid") }
                     );
                 }
             }
@@ -127,7 +127,7 @@ public class ProblemDetailsOperationFilter : IOperationFilter
             {
                 errorsObject.Add(
                     parameter.Name,
-                    new OpenApiArray { new OpenApiString($"The '{parameter.Name}' field is invalid") }
+                    new OpenApiArray { new OpenApiString($"The '{parameter.Name}' field is not valid") }
                 );
             }
         }
