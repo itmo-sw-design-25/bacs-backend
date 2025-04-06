@@ -255,7 +255,6 @@ paths:
                     title: Bad Request
                     status: 400
                     instance: 'DELETE /locations/{locationId}'
-                    errors: { }
         '403':
           description: Forbidden
           content:
@@ -393,7 +392,6 @@ paths:
                     title: Bad Request
                     status: 400
                     instance: 'DELETE /locations/{locationId}/image'
-                    errors: { }
         '403':
           description: Forbidden
           content:
@@ -1134,7 +1132,6 @@ paths:
                     title: Bad Request
                     status: 400
                     instance: 'DELETE /resources/{resourceId}'
-                    errors: { }
         '404':
           description: Not Found
           content:
@@ -1272,7 +1269,6 @@ paths:
                     title: Bad Request
                     status: 400
                     instance: 'DELETE /resources/{resourceId}/image'
-                    errors: { }
         '403':
           description: Forbidden
           content:

@@ -102,7 +102,6 @@ public class ProblemDetailsOperationFilter : IOperationFilter
     private static void EnrichWithValidationErrors(OpenApiObject problemDetailObject, ApiDescription apiDescription)
     {
         var errorsObject = new OpenApiObject();
-        problemDetailObject.Add("errors", errorsObject);
 
         foreach (var parameter in apiDescription.ParameterDescriptions.Where(x => x.Source != BindingSource.Path))
         {
@@ -131,5 +130,9 @@ public class ProblemDetailsOperationFilter : IOperationFilter
                 );
             }
         }
+
+        if (errorsObject is not { Count: > 0 }) return;
+
+        problemDetailObject.Add("errors", errorsObject);
     }
 }
