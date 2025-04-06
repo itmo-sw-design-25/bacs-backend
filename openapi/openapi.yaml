@@ -46,6 +46,21 @@ paths:
             application/problem+json:
               schema:
                 $ref: '#/components/schemas/ProblemDetails'
+              examples:
+                Bad Request:
+                  description: Bad Request
+                  value:
+                    type: https://tools.ietf.org/html/rfc7231#section-6.5.1
+                    title: Bad Request
+                    status: 400
+                    instance: GET /locations
+                    errors:
+                      Ids:
+                        - The 'Ids' field is invalid
+                      Offset:
+                        - The 'Offset' field is invalid
+                      Limit:
+                        - The 'Limit' field is invalid
     post:
       tags:
         - Locations
@@ -68,12 +83,37 @@ paths:
             application/problem+json:
               schema:
                 $ref: '#/components/schemas/ProblemDetails'
+              examples:
+                Bad Request:
+                  description: Bad Request
+                  value:
+                    type: https://tools.ietf.org/html/rfc7231#section-6.5.1
+                    title: Bad Request
+                    status: 400
+                    instance: POST /locations
+                    errors:
+                      Name:
+                        - The 'Name' field is invalid
+                      Address:
+                        - The 'Address' field is invalid
+                      Description:
+                        - The 'Description' field is invalid
+                      CalendarSettings:
+                        - The 'CalendarSettings' field is invalid
         '403':
           description: Forbidden
           content:
             application/problem+json:
               schema:
                 $ref: '#/components/schemas/ProblemDetails'
+              examples:
+                Forbidden:
+                  description: Forbidden
+                  value:
+                    type: https://tools.ietf.org/html/rfc7231#section-6.5.3
+                    title: Forbidden
+                    status: 403
+                    instance: POST /locations
   '/locations/{locationId}':
     get:
       tags:
@@ -101,6 +141,14 @@ paths:
             application/problem+json:
               schema:
                 $ref: '#/components/schemas/ProblemDetails'
+              examples:
+                Not Found:
+                  description: Not Found
+                  value:
+                    type: https://tools.ietf.org/html/rfc7231#section-6.5.4
+                    title: Not Found
+                    status: 404
+                    instance: 'GET /locations/{locationId}'
     put:
       tags:
         - Locations
@@ -132,18 +180,51 @@ paths:
             application/problem+json:
               schema:
                 $ref: '#/components/schemas/ProblemDetails'
+              examples:
+                Bad Request:
+                  description: Bad Request
+                  value:
+                    type: https://tools.ietf.org/html/rfc7231#section-6.5.1
+                    title: Bad Request
+                    status: 400
+                    instance: 'PUT /locations/{locationId}'
+                    errors:
+                      Name:
+                        - The 'Name' field is invalid
+                      Address:
+                        - The 'Address' field is invalid
+                      Description:
+                        - The 'Description' field is invalid
+                      CalendarSettings:
+                        - The 'CalendarSettings' field is invalid
         '403':
           description: Forbidden
           content:
             application/problem+json:
               schema:
                 $ref: '#/components/schemas/ProblemDetails'
+              examples:
+                Forbidden:
+                  description: Forbidden
+                  value:
+                    type: https://tools.ietf.org/html/rfc7231#section-6.5.3
+                    title: Forbidden
+                    status: 403
+                    instance: 'PUT /locations/{locationId}'
         '404':
           description: Not Found
           content:
             application/problem+json:
               schema:
                 $ref: '#/components/schemas/ProblemDetails'
+              examples:
+                Not Found:
+                  description: Not Found
+                  value:
+                    type: https://tools.ietf.org/html/rfc7231#section-6.5.4
+                    title: Not Found
+                    status: 404
+                    instance: 'PUT /locations/{locationId}'
     delete:
       tags:
         - Locations
@@ -166,18 +247,43 @@ paths:
             application/problem+json:
               schema:
                 $ref: '#/components/schemas/ProblemDetails'
+              examples:
+                Bad Request:
+                  description: Bad Request
+                  value:
+                    type: https://tools.ietf.org/html/rfc7231#section-6.5.1
+                    title: Bad Request
+                    status: 400
+                    instance: 'DELETE /locations/{locationId}'
+                    errors: { }
         '403':
           description: Forbidden
           content:
             application/problem+json:
               schema:
                 $ref: '#/components/schemas/ProblemDetails'
+              examples:
+                Forbidden:
+                  description: Forbidden
+                  value:
+                    type: https://tools.ietf.org/html/rfc7231#section-6.5.3
+                    title: Forbidden
+                    status: 403
+                    instance: 'DELETE /locations/{locationId}'
         '404':
           description: Not Found
           content:
             application/problem+json:
               schema:
                 $ref: '#/components/schemas/ProblemDetails'
+              examples:
+                Not Found:
+                  description: Not Found
+                  value:
+                    type: https://tools.ietf.org/html/rfc7231#section-6.5.4
+                    title: Not Found
+                    status: 404
+                    instance: 'DELETE /locations/{locationId}'
   '/locations/{locationId}/image':
     put:
       tags:
@@ -218,18 +324,45 @@ paths:
             application/problem+json:
               schema:
                 $ref: '#/components/schemas/ProblemDetails'
+              examples:
+                Bad Request:
+                  description: Bad Request
+                  value:
+                    type: https://tools.ietf.org/html/rfc7231#section-6.5.1
+                    title: Bad Request
+                    status: 400
+                    instance: 'PUT /locations/{locationId}/image'
+                    errors:
+                      file:
+                        - The 'file' field is invalid
         '403':
           description: Forbidden
           content:
             application/problem+json:
               schema:
                 $ref: '#/components/schemas/ProblemDetails'
+              examples:
+                Forbidden:
+                  description: Forbidden
+                  value:
+                    type: https://tools.ietf.org/html/rfc7231#section-6.5.3
+                    title: Forbidden
+                    status: 403
+                    instance: 'PUT /locations/{locationId}/image'
         '404':
           description: Not Found
           content:
             application/problem+json:
               schema:
                 $ref: '#/components/schemas/ProblemDetails'
+              examples:
+                Not Found:
+                  description: Not Found
+                  value:
+                    type: https://tools.ietf.org/html/rfc7231#section-6.5.4
+                    title: Not Found
+                    status: 404
+                    instance: 'PUT /locations/{locationId}/image'
     delete:
       tags:
         - Locations
@@ -252,18 +385,43 @@ paths:
             application/problem+json:
               schema:
                 $ref: '#/components/schemas/ProblemDetails'
+              examples:
+                Bad Request:
+                  description: Bad Request
+                  value:
+                    type: https://tools.ietf.org/html/rfc7231#section-6.5.1
+                    title: Bad Request
+                    status: 400
+                    instance: 'DELETE /locations/{locationId}/image'
+                    errors: { }
         '403':
           description: Forbidden
           content:
             application/problem+json:
               schema:
                 $ref: '#/components/schemas/ProblemDetails'
+              examples:
+                Forbidden:
+                  description: Forbidden
+                  value:
+                    type: https://tools.ietf.org/html/rfc7231#section-6.5.3
+                    title: Forbidden
+                    status: 403
+                    instance: 'DELETE /locations/{locationId}/image'
         '404':
           description: Not Found
           content:
             application/problem+json:
               schema:
                 $ref: '#/components/schemas/ProblemDetails'
+              examples:
+                Not Found:
+                  description: Not Found
+                  value:
+                    type: https://tools.ietf.org/html/rfc7231#section-6.5.4
+                    title: Not Found
+                    status: 404
+                    instance: 'DELETE /locations/{locationId}/image'
   '/locations/{locationId}/admins/{userId}':
     put:
       tags:
@@ -295,12 +453,28 @@ paths:
             application/problem+json:
               schema:
                 $ref: '#/components/schemas/ProblemDetails'
+              examples:
+                Forbidden:
+                  description: Forbidden
+                  value:
+                    type: https://tools.ietf.org/html/rfc7231#section-6.5.3
+                    title: Forbidden
+                    status: 403
+                    instance: 'PUT /locations/{locationId}/admins/{userId}'
         '404':
           description: Not Found
           content:
             application/problem+json:
               schema:
                 $ref: '#/components/schemas/ProblemDetails'
+              examples:
+                Not Found:
+                  description: Not Found
+                  value:
+                    type: https://tools.ietf.org/html/rfc7231#section-6.5.4
+                    title: Not Found
+                    status: 404
+                    instance: 'PUT /locations/{locationId}/admins/{userId}'
     delete:
       tags:
         - Locations
@@ -331,12 +505,28 @@ paths:
             application/problem+json:
               schema:
                 $ref: '#/components/schemas/ProblemDetails'
+              examples:
+                Forbidden:
+                  description: Forbidden
+                  value:
+                    type: https://tools.ietf.org/html/rfc7231#section-6.5.3
+                    title: Forbidden
+                    status: 403
+                    instance: 'DELETE /locations/{locationId}/admins/{userId}'
         '404':
           description: Not Found
           content:
             application/problem+json:
               schema:
                 $ref: '#/components/schemas/ProblemDetails'
+              examples:
+                Not Found:
+                  description: Not Found
+                  value:
+                    type: https://tools.ietf.org/html/rfc7231#section-6.5.4
+                    title: Not Found
+                    status: 404
+                    instance: 'DELETE /locations/{locationId}/admins/{userId}'
   /reservations:
     get:
       tags:
@@ -432,6 +622,33 @@ paths:
             application/problem+json:
               schema:
                 $ref: '#/components/schemas/ProblemDetails'
+              examples:
+                Bad Request:
+                  description: Bad Request
+                  value:
+                    type: https://tools.ietf.org/html/rfc7231#section-6.5.1
+                    title: Bad Request
+                    status: 400
+                    instance: GET /reservations
+                    errors:
+                      Ids:
+                        - The 'Ids' field is invalid
+                      UserIds:
+                        - The 'UserIds' field is invalid
+                      LocationIds:
+                        - The 'LocationIds' field is invalid
+                      ResourceIds:
+                        - The 'ResourceIds' field is invalid
+                      Statuses:
+                        - The 'Statuses' field is invalid
+                      AfterDate:
+                        - The 'AfterDate' field is invalid
+                      BeforeDate:
+                        - The 'BeforeDate' field is invalid
+                      Offset:
+                        - The 'Offset' field is invalid
+                      Limit:
+                        - The 'Limit' field is invalid
     post:
       tags:
         - Reservations
@@ -454,12 +671,37 @@ paths:
             application/problem+json:
               schema:
                 $ref: '#/components/schemas/ProblemDetails'
+              examples:
+                Bad Request:
+                  description: Bad Request
+                  value:
+                    type: https://tools.ietf.org/html/rfc7231#section-6.5.1
+                    title: Bad Request
+                    status: 400
+                    instance: POST /reservations
+                    errors:
+                      ResourceId:
+                        - The 'ResourceId' field is invalid
+                      LocationId:
+                        - The 'LocationId' field is invalid
+                      From:
+                        - The 'From' field is invalid
+                      To:
+                        - The 'To' field is invalid
         '404':
           description: Not Found
           content:
             application/problem+json:
               schema:
                 $ref: '#/components/schemas/ProblemDetails'
+              examples:
+                Not Found:
+                  description: Not Found
+                  value:
+                    type: https://tools.ietf.org/html/rfc7231#section-6.5.4
+                    title: Not Found
+                    status: 404
+                    instance: POST /reservations
   '/reservations/{reservationId}':
     get:
       tags:
@@ -487,6 +729,14 @@ paths:
             application/problem+json:
               schema:
                 $ref: '#/components/schemas/ProblemDetails'
+              examples:
+                Not Found:
+                  description: Not Found
+                  value:
+                    type: https://tools.ietf.org/html/rfc7231#section-6.5.4
+                    title: Not Found
+                    status: 404
+                    instance: 'GET /reservations/{reservationId}'
     put:
       tags:
         - Reservations
@@ -518,18 +768,47 @@ paths:
             application/problem+json:
               schema:
                 $ref: '#/components/schemas/ProblemDetails'
+              examples:
+                Bad Request:
+                  description: Bad Request
+                  value:
+                    type: https://tools.ietf.org/html/rfc7231#section-6.5.1
+                    title: Bad Request
+                    status: 400
+                    instance: 'PUT /reservations/{reservationId}'
+                    errors:
+                      From:
+                        - The 'From' field is invalid
+                      To:
+                        - The 'To' field is invalid
         '403':
           description: Forbidden
           content:
             application/problem+json:
               schema:
                 $ref: '#/components/schemas/ProblemDetails'
+              examples:
+                Forbidden:
+                  description: Forbidden
+                  value:
+                    type: https://tools.ietf.org/html/rfc7231#section-6.5.3
+                    title: Forbidden
+                    status: 403
+                    instance: 'PUT /reservations/{reservationId}'
         '404':
           description: Not Found
           content:
             application/problem+json:
               schema:
                 $ref: '#/components/schemas/ProblemDetails'
+              examples:
+                Not Found:
+                  description: Not Found
+                  value:
+                    type: https://tools.ietf.org/html/rfc7231#section-6.5.4
+                    title: Not Found
+                    status: 404
+                    instance: 'PUT /reservations/{reservationId}'
   '/reservations/{reservationId}/Cancel':
     put:
       tags:
@@ -553,12 +832,28 @@ paths:
             application/problem+json:
               schema:
                 $ref: '#/components/schemas/ProblemDetails'
+              examples:
+                Forbidden:
+                  description: Forbidden
+                  value:
+                    type: https://tools.ietf.org/html/rfc7231#section-6.5.3
+                    title: Forbidden
+                    status: 403
+                    instance: 'PUT /reservations/{reservationId}/Cancel'
         '404':
           description: Not Found
           content:
             application/problem+json:
               schema:
                 $ref: '#/components/schemas/ProblemDetails'
+              examples:
+                Not Found:
+                  description: Not Found
+                  value:
+                    type: https://tools.ietf.org/html/rfc7231#section-6.5.4
+                    title: Not Found
+                    status: 404
+                    instance: 'PUT /reservations/{reservationId}/Cancel'
   /resources:
     get:
       tags:
@@ -620,6 +915,25 @@ paths:
             application/problem+json:
               schema:
                 $ref: '#/components/schemas/ProblemDetails'
+              examples:
+                Bad Request:
+                  description: Bad Request
+                  value:
+                    type: https://tools.ietf.org/html/rfc7231#section-6.5.1
+                    title: Bad Request
+                    status: 400
+                    instance: GET /resources
+                    errors:
+                      Ids:
+                        - The 'Ids' field is invalid
+                      LocationIds:
+                        - The 'LocationIds' field is invalid
+                      Types:
+                        - The 'Types' field is invalid
+                      Offset:
+                        - The 'Offset' field is invalid
+                      Limit:
+                        - The 'Limit' field is invalid
     post:
       tags:
         - Resources
@@ -642,12 +956,41 @@ paths:
             application/problem+json:
               schema:
                 $ref: '#/components/schemas/ProblemDetails'
+              examples:
+                Bad Request:
+                  description: Bad Request
+                  value:
+                    type: https://tools.ietf.org/html/rfc7231#section-6.5.1
+                    title: Bad Request
+                    status: 400
+                    instance: POST /resources
+                    errors:
+                      LocationId:
+                        - The 'LocationId' field is invalid
+                      Name:
+                        - The 'Name' field is invalid
+                      Description:
+                        - The 'Description' field is invalid
+                      Floor:
+                        - The 'Floor' field is invalid
+                      Equipment:
+                        - The 'Equipment' field is invalid
+                      Type:
+                        - The 'Type' field is invalid
         '403':
           description: Forbidden
           content:
             application/problem+json:
               schema:
                 $ref: '#/components/schemas/ProblemDetails'
+              examples:
+                Forbidden:
+                  description: Forbidden
+                  value:
+                    type: https://tools.ietf.org/html/rfc7231#section-6.5.3
+                    title: Forbidden
+                    status: 403
+                    instance: POST /resources
   '/resources/{resourceId}':
     get:
       tags:
@@ -675,6 +1018,14 @@ paths:
             application/problem+json:
               schema:
                 $ref: '#/components/schemas/ProblemDetails'
+              examples:
+                Not Found:
+                  description: Not Found
+                  value:
+                    type: https://tools.ietf.org/html/rfc7231#section-6.5.4
+                    title: Not Found
+                    status: 404
+                    instance: 'GET /resources/{resourceId}'
     put:
       tags:
         - Resources
@@ -706,18 +1057,53 @@ paths:
             application/problem+json:
               schema:
                 $ref: '#/components/schemas/ProblemDetails'
+              examples:
+                Bad Request:
+                  description: Bad Request
+                  value:
+                    type: https://tools.ietf.org/html/rfc7231#section-6.5.1
+                    title: Bad Request
+                    status: 400
+                    instance: 'PUT /resources/{resourceId}'
+                    errors:
+                      Name:
+                        - The 'Name' field is invalid
+                      Description:
+                        - The 'Description' field is invalid
+                      Floor:
+                        - The 'Floor' field is invalid
+                      Equipment:
+                        - The 'Equipment' field is invalid
+                      Type:
+                        - The 'Type' field is invalid
         '403':
           description: Forbidden
           content:
             application/problem+json:
               schema:
                 $ref: '#/components/schemas/ProblemDetails'
+              examples:
+                Forbidden:
+                  description: Forbidden
+                  value:
+                    type: https://tools.ietf.org/html/rfc7231#section-6.5.3
+                    title: Forbidden
+                    status: 403
+                    instance: 'PUT /resources/{resourceId}'
         '404':
           description: Not Found
           content:
             application/problem+json:
               schema:
                 $ref: '#/components/schemas/ProblemDetails'
+              examples:
+                Not Found:
+                  description: Not Found
+                  value:
+                    type: https://tools.ietf.org/html/rfc7231#section-6.5.4
+                    title: Not Found
+                    status: 404
+                    instance: 'PUT /resources/{resourceId}'
     delete:
       tags:
         - Resources
@@ -740,18 +1126,43 @@ paths:
             application/problem+json:
               schema:
                 $ref: '#/components/schemas/ProblemDetails'
+              examples:
+                Bad Request:
+                  description: Bad Request
+                  value:
+                    type: https://tools.ietf.org/html/rfc7231#section-6.5.1
+                    title: Bad Request
+                    status: 400
+                    instance: 'DELETE /resources/{resourceId}'
+                    errors: { }
         '404':
           description: Not Found
           content:
             application/problem+json:
               schema:
                 $ref: '#/components/schemas/ProblemDetails'
+              examples:
+                Not Found:
+                  description: Not Found
+                  value:
+                    type: https://tools.ietf.org/html/rfc7231#section-6.5.4
+                    title: Not Found
+                    status: 404
+                    instance: 'DELETE /resources/{resourceId}'
         '403':
           description: Forbidden
           content:
             application/problem+json:
               schema:
                 $ref: '#/components/schemas/ProblemDetails'
+              examples:
+                Forbidden:
+                  description: Forbidden
+                  value:
+                    type: https://tools.ietf.org/html/rfc7231#section-6.5.3
+                    title: Forbidden
+                    status: 403
+                    instance: 'DELETE /resources/{resourceId}'
   '/resources/{resourceId}/image':
     put:
       tags:
@@ -792,18 +1203,45 @@ paths:
             application/problem+json:
               schema:
                 $ref: '#/components/schemas/ProblemDetails'
+              examples:
+                Bad Request:
+                  description: Bad Request
+                  value:
+                    type: https://tools.ietf.org/html/rfc7231#section-6.5.1
+                    title: Bad Request
+                    status: 400
+                    instance: 'PUT /resources/{resourceId}/image'
+                    errors:
+                      file:
+                        - The 'file' field is invalid
         '403':
           description: Forbidden
           content:
             application/problem+json:
               schema:
                 $ref: '#/components/schemas/ProblemDetails'
+              examples:
+                Forbidden:
+                  description: Forbidden
+                  value:
+                    type: https://tools.ietf.org/html/rfc7231#section-6.5.3
+                    title: Forbidden
+                    status: 403
+                    instance: 'PUT /resources/{resourceId}/image'
         '404':
           description: Not Found
           content:
             application/problem+json:
               schema:
                 $ref: '#/components/schemas/ProblemDetails'
+              examples:
+                Not Found:
+                  description: Not Found
+                  value:
+                    type: https://tools.ietf.org/html/rfc7231#section-6.5.4
+                    title: Not Found
+                    status: 404
+                    instance: 'PUT /resources/{resourceId}/image'
     delete:
       tags:
         - Resources
@@ -826,18 +1264,43 @@ paths:
             application/problem+json:
               schema:
                 $ref: '#/components/schemas/ProblemDetails'
+              examples:
+                Bad Request:
+                  description: Bad Request
+                  value:
+                    type: https://tools.ietf.org/html/rfc7231#section-6.5.1
+                    title: Bad Request
+                    status: 400
+                    instance: 'DELETE /resources/{resourceId}/image'
+                    errors: { }
         '403':
           description: Forbidden
           content:
             application/problem+json:
               schema:
                 $ref: '#/components/schemas/ProblemDetails'
+              examples:
+                Forbidden:
+                  description: Forbidden
+                  value:
+                    type: https://tools.ietf.org/html/rfc7231#section-6.5.3
+                    title: Forbidden
+                    status: 403
+                    instance: 'DELETE /resources/{resourceId}/image'
         '404':
           description: Not Found
           content:
             application/problem+json:
               schema:
                 $ref: '#/components/schemas/ProblemDetails'
+              examples:
+                Not Found:
+                  description: Not Found
+                  value:
+                    type: https://tools.ietf.org/html/rfc7231#section-6.5.4
+                    title: Not Found
+                    status: 404
+                    instance: 'DELETE /resources/{resourceId}/image'
   /users:
     get:
       tags:
@@ -880,6 +1343,21 @@ paths:
             application/problem+json:
               schema:
                 $ref: '#/components/schemas/ProblemDetails'
+              examples:
+                Bad Request:
+                  description: Bad Request
+                  value:
+                    type: https://tools.ietf.org/html/rfc7231#section-6.5.1
+                    title: Bad Request
+                    status: 400
+                    instance: GET /users
+                    errors:
+                      Ids:
+                        - The 'Ids' field is invalid
+                      Offset:
+                        - The 'Offset' field is invalid
+                      Limit:
+                        - The 'Limit' field is invalid
   '/users/{userId}':
     get:
       tags:
@@ -907,6 +1385,14 @@ paths:
             application/problem+json:
               schema:
                 $ref: '#/components/schemas/ProblemDetails'
+              examples:
+                Not Found:
+                  description: Not Found
+                  value:
+                    type: https://tools.ietf.org/html/rfc7231#section-6.5.4
+                    title: Not Found
+                    status: 404
+                    instance: 'GET /users/{userId}'
     put:
       tags:
         - Users
@@ -938,18 +1424,45 @@ paths:
             application/problem+json:
               schema:
                 $ref: '#/components/schemas/ProblemDetails'
+              examples:
+                Bad Request:
+                  description: Bad Request
+                  value:
+                    type: https://tools.ietf.org/html/rfc7231#section-6.5.1
+                    title: Bad Request
+                    status: 400
+                    instance: 'PUT /users/{userId}'
+                    errors:
+                      EnableEmailNotifications:
+                        - The 'EnableEmailNotifications' field is invalid
         '403':
           description: Forbidden
           content:
             application/problem+json:
               schema:
                 $ref: '#/components/schemas/ProblemDetails'
+              examples:
+                Forbidden:
+                  description: Forbidden
+                  value:
+                    type: https://tools.ietf.org/html/rfc7231#section-6.5.3
+                    title: Forbidden
+                    status: 403
+                    instance: 'PUT /users/{userId}'
         '404':
           description: Not Found
           content:
             application/problem+json:
               schema:
                 $ref: '#/components/schemas/ProblemDetails'
+              examples:
+                Not Found:
+                  description: Not Found
+                  value:
+                    type: https://tools.ietf.org/html/rfc7231#section-6.5.4
+                    title: Not Found
+                    status: 404
+                    instance: 'PUT /users/{userId}'
     delete:
       tags:
         - Users
@@ -972,12 +1485,28 @@ paths:
             application/problem+json:
               schema:
                 $ref: '#/components/schemas/ProblemDetails'
+              examples:
+                Forbidden:
+                  description: Forbidden
+                  value:
+                    type: https://tools.ietf.org/html/rfc7231#section-6.5.3
+                    title: Forbidden
+                    status: 403
+                    instance: 'DELETE /users/{userId}'
         '404':
           description: Not Found
           content:
             application/problem+json:
               schema:
                 $ref: '#/components/schemas/ProblemDetails'
+              examples:
+                Not Found:
+                  description: Not Found
+                  value:
+                    type: https://tools.ietf.org/html/rfc7231#section-6.5.4
+                    title: Not Found
+                    status: 404
+                    instance: 'DELETE /users/{userId}'
 components:
   schemas:
     CalendarSettingsDto:

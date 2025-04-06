@@ -1,4 +1,4 @@
-namespace BaCS.Presentation.API.Swagger.SchemaFilters;
+namespace BaCS.Presentation.API.Swagger.Filters;
 
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.OpenApi.Models;

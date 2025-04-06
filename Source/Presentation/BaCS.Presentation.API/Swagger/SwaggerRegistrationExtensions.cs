@@ -1,18 +1,22 @@
 namespace BaCS.Presentation.API.Swagger;
 
+using Filters;
 using Keycloak.AuthServices.Authentication;
 using Microsoft.OpenApi.Any;
 using Microsoft.OpenApi.Interfaces;
 using Microsoft.OpenApi.Models;
-using SchemaFilters;
 using Swashbuckle.AspNetCore.SwaggerGen;
 
 public static class SwaggerRegistrationExtensions
 {
-    public static SwaggerGenOptions ConfigureSwaggerOptions(this SwaggerGenOptions options, IConfiguration configuration)
+    public static SwaggerGenOptions ConfigureSwaggerOptions(
+        this SwaggerGenOptions options,
+        IConfiguration configuration
+    )
     {
         options.DescribeAllParametersInCamelCase();
         options.SchemaFilter<ProblemDetailsSchemaFilter>();
+        options.OperationFilter<ProblemDetailsOperationFilter>();
 
         var securityScheme = GetSecurityScheme(configuration);
 
