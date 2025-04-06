@@ -4,6 +4,35 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>BaCS - Booking a Coworking Space</title>
+
+    <!-- Open Graph tags -->
+    <meta property="og:image" content="https://bacs.space/s3/static/nginx/icon.svg">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://bacs.space">
+    <meta property="og:title" content="BaCS - Booking a Coworking Space">
+    <meta property="og:description"
+          content="Система бронирования коворкингов. Управляйте бронированием рабочих мест с помощью наших инструментов мониторинга и анализа.">
+
+    <!-- Twitter Card -->
+    <meta property="twitter:image" content="https://bacs.space/s3/static/nginx/icon.svg">
+    <meta property="twitter:url" content="https://bacs.space">
+    <meta property="twitter:title" content="BaCS - Booking a Coworking Space">
+    <meta property="twitter:description"
+          content="Система бронирования коворкингов. Управляйте бронированием рабочих мест с помощью наших инструментов мониторинга и анализа.">
+
+    <!-- Additional Meta-tags -->
+    <meta name="description"
+          content="Система бронирования коворкингов BaCS. Управляйте бронированием рабочих мест с помощью наших инструментов мониторинга и анализа.">
+
+    <!-- Icons -->
+    <link rel="icon" href="https://bacs.space/s3/static/nginx/icon.svg" type="image/svg+xml">
+    <link rel="icon" href="https://bacs.space/s3/static/nginx/icon.svg" type="image/svg+xml" sizes="any">
+
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Lena&family=Nunito:wght@400;500;600;700;800&display=swap"
+          rel="stylesheet">
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
         .grid > a:last-child:nth-child(3n+1) {
@@ -14,14 +43,17 @@
         .grid > a:last-child:nth-child(3n+2) {
             grid-column: 3 / -1;
         }
+
+        * {
+            font-family: 'Nunito', sans-serif;
+        }
     </style>
 </head>
-<body class="bg-gray-900 text-white font-sans">
+<body class="bg-gray-900 text-white">
 <div class="min-h-screen flex flex-col justify-center items-center px-6 text-center">
-    <h1 class="text-5xl font-extrabold text-white mb-4">BaCS</h1>
-    <h2 class="text-2xl font-semibold text-gray-400 mb-6">Booking a Coworking Space</h2>
+    <img src="https://bacs.space/s3/static/nginx/bacs_logo_large.svg" alt="BaCS Logo" class="w-48 h-24">
 
-    <p class="text-gray-400 text-lg max-w-2xl mb-8">
+    <p class="text-[18px] font-medium text-gray-400 max-w-2xl mb-8">
         Добро пожаловать в систему бронирования коворкингов BaCS.
         Управляйте бронированием рабочих мест с помощью наших инструментов мониторинга и анализа.
     </p>
@@ -30,57 +62,56 @@
         <a href="/grafana"
            class="bg-gray-800 p-6 rounded-lg shadow-lg hover:bg-gray-700 transition flex flex-col items-center">
             <img src="https://bacs.space/s3/static/nginx/grafana.svg" alt="Grafana" class="w-12 h-12">
-            <h2 class="text-2xl font-semibold text-white mt-3">Grafana</h2>
-            <p class="text-gray-400 mt-2 text-center">Мониторинг и метрики</p>
+            <h2 class="text-[24px] font-semibold text-white mt-3">Grafana</h2>
+            <p class="text-[18px] font-medium text-gray-400 mt-2 text-center">Мониторинг и метрики</p>
         </a>
 
         <a href="/jaeger"
            class="bg-gray-800 p-6 rounded-lg shadow-lg hover:bg-gray-700 transition flex flex-col items-center">
             <img src="https://bacs.space/s3/static/nginx/jaeger.svg" alt="Jaeger" class="w-12 h-12">
-            <h2 class="text-2xl font-semibold text-white mt-3">Jaeger</h2>
-            <p class="text-gray-400 mt-2 text-center">Трассировка запросов</p>
+            <h2 class="text-[24px] font-semibold text-white mt-3">Jaeger</h2>
+            <p class="text-[18px] font-medium text-gray-400 mt-2 text-center">Трассировка запросов</p>
         </a>
 
         <a href="/scalar"
            class="bg-gray-800 p-6 rounded-lg shadow-lg hover:bg-gray-700 transition flex flex-col items-center">
             <img src="https://bacs.space/s3/static/nginx/openapi.png" alt="Scalar" class="w-12 h-12">
-            <h2 class="text-2xl font-semibold text-white mt-3">Scalar</h2>
-            <p class="text-gray-400 mt-2 text-center">OpenAPI спецификация</p>
+            <h2 class="text-[24px] font-semibold text-white mt-3">Scalar</h2>
+            <p class="text-[18px] font-medium text-gray-400 mt-2 text-center">OpenAPI спецификация</p>
         </a>
 
         <a href="/seq"
            class="bg-gray-800 p-6 rounded-lg shadow-lg hover:bg-gray-700 transition flex flex-col items-center">
             <img src="https://bacs.space/s3/static/nginx/seq.png" alt="Seq" class="w-12 h-12">
-            <h2 class="text-2xl font-semibold text-white mt-3">Seq</h2>
-            <p class="text-gray-400 mt-2 text-center">Просмотр логов</p>
+            <h2 class="text-[24px] font-semibold text-white mt-3">Seq</h2>
+            <p class="text-[18px] font-medium text-gray-400 mt-2 text-center">Просмотр логов</p>
         </a>
 
         <a href="/minio"
            class="bg-gray-800 p-6 rounded-lg shadow-lg hover:bg-gray-700 transition flex flex-col items-center">
-            <img src="https://bacs.space/s3/static/nginx/s3.svg" alt="Minio"
-                 class="w-12 h-12">
-            <h2 class="text-2xl font-semibold text-white mt-3">Minio</h2>
-            <p class="text-gray-400 mt-2 text-center">S3 хранилище</p>
+            <img src="https://bacs.space/s3/static/nginx/s3.svg" alt="Minio" class="w-12 h-12">
+            <h2 class="text-[24px] font-semibold text-white mt-3">Minio</h2>
+            <p class="text-[18px] font-medium text-gray-400 mt-2 text-center">S3 хранилище</p>
         </a>
 
         <a href="/keycloak"
            class="bg-gray-800 p-6 rounded-lg shadow-lg hover:bg-gray-700 transition flex flex-col items-center">
             <img src="https://bacs.space/s3/static/nginx/keycloak.svg" alt="Keycloak" class="w-12 h-12">
-            <h2 class="text-2xl font-semibold text-white mt-3">Keycloak</h2>
-            <p class="text-gray-400 mt-2 text-center">Аутентификация и авторизация</p>
+            <h2 class="text-[24px] font-semibold text-white mt-3">Keycloak</h2>
+            <p class="text-[18px] font-medium text-gray-400 mt-2 text-center">IAM провайдер</p>
         </a>
 
         <a href="/health"
            class="bg-gray-800 p-6 rounded-lg shadow-lg hover:bg-gray-700 transition flex flex-col items-center">
-            <img src="https://bacs.space/s3/static/nginx/healthchecks.png" alt="HealthChecks"
-                 class="w-12 h-12">
-            <h2 class="text-2xl font-semibold text-white mt-3">HealthChecks</h2>
-            <p class="text-gray-400 mt-2 text-center">Статус здоровья компонентов системы</p>
+            <img src="https://bacs.space/s3/static/nginx/healthchecks.png" alt="HealthChecks" class="w-12 h-12">
+            <h2 class="text-[24px] font-semibold text-white mt-3">HealthChecks</h2>
+            <p class="text-[18px] font-medium text-gray-400 mt-2 text-center overflow-hidden">
+                Статус здоровья компонентов системы
+            </p>
         </a>
-
     </div>
 
-    <footer class="mt-12 text-gray-500">
+    <footer class="mt-12 text-gray-500 text-[18px] font-medium">
         © 2025 BaCS. Все права защищены.
     </footer>
 </div>
