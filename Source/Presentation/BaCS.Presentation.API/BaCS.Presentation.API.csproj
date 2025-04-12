@@ -19,6 +19,7 @@
     </ItemGroup>
 
     <ItemGroup>
+        <PackageReference Include="FluentValidation.AspNetCore"/>
         <PackageReference Include="Keycloak.AuthServices.Authentication"/>
         <PackageReference Include="MediatR"/>
         <PackageReference Include="MicroElements.Swashbuckle.FluentValidation"/>
