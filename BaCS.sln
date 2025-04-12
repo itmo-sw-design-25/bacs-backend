@@ -53,6 +53,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BaCS.Application.Mapping", 
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BaCS.Application.Services", "Source\Application\BaCS.Application.Services\BaCS.Application.Services.csproj", "{23928890-8F38-4C1E-AB95-9EB604B9821E}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BaCS.Application.Integrations", "Source\Application\BaCS.Application.Integrations\BaCS.Application.Integrations.csproj", "{40E22163-A08E-4F1A-998D-4B6627F96E53}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -107,6 +109,10 @@ Global
 		{23928890-8F38-4C1E-AB95-9EB604B9821E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{23928890-8F38-4C1E-AB95-9EB604B9821E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{23928890-8F38-4C1E-AB95-9EB604B9821E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{40E22163-A08E-4F1A-998D-4B6627F96E53}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{40E22163-A08E-4F1A-998D-4B6627F96E53}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{40E22163-A08E-4F1A-998D-4B6627F96E53}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{40E22163-A08E-4F1A-998D-4B6627F96E53}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{F7710066-EA13-4FDF-BA0C-8E2E95FBCD45} = {66AF9317-1BE8-404E-A161-8FD1034A8F2D}
@@ -126,5 +132,6 @@ Global
 		{2B57B3E9-93D8-4FCC-92FC-CC42111FA5A4} = {4AAE45B5-9F49-4930-A97D-C448893D2139}
 		{9530CC89-5C94-485F-B2B1-C61C77E850E2} = {4AAE45B5-9F49-4930-A97D-C448893D2139}
 		{23928890-8F38-4C1E-AB95-9EB604B9821E} = {4AAE45B5-9F49-4930-A97D-C448893D2139}
+		{40E22163-A08E-4F1A-998D-4B6627F96E53} = {4AAE45B5-9F49-4930-A97D-C448893D2139}
 	EndGlobalSection
 EndGlobal

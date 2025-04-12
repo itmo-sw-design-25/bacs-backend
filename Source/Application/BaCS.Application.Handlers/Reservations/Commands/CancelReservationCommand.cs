@@ -1,5 +1,6 @@
 namespace BaCS.Application.Handlers.Reservations.Commands;
 
+using Abstractions.Integrations;
 using Abstractions.Persistence;
 using Abstractions.Services;
 using Contracts.Exceptions;
@@ -11,7 +12,8 @@ public static class CancelReservationCommand
 {
     public record Command(Guid ReservationId) : IRequest;
 
-    internal class Handler(IBaCSDbContext dbContext, ICurrentUser currentUser) : IRequestHandler<Command>
+    internal class Handler(IBaCSDbContext dbContext, IEmailNotifier emailNotifier, ICurrentUser currentUser)
+        : IRequestHandler<Command>
     {
         public async Task Handle(Command request, CancellationToken cancellationToken)
         {
@@ -36,6 +38,12 @@ public static class CancelReservationCommand
             {
                 semaphore.Release();
             }
+
+            var user = await dbContext.Users.FindAsync([currentUser.UserId], cancellationToken);
+            var location = await dbContext.Locations.FindAsync([reservation.LocationId], cancellationToken);
+            var resource = await dbContext.Resources.FindAsync([reservation.ResourceId], cancellationToken);
+
+            await emailNotifier.SendReservationCancelled(reservation, location, resource, user, cancellationToken);
         }
     }
 }

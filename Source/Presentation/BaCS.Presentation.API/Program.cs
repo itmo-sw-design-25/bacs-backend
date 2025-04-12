@@ -9,11 +9,12 @@ using Serilog;
 var builder = WebApplication.CreateBuilder(args);
 
 var configuration = builder.Configuration;
+var environment = builder.Environment;
 
 builder.Host.UseSerilogLogging();
 
 builder.Services.AddControllers();
-builder.Services.AddApplication(configuration);
+builder.Services.AddApplication(configuration, environment);
 builder.Services.AddOpenApi(configuration);
 
 // Observability

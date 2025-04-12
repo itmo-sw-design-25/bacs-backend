@@ -18,6 +18,10 @@
       MinioOptions__ProxyUrl: ${BACS_MINIO_PROXY_URL}
       MinioOptions__WithSSL: ${BACS_MINIO_WITH_SSL}
       Keycloak__Credentials__Secret: ${KEYCLOAK_CLIENT_SECRET}
+      EmailOptions__Username: ${EMAIL_NOTIFICATIONS_USERNAME}
+      EmailOptions__Password: ${EMAIL_NOTIFICATIONS_PASSWORD}
+      EmailOptions__SmtpServer: ${EMAIL_NOTIFICATIONS_SMTP_SERVER}
+      EmailOptions__Port: ${EMAIL_NOTIFICATIONS_PORT}
     restart: unless-stopped
     depends_on:
       - postgres

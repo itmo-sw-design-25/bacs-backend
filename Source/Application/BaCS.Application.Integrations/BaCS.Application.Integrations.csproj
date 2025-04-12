@@ -1,0 +1,22 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <TargetFramework>net9.0</TargetFramework>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <EmbeddedResource Include="Email\Templates\**"/>
+        <None Remove="Email\Templates\**"/>
+    </ItemGroup>
+
+    <ItemGroup>
+        <ProjectReference Include="..\BaCS.Application.Abstractions\BaCS.Application.Abstractions.csproj"/>
+    </ItemGroup>
+
+    <ItemGroup>
+        <PackageReference Include="MailKit"/>
+        <PackageReference Include="MimeKit"/>
+        <PackageReference Include="Scriban"/>
+    </ItemGroup>
+
+</Project>
