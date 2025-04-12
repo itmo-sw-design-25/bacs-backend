@@ -1,5 +1,6 @@
 namespace BaCS.Unit.Tests.TestCases.Reservations;
 
+using Application.Abstractions.Integrations;
 using AutoFixture;
 using AutoFixture.Xunit2;
 using Application.Abstractions.Persistence;
@@ -21,6 +22,7 @@ public class CreateReservationTests
         [Frozen] IFixture fixture,
         [Frozen] IMapper mapper,
         [Frozen] IBaCSDbContext dbContext,
+        [Frozen] IEmailNotifier emailNotifier,
         [Frozen] ICurrentUser currentUser,
         [Frozen] IReservationCalendarValidator calendarValidator,
         [Frozen] [Greedy] Location location,
@@ -46,7 +48,13 @@ public class CreateReservationTests
         dbContext.Locations.FindAsync(Arg.Any<object[]>(), Arg.Any<CancellationToken>()).Returns(location);
 
         // Act && Assert
-        var handler = new CreateReservationCommand.Handler(dbContext, calendarValidator, currentUser, mapper);
+        var handler = new CreateReservationCommand.Handler(
+            dbContext,
+            emailNotifier,
+            calendarValidator,
+            currentUser,
+            mapper
+        );
 
         await handler
             .Invoking(async h => await h.Handle(command, CancellationToken.None))
@@ -67,6 +75,7 @@ public class CreateReservationTests
         [Frozen] IFixture fixture,
         [Frozen] IMapper mapper,
         [Frozen] IBaCSDbContext dbContext,
+        [Frozen] IEmailNotifier emailNotifier,
         [Frozen] ICurrentUser currentUser,
         [Frozen] IReservationCalendarValidator calendarValidator,
         [Frozen] [Greedy] Location location,
@@ -90,7 +99,13 @@ public class CreateReservationTests
         dbContext.Locations.FindAsync(Arg.Any<object[]>(), Arg.Any<CancellationToken>()).Returns(location);
 
         // Act && Assert
-        var handler = new CreateReservationCommand.Handler(dbContext, calendarValidator, currentUser, mapper);
+        var handler = new CreateReservationCommand.Handler(
+            dbContext,
+            emailNotifier,
+            calendarValidator,
+            currentUser,
+            mapper
+        );
 
         await handler
             .Invoking(async h => await h.Handle(command, CancellationToken.None))

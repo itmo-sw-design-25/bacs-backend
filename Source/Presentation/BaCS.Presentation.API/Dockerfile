@@ -15,6 +15,7 @@ COPY ["Source/Application/BaCS.Application.Contracts/BaCS.Application.Contracts.
 COPY ["Source/Application/BaCS.Application.Handlers/BaCS.Application.Handlers.csproj", "Source/Application/BaCS.Application.Handlers/"]
 COPY ["Source/Application/BaCS.Application.Mapping/BaCS.Application.Mapping.csproj", "Source/Application/BaCS.Application.Mapping/"]
 COPY ["Source/Application/BaCS.Application.Services/BaCS.Application.Services.csproj", "Source/Application/BaCS.Application.Services/"]
+COPY ["Source/Application/BaCS.Application.Integrations/BaCS.Application.Integrations.csproj", "Source/Application/BaCS.Application.Integrations/"]
 COPY ["Source/Domain/BaCS.Domain.Core/BaCS.Domain.Core.csproj", "Source/Domain/BaCS.Domain.Core/"]
 COPY . .
 RUN dotnet restore "Source/Presentation/BaCS.Presentation.API/BaCS.Presentation.API.csproj"

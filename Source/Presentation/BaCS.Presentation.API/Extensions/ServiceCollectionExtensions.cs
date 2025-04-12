@@ -3,6 +3,7 @@ namespace BaCS.Presentation.API.Extensions;
 using System.Diagnostics;
 using Application.Contracts;
 using Application.Handlers;
+using Application.Integrations;
 using Application.Mapping;
 using Application.Services;
 using FluentValidation;
@@ -16,7 +17,8 @@ public static class ServiceCollectionExtensions
 {
     public static IServiceCollection AddApplication(
         this IServiceCollection services,
-        IConfiguration configuration
+        IConfiguration configuration,
+        IHostEnvironment environment
     )
     {
         services
@@ -24,6 +26,7 @@ public static class ServiceCollectionExtensions
             .AddMinioStorage(configuration)
             .AddApplicationMapping()
             .AddApplicationServices()
+            .AddApplicationIntegrations(configuration, environment)
             .AddApplicationHandlers();
 
         services

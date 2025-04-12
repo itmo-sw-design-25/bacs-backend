@@ -1,5 +1,6 @@
 namespace BaCS.Application.Handlers.Reservations.Commands;
 
+using Abstractions.Integrations;
 using Abstractions.Persistence;
 using Abstractions.Services;
 using Contracts.Dto;
@@ -17,6 +18,7 @@ public static class CreateReservationCommand
 
     internal class Handler(
         IBaCSDbContext dbContext,
+        IEmailNotifier emailNotifier,
         IReservationCalendarValidator calendarValidator,
         ICurrentUser currentUser,
         IMapper mapper
@@ -64,6 +66,10 @@ public static class CreateReservationCommand
             {
                 semaphore.Release();
             }
+
+            var user = await dbContext.Users.FindAsync([currentUser.UserId], cancellationToken);
+            var resource = await dbContext.Resources.FindAsync([reservation.ResourceId], cancellationToken);
+            await emailNotifier.SendReservationCreated(reservation, location, resource, user, cancellationToken);
 
             return mapper.Map<ReservationDto>(reservation);
         }
