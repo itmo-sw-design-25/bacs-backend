@@ -26,6 +26,9 @@ public class EmailNotifier(IOptionsSnapshot<EmailOptions> options, ILogger<Email
         CancellationToken cancellationToken
     )
     {
+        if (string.IsNullOrWhiteSpace(user.Email)) return;
+        if (user.EnableEmailNotifications is false) return;
+
         var templateParams = new
         {
             Name = user.Name,
@@ -66,6 +69,9 @@ public class EmailNotifier(IOptionsSnapshot<EmailOptions> options, ILogger<Email
         CancellationToken cancellationToken
     )
     {
+        if (string.IsNullOrWhiteSpace(user.Email)) return;
+        if (user.EnableEmailNotifications is false) return;
+
         var templateParams = new
         {
             Name = user.Name,
@@ -106,6 +112,9 @@ public class EmailNotifier(IOptionsSnapshot<EmailOptions> options, ILogger<Email
         CancellationToken cancellationToken
     )
     {
+        if (string.IsNullOrWhiteSpace(user.Email)) return;
+        if (user.EnableEmailNotifications is false) return;
+
         var templateParams = new
         {
             Name = user.Name,
@@ -146,8 +155,6 @@ public class EmailNotifier(IOptionsSnapshot<EmailOptions> options, ILogger<Email
         CancellationToken cancellationToken
     )
     {
-        if (string.IsNullOrWhiteSpace(userEmail)) return false;
-
         try
         {
             var message = new MimeMessage();
