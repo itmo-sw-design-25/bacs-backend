@@ -33,7 +33,7 @@ public static class UpdateLocationCommand
             location.Address = request.Address;
             location.Description = request.Description;
             location.CalendarSettings.AvailableFrom = request.CalendarSettings.AvailableFrom;
-            location.CalendarSettings.AvailableFrom = request.CalendarSettings.AvailableTo;
+            location.CalendarSettings.AvailableTo = request.CalendarSettings.AvailableTo;
             location.CalendarSettings.AvailableDaysOfWeek = request.CalendarSettings.AvailableDaysOfWeek;
 
             dbContext.Locations.Update(location);
