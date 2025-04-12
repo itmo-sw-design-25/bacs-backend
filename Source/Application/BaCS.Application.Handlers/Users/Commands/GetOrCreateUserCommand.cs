@@ -18,7 +18,7 @@ public static class GetOrCreateUserCommand
             var user = await dbContext
                 .Users
                 .AsNoTracking()
-                .FirstOrDefaultAsync(x => x.Email == request.Email, cancellationToken);
+                .FirstOrDefaultAsync(x => x.Id == request.UserId, cancellationToken);
 
             if (user is not null) return mapper.Map<UserDto>(user);
 
