@@ -10,7 +10,6 @@
 
     <ItemGroup>
         <PackageReference Include="FluentValidation"/>
-        <PackageReference Include="FluentValidation.AspNetCore"/>
         <PackageReference Include="MediatR.Contracts"/>
     </ItemGroup>
 
