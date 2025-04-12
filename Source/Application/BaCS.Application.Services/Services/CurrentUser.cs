@@ -13,13 +13,13 @@ public class CurrentUser(IHttpContextAccessor httpContextAccessor) : ICurrentUse
     {
         get
         {
-            var id = _principal.FindFirstValue(ApplicationClaimDefaults.IdClaimType)!;
+            var id = _principal.FindFirst(ApplicationClaimDefaults.IdClaimType)!;
 
-            return Guid.Parse(id);
+            return Guid.Parse(id.Value);
         }
     }
 
-    public string Email => _principal.FindFirstValue(ApplicationClaimDefaults.EmailClaimType);
+    public string Email => _principal.FindFirst(ApplicationClaimDefaults.EmailClaimType)!.Value;
 
     public bool IsAdminIn(params Guid[] locationIds)
     {

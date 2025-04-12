@@ -501,6 +501,7 @@ dotnet_diagnostic.SA1010.severity = none #https://github.com/DotNetAnalyzers/Sty
 dotnet_diagnostic.SA1513.severity = none #https://github.com/DotNetAnalyzers/StyleCopAnalyzers/blob/master/documentation/SA1513.md
 dotnet_diagnostic.SA1601.severity = none #https://github.com/DotNetAnalyzers/StyleCopAnalyzers/blob/master/documentation/SA1601.md
 dotnet_diagnostic.SA1106.severity = none #https://github.com/DotNetAnalyzers/StyleCopAnalyzers/blob/master/documentation/SA1106.md
+dotnet_diagnostic.SA0001.severity = none #https://github.com/DotNetAnalyzers/StyleCopAnalyzers/blob/master/documentation/SA0001.md
 dotnet_diagnostic.SA1615.severity = suggestion #https://github.com/DotNetAnalyzers/StyleCopAnalyzers/blob/master/documentation/SA1615.md
 dotnet_diagnostic.SA1129.severity = suggestion #https://github.com/DotNetAnalyzers/StyleCopAnalyzers/blob/master/documentation/SA1129.md
 dotnet_diagnostic.SA1100.severity = suggestion #https://github.com/DotNetAnalyzers/StyleCopAnalyzers/blob/master/documentation/SA1100.md
@@ -508,3 +509,4 @@ dotnet_diagnostic.SA1200.severity = suggestion #https://github.com/DotNetAnalyze
 
 [**/Migrations/*.cs]
 dotnet_diagnostic.SA1200.severity = none #https://github.com/DotNetAnalyzers/StyleCopAnalyzers/blob/master/documentation/SA1200.md
+dotnet_diagnostic.SA1122.severity = none #https://github.com/DotNetAnalyzers/StyleCopAnalyzers/blob/master/documentation/SA1122.md
