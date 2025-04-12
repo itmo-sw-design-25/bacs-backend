@@ -13,6 +13,7 @@
         <PackageReference Include="Mapster"/>
         <PackageReference Include="Mapster.EFCore"/>
         <PackageReference Include="MediatR"/>
+        <PackageReference Include="Microsoft.AspNetCore.Authentication.Abstractions"/>
     </ItemGroup>
 
     <ItemGroup>
