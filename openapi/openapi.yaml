@@ -1429,6 +1429,8 @@ paths:
                     status: 400
                     instance: 'PUT /users/{userId}'
                     errors:
+                      Email:
+                        - The 'Email' field is not valid
                       EnableEmailNotifications:
                         - The 'EnableEmailNotifications' field is not valid
         '403':
@@ -1996,6 +1998,11 @@ components:
         - enableEmailNotifications
       type: object
       properties:
+        email:
+          type: string
+          description: Email-адрес пользователя.
+          format: email
+          nullable: true
         enableEmailNotifications:
           type: boolean
           description: Уведомлять о бронированиях по электронной почте.

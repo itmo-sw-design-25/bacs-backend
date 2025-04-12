@@ -10,7 +10,7 @@ using MediatR;
 
 public static class UpdateUserCommand
 {
-    public record Command(Guid UserId, bool EnableEmailNotifications) : IRequest<UserDto>;
+    public record Command(Guid UserId, string Email, bool EnableEmailNotifications) : IRequest<UserDto>;
 
     internal class Handler(IBaCSDbContext dbContext, ICurrentUser currentUser, IMapper mapper)
         : IRequestHandler<Command, UserDto>
@@ -23,7 +23,9 @@ public static class UpdateUserCommand
             var user = await dbContext.Users.FindAsync([request.UserId], cancellationToken)
                        ?? throw new EntityNotFoundException<User>(request.UserId);
 
+            user.Email = request.Email;
             user.EnableEmailNotifications = request.EnableEmailNotifications;
+
             dbContext.Users.Update(user);
             await dbContext.SaveChangesAsync(cancellationToken);
 

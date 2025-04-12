@@ -3,6 +3,7 @@ using System;
 using BaCS.Persistence.PostgreSQL;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
@@ -11,9 +12,11 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace BaCS.Persistence.PostgreSQL.Migrations
 {
     [DbContext(typeof(BaCSDbContext))]
-    partial class BaCSDbContextModelSnapshot : ModelSnapshot
+    [Migration("20250412212608_User__Email_Made_Not_Unique")]
+    partial class User__Email_Made_Not_Unique
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
