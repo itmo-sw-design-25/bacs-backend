@@ -105,7 +105,7 @@
       - ${NGINX_CERTS_FULLCHAIN_PATH}:/etc/nginx/certs/fullchain.pem:ro
       - ${NGINX_PRIVKEY_PATH}:/etc/nginx/certs/privkey.pem:ro
       - ./.deployment/nginx/templates:/etc/nginx/templates/:ro
-      - ./.deployment/nginx/index.html:/usr/share/nginx/html/index.html:ro
+      - ./.deployment/nginx/html:/usr/share/nginx/html/:ro
     env_file: .env
     restart: unless-stopped
     networks:
