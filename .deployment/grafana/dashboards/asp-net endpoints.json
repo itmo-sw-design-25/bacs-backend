@@ -509,8 +509,18 @@
       },
       "id": 51,
       "options": {
-        "calculate": true,
-        "cellGap": 1,
+        "calculate": false,
+        "calculation": {
+          "xBuckets": {
+            "value": ""
+          },
+          "yBuckets": {
+            "scale": {
+              "type": "linear"
+            }
+          }
+        },
+        "cellGap": 2,
         "color": {
           "exponent": 0.5,
           "fill": "dark-orange",
@@ -527,7 +537,7 @@
           "le": 1e-9
         },
         "legend": {
-          "show": true
+          "show": false
         },
         "rowsFrame": {
           "layout": "auto"
@@ -539,6 +549,7 @@
         },
         "yAxis": {
           "axisPlacement": "left",
+          "decimals": 0,
           "reverse": false,
           "unit": "s"
         }
@@ -551,10 +562,13 @@
             "uid": "${DS_PROMETHEUS}"
           },
           "editorMode": "code",
-          "expr": "sum by(le) (\n  rate(microsoft_aspnetcore_hosting_http_server_request_duration_bucket{\n    job=\"$job\",\n    instance=\"$instance\",\n    http_route=~\"$route\",\n    http_request_method=~\"$method\"\n  }[$__rate_interval])\n)",
+          "exemplar": false,
+          "expr": "sum(\n  increase(http_request_duration_seconds_bucket{\n    job=\"$job\",\n    instance=\"$instance\",\n    endpoint=~\"$route\",\n    method=~\"$method\"\n  }[$__rate_interval])\n) by(le) ",
+          "format": "heatmap",
           "hide": false,
           "instant": false,
-          "legendFormat": "__auto",
+          "interval": "5m",
+          "legendFormat": "{{le}}",
           "range": true,
           "refId": "B"
         }
@@ -1028,6 +1042,6 @@
   "timezone": "",
   "title": "ASP.NET Endpoints",
   "uid": "NagEsjE4z",
-  "version": 4,
+  "version": 5,
   "weekStart": ""
 }
