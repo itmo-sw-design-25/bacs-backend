@@ -17,8 +17,8 @@ public static class GetReservationsQuery
         Guid[] ResourceIds,
         Guid[] LocationIds,
         ReservationStatus[] Statuses,
-        DateTime BeforeDate,
-        DateTime AfterDate,
+        DateTime? BeforeDate,
+        DateTime? AfterDate,
         int Offset,
         int Limit
     ) : IRequest<PaginatedResponse<ReservationDto>>;
@@ -55,12 +55,12 @@ public static class GetReservationsQuery
                 query = query.Where(x => request.Statuses.Contains(x.Status));
             }
 
-            if (request.BeforeDate is var beforeDate)
+            if (request.BeforeDate is { } beforeDate)
             {
                 query = query.Where(x => x.To <= beforeDate);
             }
 
-            if (request.AfterDate is var afterDate)
+            if (request.AfterDate is { } afterDate)
             {
                 query = query.Where(x => x.From >= afterDate);
             }
