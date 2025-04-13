@@ -16,9 +16,9 @@ public record GetReservationsRequest(
     [property: Description("Фильтр по статусам резерваций.")]
     ReservationStatus[] Statuses,
     [property: Description("Фильтр по времени начала бронирования (включительно).")]
-    DateTime AfterDate,
+    DateTime? AfterDate,
     [property: Description("Фильтр по времени окончания бронирования (включительно).")]
-    DateTime BeforeDate,
+    DateTime? BeforeDate,
     int Offset = 0,
     int Limit = 10
 );

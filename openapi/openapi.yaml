@@ -587,6 +587,7 @@ paths:
             type: string
             description: Фильтр по времени начала бронирования (включительно).
             format: date-time
+            nullable: true
         - name: beforeDate
           in: query
           description: Фильтр по времени окончания бронирования (включительно).
@@ -594,6 +595,7 @@ paths:
             type: string
             description: Фильтр по времени окончания бронирования (включительно).
             format: date-time
+            nullable: true
         - name: offset
           in: query
           schema:
@@ -1671,10 +1673,12 @@ components:
           type: string
           description: Фильтр по времени начала бронирования (включительно).
           format: date-time
+          nullable: true
         beforeDate:
           type: string
           description: Фильтр по времени окончания бронирования (включительно).
           format: date-time
+          nullable: true
         offset:
           minimum: 0
           type: integer
