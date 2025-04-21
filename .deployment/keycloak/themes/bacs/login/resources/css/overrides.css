@@ -1,0 +1,27 @@
+:root {
+    --pf-c-form__label-text--FontWeight: 400;
+    --pf-v5-global--FontFamily--heading: 'Nunito', sans-serif;
+    --pf-v5-global--FontFamily--text: 'Nunito', sans-serif;
+}
+
+:where(.pf-v5-theme-dark) {
+    --pf-v5-global--BackgroundColor--300: #1e293b;
+    --pf-v5-global--BackgroundColor--400: #374151;
+    --pf-v5-global--primary-color--300: #3b82f6;
+}
+
+.pf-v5-c-login__main-header {
+    border-top: none;
+}
+
+.pf-v5-c-login__main {
+    border-radius: 0.5rem;
+}
+
+.pf-v5-c-form-control:after {
+    border-block-end: none;
+}
+
+.pf-v5-c-button.pf-m-control {
+    --pf-v5-c-button--after--BorderWidth: 0;
+}

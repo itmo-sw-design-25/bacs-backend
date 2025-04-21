@@ -124,13 +124,14 @@
       - bacs
 
   keycloak:
-    image: quay.io/keycloak/keycloak:24.0.1
+    image: quay.io/keycloak/keycloak:26.2.0
     container_name: keycloak
     env_file: .env
     command: start
     volumes:
       - ${KC_CERTS_CRT}:${KC_HTTPS_CERTIFICATE_FILE}:ro
       - ${KC_CERTS_KEY}:${KC_HTTPS_CERTIFICATE_KEY_FILE}:ro
+      - ./.deployment/keycloak/themes:/opt/keycloak/themes/:ro
     depends_on:
       - postgres
     networks:
