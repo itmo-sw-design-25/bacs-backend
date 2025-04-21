@@ -1,0 +1,21 @@
+/** Fonts **/
+@import url('./custom-font.css');
+
+/* Overrides */
+@import url('./overrides.css');
+
+/* Defaults */
+.login-pf body {
+    background-color: #0f172a !important;
+    background-image: radial-gradient(at 80% 0%, hsla(189, 100%, 56%, 0.1) 0px, transparent 50%), radial-gradient(at 0% 50%, hsla(355, 100%, 93%, 0.1) 0px, transparent 50%) !important;
+    background-size: cover;
+    height: 100%;
+}
+
+div.kc-logo-text {
+    height: 6rem;
+    width: 16rem;
+    background-repeat: no-repeat;
+    background-size: contain;
+    margin: auto;
+}
