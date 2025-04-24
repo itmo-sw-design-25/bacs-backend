@@ -1,0 +1,21 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<ContentView xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="BaCS.Presentation.MAUI.Views.LocationListControl"
+             xmlns:local="clr-namespace:BaCS.Presentation.MAUI.ViewModels"
+             xmlns:vm="clr-namespace:BaCS.Presentation.MAUI.ViewModels"
+             xmlns:properties="clr-namespace:BaCS.Presentation.MAUI.Properties"
+             x:DataType="vm:LocationsListVm">
+    <StackLayout Orientation="Vertical">
+        <Label Text="{x:Static properties:Resources.Offices}" />
+
+        <StackLayout Orientation="Vertical" Background="White">
+            <ListView ItemsSource="{Binding Locations}" SelectionMode="None"/>
+            <Button
+                Command="{Binding updateLocationsCommand}"
+                Text="{x:Static properties:Resources.ShowMore}" />
+        </StackLayout>
+
+    </StackLayout>
+</ContentView>

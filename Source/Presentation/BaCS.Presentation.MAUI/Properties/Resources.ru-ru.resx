@@ -1,0 +1,140 @@
+﻿<root>
+    <resheader name="resmimetype">
+        <value>text/microsoft-resx</value>
+    </resheader>
+    <resheader name="version">
+        <value>1.3</value>
+    </resheader>
+    <resheader name="reader">
+        <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    </resheader>
+    <resheader name="writer">
+        <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    </resheader>
+    <data name="Editing" xml:space="preserve">
+        <value>Редактирование</value>
+    </data>
+    <data name="Search" xml:space="preserve">
+        <value>Поиск</value>
+    </data>
+    <data name="ConfirmCancel" xml:space="preserve">
+        <value>Подтвердить отмену</value>
+    </data>
+    <data name="GoBack" xml:space="preserve">
+        <value>Вернуться назад</value>
+    </data>
+    <data name="ConfirmBookingData" xml:space="preserve">
+        <value>Подтвердите информацию о бронировании:</value>
+    </data>
+    <data name="NotFound" xml:space="preserve">
+        <value>Ничего не найдено! Попробуйте изменить запрос</value>
+    </data>
+    <data name="ConfrimCreate" xml:space="preserve">
+        <value>Подтвердить создание</value>
+    </data>
+    <data name="ConfirmChanges" xml:space="preserve">
+        <value>Сохранить изменения</value>
+    </data>
+    <data name="ConfirmDelete" xml:space="preserve">
+        <value>Подтвердить удаление</value>
+    </data>
+    <data name="Save" xml:space="preserve">
+        <value>Сохранить</value>
+    </data>
+    <data name="Book" xml:space="preserve">
+        <value>Забронировать</value>
+    </data>
+    <data name="Offices" xml:space="preserve">
+        <value>Офисы</value>
+    </data>
+    <data name="Journal" xml:space="preserve">
+        <value>Журнал</value>
+    </data>
+    <data name="Cancel" xml:space="preserve">
+        <value>Отменить</value>
+    </data>
+    <data name="OfficeCreate" xml:space="preserve">
+        <value>Создать офис</value>
+    </data>
+    <data name="Profile" xml:space="preserve">
+        <value>Профиль</value>
+    </data>
+    <data name="ChangesAsking" xml:space="preserve">
+        <value>Вы уверены, что хотите сохранить внесенные изменения?</value>
+    </data>
+    <data name="PlaceDeleting" xml:space="preserve">
+        <value>Вы уверены, что хотите удалить данное рабочее место? Вы не сможете восстановить место после удаления</value>
+    </data>
+    <data name="PlaceDelete" xml:space="preserve">
+        <value>Удалить место</value>
+    </data>
+    <data name="ChangesDeleting" xml:space="preserve">
+        <value>Вы уверены, что хотите удалить данное рабочее место? Вы не сможете восстановить место после удаления</value>
+    </data>
+    <data name="Equipment" xml:space="preserve">
+        <value>Оборудование:</value>
+    </data>
+    <data name="Booked" xml:space="preserve">
+        <value>Забронировано:</value>
+    </data>
+    <data name="Succes" xml:space="preserve">
+        <value>Успешно!</value>
+    </data>
+    <data name="JournalBooking" xml:space="preserve">
+        <value>Журнал бронирований</value>
+    </data>
+    <data name="YourAccount" xml:space="preserve">
+        <value>Ваш аккаунт</value>
+    </data>
+    <data name="PlacesInOffice" xml:space="preserve">
+        <value>Места в этом офисе</value>
+    </data>
+    <data name="PlaceCreate" xml:space="preserve">
+        <value>Создать место</value>
+    </data>
+    <data name="ShowMore" xml:space="preserve">
+        <value>Показать ещё</value>
+    </data>
+    <data name="PickTime" xml:space="preserve">
+        <value>Выберите время:</value>
+    </data>
+    <data name="FoundedNSequences" xml:space="preserve">
+        <value>Найдено {} вариантов</value>
+    </data>
+    <data name="Booking" xml:space="preserve">
+        <value>Бронирование</value>
+    </data>
+    <data name="Administrating" xml:space="preserve">
+        <value>Администрирование</value>
+    </data>
+    <data name="SearchTarget" xml:space="preserve">
+        <value>Цель поиска</value>
+    </data>
+    <data name="PlaceType" xml:space="preserve">
+        <value>Тип места</value>
+    </data>
+    <data name="OfficeCreating" xml:space="preserve">
+        <value>Создание офиса</value>
+    </data>
+    <data name="OfficeRedacting" xml:space="preserve">
+        <value>Редактирование офиса</value>
+    </data>
+    <data name="BookingCancel" xml:space="preserve">
+        <value>Отмена бронирования</value>
+    </data>
+    <data name="LogOut" xml:space="preserve">
+        <value>Выйти из аккаунта</value>
+    </data>
+    <data name="DeleteAndLogOut" xml:space="preserve">
+        <value>Удалить данные и аккаунт</value>
+    </data>
+    <data name="Promo" xml:space="preserve">
+        <value>Booking a coworking space</value>
+    </data>
+    <data name="WelcomeText" xml:space="preserve">
+        <value>Добро пожаловать в систему бронирования коворкингов!</value>
+    </data>
+    <data name="LogIn" xml:space="preserve">
+        <value>Войти в аккаунт</value>
+    </data>
+</root>

@@ -1,0 +1,147 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<root>
+    <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+        <xsd:element name="root" msdata:IsDataSet="true">
+
+        </xsd:element>
+    </xsd:schema>
+    <resheader name="resmimetype">
+        <value>text/microsoft-resx</value>
+    </resheader>
+    <resheader name="version">
+        <value>1.3</value>
+    </resheader>
+    <resheader name="reader">
+        <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    </resheader>
+    <resheader name="writer">
+        <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    </resheader>
+    <data name="Search" xml:space="preserve">
+        <value>Search</value>
+    </data>
+    <data name="Editing" xml:space="preserve">
+        <value>Editing</value>
+    </data>
+    <data name="ConfirmCancel" xml:space="preserve">
+        <value>Confirm cancellation</value>
+    </data>
+    <data name="GoBack" xml:space="preserve">
+        <value>Go back</value>
+    </data>
+    <data name="ConfirmBookingData" xml:space="preserve">
+        <value>Confirm booking information:</value>
+    </data>
+    <data name="NotFound" xml:space="preserve">
+        <value>Nothing found! Try changing your query</value>
+    </data>
+    <data name="ConfrimCreate" xml:space="preserve">
+        <value>Confirm creation</value>
+    </data>
+    <data name="ConfirmChanges" xml:space="preserve">
+        <value>Save changes</value>
+    </data>
+    <data name="ConfirmDelete" xml:space="preserve">
+        <value>Confirm deletion</value>
+    </data>
+    <data name="Save" xml:space="preserve">
+        <value>Save</value>
+    </data>
+    <data name="Book" xml:space="preserve">
+        <value>Book</value>
+    </data>
+    <data name="Offices" xml:space="preserve">
+        <value>Offices</value>
+    </data>
+    <data name="Journal" xml:space="preserve">
+        <value>Journal</value>
+    </data>
+    <data name="OfficeCreate" xml:space="preserve">
+        <value>Create office</value>
+    </data>
+    <data name="Cancel" xml:space="preserve">
+        <value>Cancel</value>
+    </data>
+    <data name="Profile" xml:space="preserve">
+        <value>Profile</value>
+    </data>
+    <data name="ChangesAsking" xml:space="preserve">
+        <value>Are you sure you want to save the changes?</value>
+    </data>
+    <data name="ChangesDeleting" xml:space="preserve">
+        <value>Are you sure you want to delete this workspace? You will not be able to restore it after deletion</value>
+    </data>
+    <data name="PlaceDeleting" xml:space="preserve">
+        <value>Are you sure you want to delete this workspace? You will not be able to restore it after deletion</value>
+    </data>
+    <data name="PlaceDelete" xml:space="preserve">
+        <value>Delete place</value>
+    </data>
+    <data name="Equipment" xml:space="preserve">
+        <value>Equipment:</value>
+    </data>
+    <data name="Succes" xml:space="preserve">
+        <value>Success!</value>
+    </data>
+    <data name="Booked" xml:space="preserve">
+        <value>Booked:</value>
+    </data>
+    <data name="JournalBooking" xml:space="preserve">
+        <value>Booking journal</value>
+    </data>
+    <data name="YourAccount" xml:space="preserve">
+        <value>Your account</value>
+    </data>
+    <data name="PlacesInOffice" xml:space="preserve">
+        <value>Places in this office</value>
+    </data>
+    <data name="PlaceCreate" xml:space="preserve">
+        <value>Create place</value>
+    </data>
+    <data name="ShowMore" xml:space="preserve">
+        <value>Show more</value>
+    </data>
+    <data name="PickTime" xml:space="preserve">
+        <value>Select time:</value>
+    </data>
+    <data name="FoundedNSequences" xml:space="preserve">
+        <value>Found {} options</value>
+    </data>
+    <data name="Booking" xml:space="preserve">
+        <value>Booking</value>
+    </data>
+    <data name="Administrating" xml:space="preserve">
+        <value>Administration</value>
+    </data>
+    <data name="SearchTarget" xml:space="preserve">
+        <value>Search target</value>
+    </data>
+    <data name="PlaceType" xml:space="preserve">
+        <value>Place type</value>
+    </data>
+    <data name="OfficeCreating" xml:space="preserve">
+        <value>Office creation</value>
+    </data>
+    <data name="OfficeRedacting" xml:space="preserve">
+        <value>Office editing</value>
+    </data>
+    <data name="BookingCancel" xml:space="preserve">
+        <value>Cancel booking</value>
+    </data>
+    <data name="LogOut" xml:space="preserve">
+        <value>Log out</value>
+    </data>
+    <data name="DeleteAndLogOut" xml:space="preserve">
+        <value>Delete data and account</value>
+    </data>
+    <data name="Promo" xml:space="preserve">
+        <value>Booking a coworking space</value>
+    </data>
+    <data name="WelcomeText" xml:space="preserve">
+        <value>Welcome to the coworking space booking system!</value>
+    </data>
+    <data name="LogIn" xml:space="preserve">
+        <value>Log in</value>
+    </data>
+</root>

@@ -1,0 +1,43 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<ContentView xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="BaCS.Presentation.MAUI.Views.ResourceCard"
+             xmlns:vm="clr-namespace:BaCS.Presentation.MAUI.ViewModels"
+             xmlns:properties="clr-namespace:BaCS.Presentation.MAUI.Properties"
+             x:DataType="vm:ResourceVM">
+    <StackLayout Orientation="Vertical">
+        <StackLayout Orientation="Horizontal">
+            <Button />
+            <Label Text="{Binding Name}" />
+        </StackLayout>
+
+        <Image>
+            <Image.Source>
+                <UriImageSource
+                    Uri="{Binding ImageUrl}"/>
+            </Image.Source>
+        </Image>
+
+        <StackLayout>
+            <StackLayout Orientation="Horizontal">
+                <Label Text="{Binding FloorStr}"/>
+                <Label Text="{Binding TypeStr}"/>
+            </StackLayout>
+            <Label Text="{Binding Description}"/>
+            <Label Text="{x:Static properties:Resources.Equipment}" HorizontalTextAlignment="Start"/>
+            <ListView ItemsSource="{Binding Equipment}">
+                <ListView.ItemTemplate>
+                    <DataTemplate>
+                        <TextCell
+                            Text="{Binding }"
+                        />
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+            </ListView>
+        </StackLayout>
+        <Button Command="{Binding BookCommand}"
+                Text="{x:Static properties:Resources.Book}"/>
+    </StackLayout>
+
+</ContentView>

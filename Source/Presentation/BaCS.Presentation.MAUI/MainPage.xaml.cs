@@ -1,12 +1,18 @@
 ﻿namespace BaCS.Presentation.MAUI;
 
+using System.Windows.Input;
+using Services;
+
 public partial class MainPage : ContentPage
 {
     int count = 0;
 
+
+
     public MainPage()
     {
         InitializeComponent();
+
     }
 
     private void OnCounterClicked(object? sender, EventArgs e)
@@ -20,4 +26,6 @@ public partial class MainPage : ContentPage
 
         SemanticScreenReader.Announce(CounterBtn.Text);
     }
+
+
 }
