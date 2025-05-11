@@ -177,6 +177,15 @@ namespace BaCS.Presentation.MAUI.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Date.
+        /// </summary>
+        internal static string Date {
+            get {
+                return ResourceManager.GetString("Date", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Delete data and account.
         /// </summary>
         internal static string DeleteAndLogOut {
@@ -263,6 +272,15 @@ namespace BaCS.Presentation.MAUI.Properties {
         internal static string NotFound {
             get {
                 return ResourceManager.GetString("NotFound", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Office.
+        /// </summary>
+        internal static string Office {
+            get {
+                return ResourceManager.GetString("Office", resourceCulture);
             }
         }
         
@@ -371,6 +389,15 @@ namespace BaCS.Presentation.MAUI.Properties {
         internal static string Promo {
             get {
                 return ResourceManager.GetString("Promo", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Place type.
+        /// </summary>
+        internal static string ResourceType {
+            get {
+                return ResourceManager.GetString("ResourceType", resourceCulture);
             }
         }
         

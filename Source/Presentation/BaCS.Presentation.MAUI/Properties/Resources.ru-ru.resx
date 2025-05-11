@@ -135,6 +135,15 @@
         <value>Добро пожаловать в систему бронирования коворкингов!</value>
     </data>
     <data name="LogIn" xml:space="preserve">
-        <value>Войти в аккаунт</value>
+        <value>Войти в аккаунт с помощью Google</value>
+    </data>
+    <data name="Office" xml:space="preserve">
+        <value>Офис</value>
+    </data>
+    <data name="Date" xml:space="preserve">
+        <value>Дата</value>
+    </data>
+    <data name="ResourceType" xml:space="preserve">
+        <value>Тип места</value>
     </data>
 </root>

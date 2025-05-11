@@ -8,18 +8,17 @@ using AsyncRelayCommand = CommunityToolkit.Mvvm.Input.AsyncRelayCommand;
 
 public class MainPageVm
 {
-    private readonly AuthService authService;
+    private readonly AuthentificationService _authentificationService;
     public ICommand LoginCommand { get; }
     public MainPageVm()
     {
-        authService = new AuthService();
-        authService.Initialize();
-        LoginCommand = new AsyncRelayCommand(authService.LoginAsync);
+        _authentificationService = new AuthentificationService();
+        LoginCommand = new AsyncRelayCommand(_authentificationService.LoginAsync);
     }
 
     public async void OnLoginClicked(object? sender, EventArgs e)
     {
-        var currentAccessToken = await authService.LoginAsync().ConfigureAwait(false);
+        var currentAccessToken = await _authentificationService.LoginAsync().ConfigureAwait(false);
         Console.WriteLine($"ТОКЕН ТУТ --> {currentAccessToken.AccessToken}");
 
     }

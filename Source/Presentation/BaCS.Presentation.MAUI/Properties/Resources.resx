@@ -144,4 +144,13 @@
     <data name="LogIn" xml:space="preserve">
         <value>Log in</value>
     </data>
+    <data name="Office" xml:space="preserve">
+        <value>Office</value>
+    </data>
+    <data name="Date" xml:space="preserve">
+        <value>Date</value>
+    </data>
+    <data name="ResourceType" xml:space="preserve">
+        <value>Place type</value>
+    </data>
 </root>

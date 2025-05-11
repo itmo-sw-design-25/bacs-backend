@@ -1,5 +1,6 @@
 ﻿namespace BaCS.Presentation.MAUI.Services;
 
+using Duende.IdentityModel.Client;
 using Duende.IdentityModel.OidcClient.Browser;
 
 public class WebBrowserAuthenticator : IBrowser
@@ -15,9 +16,12 @@ public class WebBrowserAuthenticator : IBrowser
 
             var authorizeResponse = ToRawIdentityUrl(options.EndUrl, authResult);
 
+            var url = new RequestUrl("bacs://callback").Create(new Parameters(authResult.Properties));
+
             return new BrowserResult
             {
-                Response = authorizeResponse
+                Response = url,
+                ResultType = BrowserResultType.Success
             };
         }
         catch (TaskCanceledException)

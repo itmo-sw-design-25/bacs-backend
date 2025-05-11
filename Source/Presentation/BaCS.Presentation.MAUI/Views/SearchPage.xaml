@@ -1,0 +1,21 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:viewModels="clr-namespace:BaCS.Presentation.MAUI.ViewModels"
+             xmlns:views="clr-namespace:BaCS.Presentation.MAUI.Views"
+             x:Class="BaCS.Presentation.MAUI.Views.SearchPage"
+             BackgroundImageSource="background_detailed.png"
+             Padding="16">
+    <ContentPage.BindingContext>
+        <viewModels:SearchVm />
+    </ContentPage.BindingContext>
+    <ContentPage.Content>
+        <VerticalStackLayout>
+            <Label Text="{Binding Title}"
+                   TextColor="{StaticResource Primary}"
+                   FontSize="26"/>
+            <views:LocationFilter BindingContext="{Binding SearchFilterVm}" />
+        </VerticalStackLayout>
+    </ContentPage.Content>
+</ContentPage>
