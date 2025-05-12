@@ -1,6 +1,9 @@
 ﻿namespace BaCS.Presentation.MAUI.Services;
 
+using System.Security.Claims;
 using System.Timers;
+using Application.Contracts.Dto;
+using Domain.Core.Entities;
 using Duende.IdentityModel.OidcClient;
 using Duende.IdentityModel.OidcClient.Results;
 
@@ -9,6 +12,7 @@ public class AuthentificationService : IAuthentificationService, IDisposable
     private OidcClient oidcClient;
     private string accessToken;
     private Timer accessTokenRenewer;
+    public EventHandler OnLoginSuccess { get; } = delegate { };
 
     public AuthentificationService()
     {
@@ -30,8 +34,6 @@ public class AuthentificationService : IAuthentificationService, IDisposable
         Subscribe(true);
     }
 
-
-
     public string AccessToken
     {
         get
@@ -51,55 +53,75 @@ public class AuthentificationService : IAuthentificationService, IDisposable
 
     public event AccessTokenUpdatedDelegate OnAccessTokenUpdated;
 
-    public event UserAuthenticationSuccedDelegate? OnUserAuthenticationSucced;
+    public event UserAuthenticationSuccedDelegate OnUserAuthenticationSucced;
 
     public event TokenUpdateRequiredDelegate OnTokenUpdateRequired;
 
     public event ReloginRequestedDelegate OnReloginRequested;
 
-    public async Task<LoginResult> LoginAsync()
+    public async Task<bool> LoginAsync()
     {
-        var loginResult = await oidcClient.LoginAsync();
-
-        if (loginResult.IsError)
+        try
         {
-            throw new Exception(loginResult.Error, new Exception(loginResult.ErrorDescription));
+            var loginResult = await oidcClient.LoginAsync();
+
+            if (loginResult.IsError)
+            {
+                throw new Exception(loginResult.Error, new Exception(loginResult.ErrorDescription));
+            }
+
+            AccessToken = loginResult.AccessToken;
+            var refreshToken = loginResult.RefreshToken;
+            await SecureStorage.SetAsync("access_token", AccessToken);
+            await SecureStorage.SetAsync("refresh_token", refreshToken);
+
+            OnUserAuthenticationSucced.Invoke(CreateUserProfileFromClaims(loginResult.User));
+
+            return true;
+        }
+        catch (Exception e)
+        {
+            return false;
         }
 
-        AccessToken = loginResult.AccessToken;
-        var refreshToken = loginResult.RefreshToken;
+        UserDto CreateUserProfileFromClaims(ClaimsPrincipal claims)
+        {
+            var id = Guid.Parse(claims.FindFirst(ClaimTypes.Sid).Value);
+            var name = claims.FindFirst(ClaimTypes.Name).Value;
+            var email = claims.FindFirst(ClaimTypes.Email).Value;
+            var imageUrl = claims.FindFirst("picture").Value;
 
-        await SecureStorage.SetAsync("access_token", AccessToken);
-        await SecureStorage.SetAsync("refresh_token", refreshToken);
-
-        return loginResult;
+            return new UserDto(id, name, email, imageUrl, false);
+        }
     }
 
     //TODO Добавить нормальную обработку ошибок
     public async Task<bool> UpdateTokensAsync()
     {
-        try {
-        var refreshToken = await SecureStorage.GetAsync("refresh_token");
-
-        if (string.IsNullOrEmpty(refreshToken))
+        try
         {
-            await OnReloginRequested.Invoke();
-            return false;
-        }
+            var refreshToken = await SecureStorage.GetAsync("refresh_token");
 
-        var result = await oidcClient.RefreshTokenAsync(refreshToken);
+            if (string.IsNullOrEmpty(refreshToken))
+            {
+                await OnReloginRequested.Invoke();
 
-        if (result.IsError)
-        {
-            await OnReloginRequested.Invoke();
-        }
+                return false;
+            }
 
-        await SecureStorage.SetAsync("refresh_token", result.RefreshToken);
-        await SecureStorage.SetAsync("access_token", AccessToken);
+            var result = await oidcClient.RefreshTokenAsync(refreshToken);
 
-        await OnAccessTokenUpdated.Invoke(result.AccessToken);
+            if (result.IsError)
+            {
+                await OnReloginRequested.Invoke();
+            }
 
-        return true;
+            await SecureStorage.SetAsync("refresh_token", result.RefreshToken);
+            await SecureStorage.SetAsync("access_token", AccessToken);
+
+            await OnAccessTokenUpdated.Invoke(result.AccessToken);
+
+            return true;
         }
         catch (Exception e)
         {

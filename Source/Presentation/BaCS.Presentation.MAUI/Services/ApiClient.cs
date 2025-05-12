@@ -114,11 +114,14 @@ public class ApiClient : IDisposable
         }
     }
 
-    public void Dispose()
+    private async Task UpdateAccessToken(string token)
     {
-        Subscibe(false);
-        restClient?.Dispose();
+        if (restClient != null)
+        {
+            restClient.AddDefaultHeader("Authorization", $"Bearer {token}");
+        }
     }
+
 
     private void Subscibe(bool s)
     {
@@ -132,11 +135,11 @@ public class ApiClient : IDisposable
         }
     }
 
-    private async Task UpdateAccessToken(string token)
+
+
+    public void Dispose()
     {
-        if (restClient != null)
-        {
-            restClient.AddDefaultHeader("Authorization", $"Bearer {token}");
-        }
+        Subscibe(false);
+        restClient?.Dispose();
     }
 }

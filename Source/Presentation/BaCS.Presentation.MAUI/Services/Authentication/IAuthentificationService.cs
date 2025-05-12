@@ -1,5 +1,6 @@
 ﻿namespace BaCS.Presentation.MAUI.Services;
 
+using Application.Contracts.Dto;
 using Duende.IdentityModel.OidcClient;
 using Duende.IdentityModel.OidcClient.Results;
 
@@ -15,7 +16,7 @@ public interface IAuthentificationService
 
     public string AccessToken { get; }
 
-    public Task<LoginResult> LoginAsync();
+    public Task<bool> LoginAsync();
 
     public Task LogoutAsync(string idToken);
 
@@ -32,6 +33,6 @@ public delegate Task<string> TokenUpdateRequiredDelegate();
 
 public delegate Task ReloginRequestedDelegate();
 
-public delegate Task UserAuthenticationSuccedDelegate();
+public delegate Task UserAuthenticationSuccedDelegate(UserDto userProfile);
 
 #endregion

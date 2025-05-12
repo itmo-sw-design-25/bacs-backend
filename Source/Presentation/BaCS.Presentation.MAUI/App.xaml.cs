@@ -13,6 +13,17 @@ public partial class App : Application
     {
         this.rootVm = rootVm;
         InitializeComponent();
+
+        MainPage = new ContentPage
+        {
+            Content = new ActivityIndicator
+            {
+                IsRunning = true,
+                VerticalOptions = LayoutOptions.Center,
+                HorizontalOptions = LayoutOptions.Center
+            }
+        };
+
     }
 
     protected override async void OnStart()
@@ -27,23 +38,16 @@ public partial class App : Application
 
         bool isAuthenticated = await authService.UpdateTokensAsync();
 
+        MainPage = new AppShell(rootVm);
+
         if (isAuthenticated)
         {
-            MainPage = new AppShell(); // Основной интерфейс (Shell или NavigationPage)
+           await Shell.Current.GoToAsync($"//Home");
         }
         else
         {
-            MainPage = new NavigationPage(new LoginPage()); // Страница входа
+            await Shell.Current.GoToAsync($"//Login");
         }
     }
 
-    protected override Window CreateWindow(IActivationState? activationState)
-    {
-        return new Window(new MainPage());
-
-#if ANDROID
-        Microsoft.Maui.ApplicationModel.Platform.CurrentActivity.Window.SetNavigationBarColor(Colors.Transparent.ToPlatform());
-#endif
-
-    }
 }

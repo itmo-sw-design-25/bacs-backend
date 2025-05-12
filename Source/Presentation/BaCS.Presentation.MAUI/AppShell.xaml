@@ -11,26 +11,39 @@
     BackgroundColor="Transparent"
     BackgroundImageSource="background_blur.png">
 
-    <TabBar>
+    <TabBar Route="Login">
+        <ShellContent ContentTemplate="{DataTemplate views:LoginPage}"/>
+    </TabBar>
+
+    <TabBar Route="Home">
         <Tab
             Title="{x:Static properties:Resources.Search}"
             Icon="Search.svg">
-            <ShellContent ContentTemplate="{DataTemplate views:SearchPage}" BindingContext="{Binding SearchVm, Source={RelativeSource AncestorType={x:Type local:AppShell}}}"/>
+            <ShellContent
+                ContentTemplate="{DataTemplate views:SearchPage}"
+                Route="search"
+                BindingContext="{Binding SearchVm, Source={RelativeSource AncestorType={x:Type local:AppShell}}}" />
         </Tab>
         <Tab
             Title="{x:Static properties:Resources.Offices}"
             Icon="Office.svg">
-            <ShellContent ContentTemplate="{DataTemplate views:OfficeListPage}"/>
+            <ShellContent
+                Route="office"
+                ContentTemplate="{DataTemplate views:OfficeListPage}" />
         </Tab>
         <Tab
             Title="{x:Static properties:Resources.Journal}"
             Icon="Journal.svg">
-            <ShellContent ContentTemplate="{DataTemplate views:JournalPage}" />
+            <ShellContent
+                Route="journal"
+                ContentTemplate="{DataTemplate views:JournalPage}" />
         </Tab>
         <Tab
             Title="{x:Static properties:Resources.Profile}"
             Icon="Profile.svg">
-            <ShellContent ContentTemplate="{DataTemplate views:ProfilePage}" />
+            <ShellContent
+                Route="profile"
+                ContentTemplate="{DataTemplate views:ProfilePage}" />
         </Tab>
     </TabBar>
     <!--<ShellContent

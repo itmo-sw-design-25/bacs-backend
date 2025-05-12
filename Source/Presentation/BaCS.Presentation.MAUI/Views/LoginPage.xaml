@@ -4,10 +4,10 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:properties="clr-namespace:BaCS.Presentation.MAUI.Properties"
              xmlns:viewModels="clr-namespace:BaCS.Presentation.MAUI.ViewModels"
-             x:Class="BaCS.Presentation.MAUI.Views.LoginPage">
-    <ContentPage.BindingContext>
-        <viewModels:MainPageVm />
-    </ContentPage.BindingContext>
+             x:Class="BaCS.Presentation.MAUI.Views.LoginPage"
+             BackgroundImageSource="background_detailed.png"
+             x:DataType="viewModels:LoginViewModel">
+
     <ContentPage.Content>
         <VerticalStackLayout
             Padding="30,0"
@@ -38,6 +38,7 @@
                 Text="Login"
                 Command="{Binding LoginCommand}"
                 HorizontalOptions="Fill" />
+
         </VerticalStackLayout>
     </ContentPage.Content>
 </ContentPage>

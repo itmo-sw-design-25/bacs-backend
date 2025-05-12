@@ -6,11 +6,14 @@ using System.Threading.Tasks;
 
 namespace BaCS.Presentation.MAUI.Views;
 
+using ViewModels;
+
 public partial class LoginPage : ContentPage
 {
-    public LoginPage()
+    public LoginPage(LoginViewModel loginViewModel)
     {
         InitializeComponent();
+        BindingContext = loginViewModel;
     }
 }
 

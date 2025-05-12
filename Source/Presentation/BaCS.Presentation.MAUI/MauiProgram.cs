@@ -5,6 +5,8 @@ namespace BaCS.Presentation.MAUI;
 using LocalCache;
 using Microsoft.Maui.Handlers;
 using Services;
+using ViewModels;
+using Views;
 
 public static class MauiProgram
 {
@@ -27,13 +29,16 @@ public static class MauiProgram
         builder.Services.AddSingleton<IAuthentificationService, AuthentificationService>();
         builder.Services.AddSingleton<LocalDatabase>();
         builder.Services.AddSingleton<ApiClient>();
+        builder.Services.AddSingleton<RootVm>();
+        builder.Services.AddSingleton<LoginViewModel>();
+        builder.Services.AddSingleton<LoginPage>();
 
         builder.ConfigureMauiHandlers(
             handlers =>
             {
-#if ANDROID
+/*#if ANDROID
                 handlers.AddHandler<Shell, CustomTabBarRenderer>();
-#endif
+#endif*/
             }
         );
 #if DEBUG

@@ -1,6 +1,7 @@
 ﻿namespace BaCS.Presentation.MAUI;
 
 using ViewModels;
+using Views;
 
 #if  ANDROID
 using Android.Views;
@@ -9,9 +10,10 @@ using ViewModels;
 
 public partial class AppShell : Shell
 {
-    public SearchVm SearchVm { get; set; } = new SearchVm();
-    public AppShell()
+    public RootVm RootVm { get; }
+    public AppShell(RootVm rootVm)
     {
+        RootVm = rootVm;
         InitializeComponent();
     }
 

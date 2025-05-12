@@ -12,6 +12,8 @@ public class LocalDatabase : IDisposable
     {
         this.service = service;
         Subscribe(true);
+
+
     }
 
     public void Init()
