@@ -1,0 +1,41 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Name="self"
+             x:Class="BaCS.Presentation.MAUI.Views.Components.ModalBasePage"
+             xmlns:viewModels="clr-namespace:BaCS.Presentation.MAUI.ViewModels"
+             BackgroundImageSource="background_blur.png"
+             x:DataType="viewModels:BaseModelView">
+    <ContentPage.ControlTemplate>
+        <ControlTemplate>
+            <Grid HorizontalOptions="Fill" VerticalOptions="Start">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="*" />
+                </Grid.RowDefinitions>
+                <Grid Padding="20">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="1*"/>
+                        <ColumnDefinition Width="1*"/>
+                    </Grid.ColumnDefinitions>
+                    <Label
+                        Grid.Column="0"
+                        HorizontalOptions="Start"
+                        Text="Назад"
+                        FontFamily="NunitoBold"
+                        TextColor="{StaticResource Primary}"
+                        HorizontalTextAlignment="Center" />
+                    <Label
+                        Grid.Column="1"
+                        HorizontalOptions="Start"
+                        Text="{Binding Title, Source={x:Reference self}}"
+                        FontFamily="NunitoBold"
+                        TextColor="{StaticResource Primary}"
+                        HorizontalTextAlignment="Center" />
+                </Grid>
+                <ContentPresenter Grid.Row="1" />
+            </Grid>
+        </ControlTemplate>
+    </ContentPage.ControlTemplate>
+</ContentPage>

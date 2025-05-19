@@ -213,6 +213,15 @@ namespace BaCS.Presentation.MAUI.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Find.
+        /// </summary>
+        internal static string Find {
+            get {
+                return ResourceManager.GetString("Find", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Found {} options.
         /// </summary>
         internal static string FoundedNSequences {
@@ -263,6 +272,15 @@ namespace BaCS.Presentation.MAUI.Properties {
         internal static string LogOut {
             get {
                 return ResourceManager.GetString("LogOut", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to meeting room.
+        /// </summary>
+        internal static string MeetingRoom {
+            get {
+                return ResourceManager.GetString("MeetingRoom", resourceCulture);
             }
         }
         
@@ -447,11 +465,29 @@ namespace BaCS.Presentation.MAUI.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to unspecified.
+        /// </summary>
+        internal static string Unspecified {
+            get {
+                return ResourceManager.GetString("Unspecified", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Welcome to the coworking space booking system!.
         /// </summary>
         internal static string WelcomeText {
             get {
                 return ResourceManager.GetString("WelcomeText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Work place.
+        /// </summary>
+        internal static string WorkPlace {
+            get {
+                return ResourceManager.GetString("WorkPlace", resourceCulture);
             }
         }
         

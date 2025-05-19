@@ -9,6 +9,7 @@
     xmlns:views="clr-namespace:BaCS.Presentation.MAUI.Views"
     Title="BaCS.Presentation.MAUI"
     BackgroundColor="Transparent"
+    Shell.NavBarIsVisible="False"
     BackgroundImageSource="background_blur.png">
 
     <TabBar Route="Login">
@@ -21,8 +22,7 @@
             Icon="Search.svg">
             <ShellContent
                 ContentTemplate="{DataTemplate views:SearchPage}"
-                Route="search"
-                BindingContext="{Binding SearchVm, Source={RelativeSource AncestorType={x:Type local:AppShell}}}" />
+                Route="search"/>
         </Tab>
         <Tab
             Title="{x:Static properties:Resources.Offices}"
@@ -46,10 +46,5 @@
                 ContentTemplate="{DataTemplate views:ProfilePage}" />
         </Tab>
     </TabBar>
-    <!--<ShellContent
-        Title="Home"
-        ContentTemplate="{DataTemplate local:MainPage}"
-        Route="MainPage" />-->
-
 
 </Shell>

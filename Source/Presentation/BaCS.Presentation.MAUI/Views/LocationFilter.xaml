@@ -6,33 +6,31 @@
              xmlns:views="clr-namespace:BaCS.Presentation.MAUI.Views"
              x:Class="BaCS.Presentation.MAUI.Views.LocationFilter"
              BackgroundColor="Transparent"
-             >
-    <ContentView.BindingContext>
-        <viewModels:SearchFilterVm />
-    </ContentView.BindingContext>
+             x:DataType="viewModels:SearchFilterVm">
     <Border>
         <Border.StrokeShape>
             <RoundRectangle CornerRadius="20" />
         </Border.StrokeShape>
-
         <VerticalStackLayout BackgroundColor="White" Padding="18">
             <Label Text="{Binding OfficeTitle}"/>
             <Picker
                 Title="{Binding OfficeTitle}"
-                ItemsSource="{Binding Locations,
-                        Converter={x:Static views:LocationsToStringConverter.Instance}}"
-                SelectedItem="{Binding SelectedLocation}" />
+                ItemsSource="{Binding Locations}"
+                ItemDisplayBinding="{Binding .,Converter={x:Static views:LocationsToStringConverter.Instance}}"
+                SelectedItem="{Binding SelectedLocation}"
+                TextColor="Black"/>
             <Label Text="{Binding DateTitle}"/>
             <DatePicker Date="{Binding Date}" />
 
             <Label Text="{Binding ResourceTypeTitle}"/>
             <Picker
                 Title="{Binding ResourceTypeTitle}"
-                ItemsSource="{Binding ResourceTypes,
-                        Converter={x:Static views:ResourceTypeToStringConverter.Instance}}"
-                SelectedItem="{Binding SelectedResourceType}" />
+                ItemsSource="{Binding ResourceTypes}"
+                ItemDisplayBinding="{Binding .,Converter={x:Static views:ResourceTypeToStringConverter.Instance}}"
+                SelectedItem="{Binding SelectedResourceType}"
+                TextColor="Black"/>
 
-            <Button Text="Поиск"/>
+            <Button Text="{Binding FindTitle}" Command="{Binding SearchCommand}"/>
         </VerticalStackLayout>
     </Border>
 </ContentView>

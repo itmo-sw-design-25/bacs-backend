@@ -8,10 +8,11 @@ using Application = Microsoft.Maui.Controls.Application;
 
 public partial class App : Application
 {
-    private readonly RootVm rootVm;
-    public App(RootVm rootVm)
+    private IServiceProvider serviceProvider;
+    public App(IServiceProvider serviceProvider)
     {
-        this.rootVm = rootVm;
+        this.serviceProvider = serviceProvider;
+
         InitializeComponent();
 
         MainPage = new ContentPage
@@ -34,11 +35,13 @@ public partial class App : Application
 
     private async Task InitAsync()
     {
-        var authService = rootVm.authentificationService;
+        var authService = serviceProvider.GetService<IAuthentificationService>();
+
+        if (authService == null) return;
 
         bool isAuthenticated = await authService.UpdateTokensAsync();
 
-        MainPage = new AppShell(rootVm);
+        MainPage = new AppShell();
 
         if (isAuthenticated)
         {

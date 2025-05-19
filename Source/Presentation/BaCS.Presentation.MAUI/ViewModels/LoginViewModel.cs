@@ -1,9 +1,10 @@
 ﻿namespace BaCS.Presentation.MAUI.ViewModels;
 
 using System.Windows.Input;
+using CommunityToolkit.Mvvm.ComponentModel;
 using Services;
 
-public class LoginViewModel : NotifyPropertyChanged
+public class LoginViewModel : ObservableObject
 {
     private readonly IAuthentificationService authentificationService;
 

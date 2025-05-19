@@ -16,7 +16,7 @@ public static class UpdateReservationCommand
 {
     public record Command(Guid ReservationId, DateTime From, DateTime To) : IRequest<ReservationDto>;
 
-    internal class Handler(
+    public class Handler(
         IBaCSDbContext dbContext,
         IEmailNotifier emailNotifier,
         IReservationCalendarValidator calendarValidator,

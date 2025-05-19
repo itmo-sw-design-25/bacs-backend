@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 
 namespace BaCS.Presentation.MAUI.Views;
 
+using Microsoft.Maui.Controls;
 using ViewModels;
 
 public partial class LoginPage : ContentPage

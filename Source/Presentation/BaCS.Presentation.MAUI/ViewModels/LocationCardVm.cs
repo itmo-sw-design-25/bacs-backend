@@ -1,17 +1,19 @@
 ﻿namespace BaCS.Presentation.MAUI.ViewModels;
 
 using System.Collections.ObjectModel;
-using Application.Contracts.Dto;
 using BaCS.Presentation.MAUI.Models;
+using CommunityToolkit.Mvvm.ComponentModel;
+using Services;
 
-public class LocationCardVm : NotifyPropertyChanged
+public class LocationCardVm : ObservableObject
 {
-    private readonly Location location;
+    private readonly LocationDto location;
 
-    public LocationCardVm(Location location)
+    //TODO Переписать на ResourceVm
+    public LocationCardVm(LocationDto location)
     {
         this.location = location;
-        Resources = new ObservableCollection<Resource>(location.Resources);
+        Resources = new ObservableCollection<ResourceVm>();
     }
 
     public string Name { get => location.Name; }
@@ -23,6 +25,6 @@ public class LocationCardVm : NotifyPropertyChanged
     public string ImageUrl { get => location.ImageUrl; }
 
     public CalendarSettingsDto CalendarSettings { get => location.CalendarSettings; }
-    public ObservableCollection<Resource> Resources { get; }
+    public ObservableCollection<ResourceVm> Resources { get; }
 
 }

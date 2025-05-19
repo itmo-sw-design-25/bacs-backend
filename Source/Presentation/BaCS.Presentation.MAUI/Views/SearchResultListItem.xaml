@@ -2,6 +2,32 @@
 
 <ContentView xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             x:Class="BaCS.Presentation.MAUI.Resources.SearchResultListItem">
-    
+             xmlns:viewModels="clr-namespace:BaCS.Presentation.MAUI.ViewModels"
+             xmlns:primitives="clr-namespace:BaCS.Presentation.MAUI.Views.Components.Primitives"
+             x:Class="BaCS.Presentation.MAUI.Resources.SearchResultListItem"
+             x:DataType="viewModels:ResourceVm">
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="2*" />
+        </Grid.ColumnDefinitions>
+        <Border Grid.Column="0" Margin="0, 0, 10, 0">
+            <Border.StrokeShape>
+                <RoundRectangle CornerRadius="16"/>
+            </Border.StrokeShape>
+            <Image Aspect="Fill">
+                <Image.Source>
+                    <UriImageSource Uri="{Binding ImageUrl}" />
+                </Image.Source>
+            </Image>
+        </Border>
+        <VerticalStackLayout Grid.Column="1">
+            <Label Text="{Binding Name}" />
+            <HorizontalStackLayout>
+                <primitives:Tag Text="{Binding DateStr}" TextColor="#D18577" BackgroundColor="#F2E2DF" />
+                <primitives:Tag Text="{Binding TypeStr}" TextColor="#809076" BackgroundColor="#DFE5DB" />
+            </HorizontalStackLayout>
+            <Label Text="{Binding Description}" FontFamily="NunitoMedium" />
+        </VerticalStackLayout>
+    </Grid>
 </ContentView>

@@ -2,10 +2,11 @@
 
 using System.Security.Claims;
 using System.Timers;
-using Application.Contracts.Dto;
-using Domain.Core.Entities;
+
 using Duende.IdentityModel.OidcClient;
 using Duende.IdentityModel.OidcClient.Results;
+using Microsoft.IdentityModel.JsonWebTokens;
+using ViewModels.States;
 
 public class AuthentificationService : IAuthentificationService, IDisposable
 {
@@ -34,6 +35,14 @@ public class AuthentificationService : IAuthentificationService, IDisposable
         Subscribe(true);
     }
 
+    public EventHandler<string> OnAccessTokenUpdated { get; set; } = delegate { };
+
+    public EventHandler<string> OnTokenUpdateRequired { get; set; } = delegate { };
+
+    public EventHandler OnReloginRequested { get; set; } = delegate { };
+
+    public EventHandler<UserDto> OnUserAuthenticationSucced { get; set; } = delegate { };
+
     public string AccessToken
     {
         get
@@ -51,13 +60,6 @@ public class AuthentificationService : IAuthentificationService, IDisposable
         }
     }
 
-    public event AccessTokenUpdatedDelegate OnAccessTokenUpdated;
-
-    public event UserAuthenticationSuccedDelegate OnUserAuthenticationSucced;
-
-    public event TokenUpdateRequiredDelegate OnTokenUpdateRequired;
-
-    public event ReloginRequestedDelegate OnReloginRequested;
 
     public async Task<bool> LoginAsync()
     {
@@ -75,7 +77,7 @@ public class AuthentificationService : IAuthentificationService, IDisposable
             await SecureStorage.SetAsync("access_token", AccessToken);
             await SecureStorage.SetAsync("refresh_token", refreshToken);
 
-            OnUserAuthenticationSucced.Invoke(CreateUserProfileFromClaims(loginResult.User));
+            OnUserAuthenticationSucced.Invoke(this, CreateUserProfileFromClaims(loginResult.User));
 
             return true;
         }
@@ -86,12 +88,23 @@ public class AuthentificationService : IAuthentificationService, IDisposable
 
         UserDto CreateUserProfileFromClaims(ClaimsPrincipal claims)
         {
-            var id = Guid.Parse(claims.FindFirst(ClaimTypes.Sid).Value);
-            var name = claims.FindFirst(ClaimTypes.Name).Value;
-            var email = claims.FindFirst(ClaimTypes.Email).Value;
-            var imageUrl = claims.FindFirst("picture").Value;
+            var rawId = claims.FindFirst(JwtRegisteredClaimNames.Sid);
+            var rawName = claims.FindFirst(JwtRegisteredClaimNames.Name);
+            var rawEmail = claims.FindFirst(JwtRegisteredClaimNames.Email);
+            var rawImage = claims.FindFirst(JwtRegisteredClaimNames.Picture);
 
-            return new UserDto(id, name, email, imageUrl, false);
+            var id = Guid.Parse(rawId.Value);
+            var name = rawName.Value;
+            var email = rawEmail.Value;
+            var imageUrl = rawImage.Value;
+
+            return new UserDto()
+            {
+                Id = id,
+                Name = name,
+                Email = email,
+                ImageUrl = imageUrl
+            };
         }
     }
 
@@ -104,7 +117,7 @@ public class AuthentificationService : IAuthentificationService, IDisposable
 
             if (string.IsNullOrEmpty(refreshToken))
             {
-                await OnReloginRequested.Invoke();
+                OnReloginRequested.Invoke(this, EventArgs.Empty);
 
                 return false;
             }
@@ -113,13 +126,13 @@ public class AuthentificationService : IAuthentificationService, IDisposable
 
             if (result.IsError)
             {
-                await OnReloginRequested.Invoke();
+                OnReloginRequested.Invoke(this, EventArgs.Empty);
             }
 
             await SecureStorage.SetAsync("refresh_token", result.RefreshToken);
             await SecureStorage.SetAsync("access_token", AccessToken);
 
-            await OnAccessTokenUpdated.Invoke(result.AccessToken);
+            OnAccessTokenUpdated.Invoke(this, result.AccessToken);
 
             return true;
         }
@@ -143,7 +156,7 @@ public class AuthentificationService : IAuthentificationService, IDisposable
             SecureStorage.Remove("refresh_token");
             SecureStorage.Remove("access_token");
 
-            await OnReloginRequested.Invoke();
+            OnReloginRequested.Invoke(this, EventArgs.Empty);
         }
     }
 

@@ -7,14 +7,20 @@ using System.Threading.Tasks;
 namespace BaCS.Presentation.MAUI.Views;
 
 using System.Globalization;
-using Domain.Core.Enums;
-using Domain.Core.Extensions;
+using Microsoft.Maui.Controls;
+using Models;
+using Services;
+using ViewModels;
 
 public partial class LocationFilter : ContentView
 {
     public LocationFilter()
     {
         InitializeComponent();
+    }
+    public LocationFilter(SearchFilterVm searchFilterVm = null) : this()
+    {
+        BindingContext = searchFilterVm;
     }
 }
 
@@ -25,9 +31,9 @@ public class LocationsToStringConverter : IValueConverter {
     public static LocationsToStringConverter Instance = new LocationsToStringConverter();
     public object? Convert(object? value, Type targetType, object? parameter, CultureInfo culture)
     {
-        if (value is Location location)
+        if (value is LocationDto location)
         {
-            return location.ToString();
+            return location.Name;
         }
 
         return string.Empty;
@@ -42,7 +48,7 @@ public class ResourceTypeToStringConverter : IValueConverter {
     {
         if (value is ResourceType resourceType)
         {
-            return resourceType.GetDisplayName();
+            return resourceType.ToString();
         }
 
         return string.Empty;

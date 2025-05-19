@@ -1,10 +1,12 @@
 ﻿namespace BaCS.Presentation.MAUI.Services;
 
+using System.Security.AccessControl;
 using Application.Contracts.Dto;
 using Application.Contracts.Requests;
 using Application.Contracts.Responses;
 using Domain.Core.Enums;
 using RestSharp;
+using ResourceType = Domain.Core.Enums.ResourceType;
 
 public static class ApiClientExtensions
 {
@@ -159,7 +161,7 @@ public static class ApiClientExtensions
 
     public static async Task<ApiResponce<PaginatedResponse<ResourceDto>>> GetResources(
         this ApiClient restClient,
-        IEnumerable<Guid>? resourceIds = null,
+        IEnumerable<Guid>? locationIds = null,
         IEnumerable<ResourceType>? types = null,
         int? offset = null,
         int? limit = null
@@ -167,7 +169,7 @@ public static class ApiClientExtensions
     {
         var parameters = new List<Parameter>();
 
-        if (resourceIds != null) parameters.Add(new QueryParameter("resourceIds", string.Join(",", resourceIds)));
+        if (locationIds != null) parameters.Add(new QueryParameter("locationIds", string.Join(",", locationIds)));
         if (types != null) parameters.Add(new QueryParameter("types", string.Join(",", types)));
         if (offset != null) parameters.Add(new QueryParameter("offset", offset.Value.ToString()));
         if (limit != null) parameters.Add(new QueryParameter("limit", limit.Value.ToString()));

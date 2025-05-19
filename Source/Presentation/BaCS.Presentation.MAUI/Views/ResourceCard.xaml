@@ -5,7 +5,7 @@
              x:Class="BaCS.Presentation.MAUI.Views.ResourceCard"
              xmlns:vm="clr-namespace:BaCS.Presentation.MAUI.ViewModels"
              xmlns:properties="clr-namespace:BaCS.Presentation.MAUI.Properties"
-             x:DataType="vm:ResourceVM">
+             x:DataType="vm:ResourceVm">
     <StackLayout Orientation="Vertical">
         <StackLayout Orientation="Horizontal">
             <Button />

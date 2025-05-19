@@ -153,4 +153,16 @@
     <data name="ResourceType" xml:space="preserve">
         <value>Place type</value>
     </data>
+    <data name="Find" xml:space="preserve">
+        <value>Find</value>
+    </data>
+    <data name="WorkPlace" xml:space="preserve">
+        <value>Work place</value>
+    </data>
+    <data name="MeetingRoom" xml:space="preserve">
+        <value>meeting room</value>
+    </data>
+    <data name="Unspecified" xml:space="preserve">
+        <value>unspecified</value>
+    </data>
 </root>

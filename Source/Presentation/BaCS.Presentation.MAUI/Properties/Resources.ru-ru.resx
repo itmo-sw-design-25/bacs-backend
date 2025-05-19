@@ -146,4 +146,16 @@
     <data name="ResourceType" xml:space="preserve">
         <value>Тип места</value>
     </data>
+    <data name="Find" xml:space="preserve">
+        <value>Найти</value>
+    </data>
+    <data name="WorkPlace" xml:space="preserve">
+        <value>Рабочее место</value>
+    </data>
+    <data name="MeetingRoom" xml:space="preserve">
+        <value>переговорная комната</value>
+    </data>
+    <data name="Unspecified" xml:space="preserve">
+        <value>не указанно </value>
+    </data>
 </root>

@@ -1,0 +1,16 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<ContentView xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:primitives="clr-namespace:BaCS.Presentation.MAUI.Views.Components.Primitives"
+             x:Class="BaCS.Presentation.MAUI.Views.Components.Primitives.Tag"
+             x:Name="self">
+    <Border Background="{Binding BackgroundColor, Source={x:Reference self}}" Padding="3">
+    <Border.StrokeShape>
+        <RoundRectangle CornerRadius="12"/>
+    </Border.StrokeShape>
+    <Label Text="{Binding Text, Source={x:Reference self}}"
+           FontSize="8"
+           TextColor="{Binding TextColor,Source={x:Reference self}}"/>
+    </Border>
+</ContentView>

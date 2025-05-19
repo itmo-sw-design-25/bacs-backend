@@ -10,10 +10,8 @@ using ViewModels;
 
 public partial class AppShell : Shell
 {
-    public RootVm RootVm { get; }
-    public AppShell(RootVm rootVm)
+    public AppShell()
     {
-        RootVm = rootVm;
         InitializeComponent();
     }
 

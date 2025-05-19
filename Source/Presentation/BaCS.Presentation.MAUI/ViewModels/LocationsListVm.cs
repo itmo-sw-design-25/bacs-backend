@@ -1,11 +1,11 @@
 ﻿namespace BaCS.Presentation.MAUI.ViewModels;
 
 using System.Collections.ObjectModel;
-using System.ComponentModel;
 using System.Windows.Input;
-using Utils;
+using CommunityToolkit.Mvvm.ComponentModel;
+using CommunityToolkit.Mvvm.Input;
 
-public class LocationsListVm : NotifyPropertyChanged
+public class LocationsListVm : ObservableObject
 {
     private int offset = 0;
     private int limit = 10;

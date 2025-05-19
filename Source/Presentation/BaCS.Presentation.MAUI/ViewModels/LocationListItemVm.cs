@@ -1,8 +1,9 @@
 ﻿namespace BaCS.Presentation.MAUI.ViewModels;
 
-using Application.Contracts.Dto;
+using CommunityToolkit.Mvvm.ComponentModel;
+using Services;
 
-public class LocationListItemVm : NotifyPropertyChanged
+public class LocationListItemVm : ObservableObject
 {
     private readonly LocationDto locationDto;
 

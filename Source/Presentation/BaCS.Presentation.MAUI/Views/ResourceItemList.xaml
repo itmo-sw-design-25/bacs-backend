@@ -4,7 +4,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="BaCS.Presentation.MAUI.Views.ResourceItemList"
              xmlns:vm="clr-namespace:BaCS.Presentation.MAUI.ViewModels"
-             x:DataType="vm:ResourceVM">
+             x:DataType="vm:ResourceVm">
     <StackLayout Orientation="Horizontal">
         <Image>
             <Image.Source>

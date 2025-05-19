@@ -19,6 +19,7 @@
         <SingleProject>true</SingleProject>
         <ImplicitUsings>enable</ImplicitUsings>
         <Nullable>enable</Nullable>
+        <MauiEnableXamlCBindingWithSourceCompilation>true</MauiEnableXamlCBindingWithSourceCompilation>
         <!-- Display name -->
         <ApplicationTitle>BaCS.Presentation.MAUI</ApplicationTitle>
 
@@ -81,7 +82,6 @@
         <PackageReference Include="Microsoft.Maui.Core" Version="9.0.14" />
         <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
         <PackageReference Include="RestSharp" Version="112.1.0" />
-        <PackageReference Include="sqlite-net-pcl" Version="1.9.172" />
     </ItemGroup>
 
     <ItemGroup>
@@ -107,14 +107,14 @@
         <SubType>Code</SubType>
       </Compile>
       <Compile Remove="Services\Pkce.cs" />
-      <Compile Update="Platforms\Android\CustomTabBarRenderer.cs">
-        <ExcludeFromCurrentConfiguration>false</ExcludeFromCurrentConfiguration>
-      </Compile>
       <Compile Update="Properties\ServiceResources.Designer.cs">
         <DesignTime>True</DesignTime>
         <AutoGen>True</AutoGen>
         <DependentUpon>ServiceResources.resx</DependentUpon>
       </Compile>
+      <Compile Remove="Services\ApiClientExtensions.cs" />
+      <Compile Remove="Services\ApiClient.cs" />
+      <Compile Remove="Services\ApiResponce.cs" />
     </ItemGroup>
 
     <ItemGroup>
@@ -133,9 +133,9 @@
       <None Remove="Data\**" />
     </ItemGroup>
 
-    <ItemGroup>
+<!--    <ItemGroup>
       <ProjectReference Include="..\..\Application\BaCS.Application.Contracts\BaCS.Application.Contracts.csproj" />
-    </ItemGroup>
+    </ItemGroup>-->
 
     <ItemGroup>
       <Folder Include="Handlers\" />
