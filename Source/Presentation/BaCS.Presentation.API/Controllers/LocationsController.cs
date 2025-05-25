@@ -130,7 +130,6 @@ public class LocationsController(IMediator mediator) : ControllerBase
     [HttpPut("{locationId:guid}/admins/{userId:guid}")]
     [ProducesResponseType(StatusCodes.Status204NoContent)]
     [ProducesResponseType<ProblemDetails>(StatusCodes.Status403Forbidden, "application/problem+json")]
-    [ProducesResponseType<ProblemDetails>(StatusCodes.Status403Forbidden, "application/problem+json")]
     [ProducesResponseType<ProblemDetails>(StatusCodes.Status404NotFound, "application/problem+json")]
     public async Task<IActionResult> AddLocationAdmin(
         [Description("ID локации.")] Guid locationId,
@@ -147,7 +146,7 @@ public class LocationsController(IMediator mediator) : ControllerBase
     [EndpointSummary("Удалить администратора локации.")]
     [HttpDelete("{locationId:guid}/admins/{userId:guid}")]
     [ProducesResponseType(StatusCodes.Status204NoContent)]
-    [ProducesResponseType<ProblemDetails>(StatusCodes.Status403Forbidden, "application/problem+json")]
+    [ProducesResponseType<ProblemDetails>(StatusCodes.Status400BadRequest, "application/problem+json")]
     [ProducesResponseType<ProblemDetails>(StatusCodes.Status403Forbidden, "application/problem+json")]
     [ProducesResponseType<ProblemDetails>(StatusCodes.Status404NotFound, "application/problem+json")]
     public async Task<IActionResult> DeleteLocationAdmin(

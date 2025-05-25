@@ -37,7 +37,7 @@ public static class OpenApiExtensions
     {
         var keycloakOptions = configuration
             .GetSection("Keycloak")
-            .Get<KeycloakAuthenticationOptions>(x => x.BindNonPublicProperties = true)!;
+            .Get<KeycloakAuthenticationOptions>()!;
 
         app.UseSwagger();
         app.MapScalarApiReference(
