@@ -23,6 +23,13 @@ builder
     .AddHealthChecks(configuration)
     .AddOpenTelemetry(configuration);
 
+builder.Services.AddCors(options => options.AddDefaultPolicy(x => x
+        .AllowAnyOrigin()
+        .AllowAnyMethod()
+        .AllowAnyHeader()
+    )
+);
+
 builder.Services.AddAuthentication(configuration);
 
 var app = builder.Build();
@@ -38,6 +45,7 @@ app
     .UseExceptionHandler(_ => { })
     .UsePathBase("/api")
     .UseRouting()
+    .UseCors()
     .UseAuthentication()
     .UseAuthorization();
 
