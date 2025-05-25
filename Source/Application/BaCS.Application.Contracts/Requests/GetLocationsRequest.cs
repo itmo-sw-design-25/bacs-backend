@@ -4,7 +4,7 @@ using System.ComponentModel;
 using FluentValidation;
 
 public record GetLocationsRequest(
-    [property: Description("Фильтр по ID резерваций.")]
+    [property: Description("Фильтр по ID локаций.")]
     Guid[] Ids,
     int Offset = 0,
     int Limit = 10
