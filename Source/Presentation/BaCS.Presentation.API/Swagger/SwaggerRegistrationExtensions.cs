@@ -30,7 +30,7 @@ public static class SwaggerRegistrationExtensions
     {
         var keycloakOptions = configuration
             .GetSection("Keycloak")
-            .Get<KeycloakAuthenticationOptions>(x => x.BindNonPublicProperties = true)!;
+            .Get<KeycloakAuthenticationOptions>()!;
 
         var keycloakSecurityScheme = new OpenApiSecurityScheme
         {

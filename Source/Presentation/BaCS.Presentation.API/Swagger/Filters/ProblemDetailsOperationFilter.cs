@@ -1,6 +1,7 @@
 namespace BaCS.Presentation.API.Swagger.Filters;
 
 using System.Net.Mime;
+using System.Reflection;
 using Microsoft.AspNetCore.Mvc.ApiExplorer;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
 using Microsoft.AspNetCore.WebUtilities;
@@ -107,7 +108,10 @@ public class ProblemDetailsOperationFilter : IOperationFilter
         {
             if (parameter.Source == BindingSource.Body)
             {
-                foreach (var property in parameter.Type.GetProperties().Select(p => p.Name))
+                var type = parameter.Type;
+                var properties = type.GetProperties(BindingFlags.Public | BindingFlags.Instance);
+
+                foreach (var property in properties.Select(p => p.Name))
                 {
                     errorsObject.Add(
                         property,
