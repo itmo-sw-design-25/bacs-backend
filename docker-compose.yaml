@@ -1,4 +1,11 @@
 ﻿services:
+  bacs.frontend:
+    image: lipa44/bacs.frontend
+    container_name: bacs.frontend
+    restart: unless-stopped
+    networks:
+      - bacs
+
   bacs.api:
     image: ${BACS_IMAGE:-bacs.api}
     container_name: bacs.api
