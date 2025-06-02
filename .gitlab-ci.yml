@@ -3,8 +3,7 @@ image: mcr.microsoft.com/dotnet/sdk:9.0-alpine3.20
 variables:
   BUILD_PATH: "Source/Presentation/BaCS.Presentation.API"
   TESTS_PATH: "Tests/BaCS.Unit.Tests"
-  DOCKER_CONFIG_PATH: "./"
-  DOCKER_TLS_CERTDIR: "/certs"
+  DOCKERFILE_PATH: "Source/Presentation/BaCS.Presentation.API/Dockerfile"
 
 .default_rules:
   rules:
@@ -96,7 +95,7 @@ image push:
   before_script:
     - echo $CI_REGISTRY_PASSWORD | docker login $CI_REGISTRY -u $CI_REGISTRY_USER --password-stdin
   script:
-    - docker build --platform linux/amd64 -t $CI_REGISTRY_IMAGE -f Source/Presentation/BaCS.Presentation.API/Dockerfile .
+    - docker build --platform $BACS_PLATFORM -t $CI_REGISTRY_IMAGE -f $DOCKERFILE_PATH .
     - docker push $CI_REGISTRY_IMAGE
   rules:
     - !reference [ .default_rules, rules ]
@@ -117,8 +116,8 @@ image deploy:
     - echo "$SSH_SERVER_PRIVATE_KEY" | tr -d '\r' | ssh-add - > /dev/null
     - ssh -o StrictHostKeyChecking=no "$SSH_SERVER_USER@$SSH_SERVER_IP" "
       docker pull ${CI_REGISTRY_IMAGE} &&
-      docker compose down bacs.api &&
-      docker compose up bacs.api -d"
+      docker compose down ${BACS_COMPOSE_SERVICE} &&
+      docker compose up ${BACS_COMPOSE_SERVICE} -d"
   rules:
     - !reference [ .default_rules, rules ]
 
