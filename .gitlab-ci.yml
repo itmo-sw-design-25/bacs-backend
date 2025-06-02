@@ -92,7 +92,7 @@ integration tests:
     DOCKER_HOST: tcp://docker:2375
     DOCKER_DRIVER: overlay2
     TAG_LATEST: $CI_REGISTRY_IMAGE
-  needs: [ unit tests, integration tests ]
+#  needs: [ unit tests, integration tests ]
   stage: push
   allow_failure: false
   interruptible: false
@@ -100,8 +100,7 @@ integration tests:
   before_script:
     - echo $CI_REGISTRY_PASSWORD | docker login $CI_REGISTRY -u $CI_REGISTRY_USER --password-stdin
   script:
-    - docker-compose -f ./docker-compose.yaml build bacs.api
-    - docker tag bacs.api $TAG_LATEST
+    - docker build --platform linux/amd64 -t $TAG_LATEST -f Source/Presentation/BaCS.Presentation.API/Dockerfile .
     - docker push $TAG_LATEST
   rules:
     - !reference [ .default_rules, rules ]
