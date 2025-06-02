@@ -85,23 +85,24 @@ integration tests:
     - !reference [ .default_rules, rules ]
 
 .push_template:
-  image: creatiwww/docker-compose:latest
+  image: docker:latest
   services:
     - docker:dind
+  variables:
+    DOCKER_HOST: tcp://docker:2375
+    DOCKER_DRIVER: overlay2
+    TAG_LATEST: $CI_REGISTRY_IMAGE
   needs: [ unit tests, integration tests ]
   stage: push
   allow_failure: false
   interruptible: false
   when: manual
-  variables:
-    TAG_LATEST: $CI_REGISTRY_IMAGE
   before_script:
-    - cd $DOCKER_CONFIG_PATH
     - echo $CI_REGISTRY_PASSWORD | docker login $CI_REGISTRY -u $CI_REGISTRY_USER --password-stdin
-    - docker info
   script:
-    - docker-compose build bacs.api
-    - docker-compose push $TAG_LATEST
+    - docker-compose -f ./docker-compose.yaml build bacs.api
+    - docker tag bacs.api $TAG_LATEST
+    - docker push $TAG_LATEST
   rules:
     - !reference [ .default_rules, rules ]
 
