@@ -1,14 +1,18 @@
 ﻿services:
   bacs.frontend:
-    image: lipa44/bacs.frontend
+    image: ${BACS_FRONTEND_IMAGE}
     container_name: bacs.frontend
+    platform: ${BACS_PLATFORM}
     restart: unless-stopped
     networks:
       - bacs
 
   bacs.api:
-    image: ${BACS_IMAGE:-bacs.api}
+    image: ${BACS_API_IMAGE}
     container_name: bacs.api
+    build:
+      context: .
+      dockerfile: Source/Presentation/BaCS.Presentation.API/Dockerfile
     platform: ${BACS_PLATFORM}
     env_file: .env
     environment:
@@ -111,8 +115,8 @@
       - /var/run/docker.sock:/tmp/docker.sock:ro
       - ${NGINX_CERTS_FULLCHAIN_PATH}:/etc/nginx/certs/fullchain.pem:ro
       - ${NGINX_PRIVKEY_PATH}:/etc/nginx/certs/privkey.pem:ro
-      - ./.deployment/nginx/templates:/etc/nginx/templates/:ro
       - ./.deployment/nginx/html:/usr/share/nginx/html/:ro
+      - ./.deployment/nginx/templates:/etc/nginx/templates/:ro
     env_file: .env
     restart: unless-stopped
     networks:
@@ -134,7 +138,7 @@
     image: quay.io/keycloak/keycloak:26.2.0
     container_name: keycloak
     env_file: .env
-    command: start
+    command: start --verbose
     volumes:
       - ${KC_CERTS_CRT}:${KC_HTTPS_CERTIFICATE_FILE}:ro
       - ${KC_CERTS_KEY}:${KC_HTTPS_CERTIFICATE_KEY_FILE}:ro
