@@ -12,5 +12,7 @@ public record UserDto(
     [property: Description("Ссылка на фотографию пользователя.")]
     string ImageUrl,
     [property: Description("Уведомлять о бронированиях по электронной почте.")]
-    bool EnableEmailNotifications
+    bool EnableEmailNotifications,
+    [property: Description("Список ID локаций, в которых пользователь является администратором.")]
+    Guid[] AdminIn
 );

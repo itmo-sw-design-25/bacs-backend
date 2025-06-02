@@ -35,7 +35,9 @@ public class MapsterEntitiesTests
         var userDto = _mapper.Map<UserDto>(user);
 
         // Assert
-        user.Should().BeEquivalentTo(userDto);
+        user
+            .Should()
+            .BeEquivalentTo(userDto, options => options.Excluding(x => x.AdminIn));
     }
 
     [Theory]

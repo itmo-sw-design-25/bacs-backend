@@ -6,6 +6,7 @@ using Contracts.Exceptions;
 using Domain.Core.Entities;
 using MapsterMapper;
 using MediatR;
+using Microsoft.EntityFrameworkCore;
 
 public static class GetUserQuery
 {
@@ -19,7 +20,13 @@ public static class GetUserQuery
             var user = await dbContext.Users.FindAsync([request.UserId], cancellationToken)
                        ?? throw new EntityNotFoundException<User>(request.UserId);
 
-            return mapper.Map<UserDto>(user);
+            var adminIn = await dbContext
+                .LocationAdmins
+                .Where(x => x.UserId == request.UserId)
+                .Select(x => x.LocationId)
+                .ToArrayAsync(cancellationToken);
+
+            return mapper.Map<UserDto>(user) with { AdminIn = adminIn };
         }
     }
 }
