@@ -84,7 +84,7 @@ integration tests:
   rules:
     - !reference [ .default_rules, rules ]
 
-.push_template:
+image push:
   image: docker:latest
   services:
     - docker:dind
@@ -92,7 +92,7 @@ integration tests:
   stage: push
   allow_failure: false
   interruptible: false
-  when: manual
+  when: on_success
   before_script:
     - echo $CI_REGISTRY_PASSWORD | docker login $CI_REGISTRY -u $CI_REGISTRY_USER --password-stdin
   script:
@@ -101,32 +101,24 @@ integration tests:
   rules:
     - !reference [ .default_rules, rules ]
 
-push:production:
-  extends: .push_template
-  variables:
-    ENVIRONMENT: "production"
-
-.deploy_template:
-  image: alpine/ssh-client:latest
+image deploy:
+  image: alpine:latest
   services:
     - docker:dind
+  needs: [ image push ]
+  stage: deploy
   allow_failure: false
   interruptible: false
-  when: on_success
+  when: manual
+  before_script:
+    - apk add --no-cache openssh-client
   script:
     - eval $(ssh-agent -s)
     - echo "$SSH_SERVER_PRIVATE_KEY" | tr -d '\r' | ssh-add - > /dev/null
     - ssh -o StrictHostKeyChecking=no $SSH_SERVER_USER@$SSH_SERVER_IP '
       docker pull $CI_REGISTRY_IMAGE &&
-      docker compose down &&
-      docker compose up -d'
+      docker compose down bacs.api &&
+      docker compose up bacs.api -d'
   rules:
     - !reference [ .default_rules, rules ]
-
-deploy:production:
-  stage: deploy
-  needs: [ push:production ]
-  extends: .deploy_template
-  variables:
-    ENVIRONMENT: "production"
 
