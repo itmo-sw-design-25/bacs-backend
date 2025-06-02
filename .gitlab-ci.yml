@@ -89,8 +89,8 @@ integration tests:
   services:
     - docker:dind
   variables:
-    DOCKER_HOST: tcp://docker:2375
-    DOCKER_DRIVER: overlay2
+#    DOCKER_HOST: tcp://docker:2375
+#    DOCKER_DRIVER: overlay2
     TAG_LATEST: $CI_REGISTRY_IMAGE
 #  needs: [ unit tests, integration tests ]
   stage: push
