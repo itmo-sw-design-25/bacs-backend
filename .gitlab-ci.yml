@@ -3,8 +3,7 @@ image: mcr.microsoft.com/dotnet/sdk:9.0-alpine3.20
 variables:
   BUILD_PATH: "Source/Presentation/BaCS.Presentation.API"
   TESTS_PATH: "Tests/BaCS.Unit.Tests"
-  DOCKER_CONFIG_PATH: "./"
-  DOCKER_TLS_CERTDIR: "/certs"
+  DOCKERFILE_PATH: "Source/Presentation/BaCS.Presentation.API/Dockerfile"
 
 .default_rules:
   rules:
@@ -84,78 +83,41 @@ integration tests:
   rules:
     - !reference [ .default_rules, rules ]
 
-.push_template:
-  image: creatiwww/docker-compose:latest
+image push:
+  image: docker:latest
   services:
     - docker:dind
   needs: [ unit tests, integration tests ]
   stage: push
   allow_failure: false
   interruptible: false
-  when: manual
-  variables:
-    TAG_LATEST: $CI_REGISTRY_IMAGE:$ENVIRONMENT-latest
+  when: on_success
   before_script:
-    - cd $DOCKER_CONFIG_PATH
     - echo $CI_REGISTRY_PASSWORD | docker login $CI_REGISTRY -u $CI_REGISTRY_USER --password-stdin
-    - docker info
-    - docker-compose pull $TAG_LATEST || true
-    - echo "ENVIRONMENT=$ENVIRONMENT" >> .env
   script:
-    - docker-compose build
-    - docker-compose push
+    - docker build --platform $BACS_PLATFORM -t $CI_REGISTRY_IMAGE -f $DOCKERFILE_PATH .
+    - docker push $CI_REGISTRY_IMAGE
   rules:
     - !reference [ .default_rules, rules ]
 
-push:develop:
-  extends: .push_template
-  variables:
-    ENVIRONMENT: "develop"
-
-push:staging:
-  extends: .push_template
-  variables:
-    ENVIRONMENT: "staging"
-
-push:production:
-  extends: .push_template
-  variables:
-    ENVIRONMENT: "production"
-
-.deploy_template:
-  image: creatiwww/docker-compose:latest
+image deploy:
+  image: alpine:latest
   services:
     - docker:dind
+  needs: [ image push ]
+  stage: deploy
   allow_failure: false
   interruptible: false
-  when: on_success
+  when: manual
   before_script:
-    - cd $DOCKER_CONFIG_PATH
+    - apk add --no-cache openssh-client
   script:
     - eval $(ssh-agent -s)
     - echo "$SSH_SERVER_PRIVATE_KEY" | tr -d '\r' | ssh-add - > /dev/null
-    - ssh -o StrictHostKeyChecking=no $SSH_SERVER_USER@$SSH_SERVER_IP 'export ENVIRONMENT='"'$ENVIRONMENT'"'; export CI_REGISTRY_IMAGE='"'$CI_REGISTRY_IMAGE'"'; docker-compose down --remove-orphans; docker-compose pull; docker-compose up -d'
+    - ssh -o StrictHostKeyChecking=no "$SSH_SERVER_USER@$SSH_SERVER_IP" "
+      docker pull ${CI_REGISTRY_IMAGE} &&
+      docker compose down ${BACS_COMPOSE_SERVICE} &&
+      docker compose up ${BACS_COMPOSE_SERVICE} -d"
   rules:
     - !reference [ .default_rules, rules ]
-
-deploy:develop:
-  stage: deploy
-  extends: .deploy_template
-  needs: [ push:develop ]
-  variables:
-    ENVIRONMENT: "develop"
-
-deploy:staging:
-  stage: deploy
-  extends: .deploy_template
-  needs: [ push:staging ]
-  variables:
-    ENVIRONMENT: "staging"
-
-deploy:production:
-  stage: deploy
-  needs: [ push:production ]
-  extends: .deploy_template
-  variables:
-    ENVIRONMENT: "production"
 
