@@ -88,11 +88,7 @@ integration tests:
   image: docker:latest
   services:
     - docker:dind
-  variables:
-#    DOCKER_HOST: tcp://docker:2375
-#    DOCKER_DRIVER: overlay2
-    TAG_LATEST: $CI_REGISTRY_IMAGE
-#  needs: [ unit tests, integration tests ]
+  needs: [ unit tests, integration tests ]
   stage: push
   allow_failure: false
   interruptible: false
@@ -100,8 +96,8 @@ integration tests:
   before_script:
     - echo $CI_REGISTRY_PASSWORD | docker login $CI_REGISTRY -u $CI_REGISTRY_USER --password-stdin
   script:
-    - docker build --platform linux/amd64 -t $TAG_LATEST -f Source/Presentation/BaCS.Presentation.API/Dockerfile .
-    - docker push $TAG_LATEST
+    - docker build --platform linux/amd64 -t $CI_REGISTRY_IMAGE -f Source/Presentation/BaCS.Presentation.API/Dockerfile .
+    - docker push $CI_REGISTRY_IMAGE
   rules:
     - !reference [ .default_rules, rules ]
 
@@ -111,18 +107,19 @@ push:production:
     ENVIRONMENT: "production"
 
 .deploy_template:
-  image: creatiwww/docker-compose:latest
+  image: alpine/ssh-client:latest
   services:
     - docker:dind
   allow_failure: false
   interruptible: false
   when: on_success
-  before_script:
-    - cd $DOCKER_CONFIG_PATH
   script:
     - eval $(ssh-agent -s)
     - echo "$SSH_SERVER_PRIVATE_KEY" | tr -d '\r' | ssh-add - > /dev/null
-    - ssh -o StrictHostKeyChecking=no $SSH_SERVER_USER@$SSH_SERVER_IP 'docker compose down --remove-orphans; docker compose pull; docker compose up -d'
+    - ssh -o StrictHostKeyChecking=no $SSH_SERVER_USER@$SSH_SERVER_IP '
+      docker pull $CI_REGISTRY_IMAGE &&
+      docker compose down &&
+      docker compose up -d'
   rules:
     - !reference [ .default_rules, rules ]
 
