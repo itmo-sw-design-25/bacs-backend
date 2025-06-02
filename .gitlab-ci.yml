@@ -94,28 +94,17 @@ integration tests:
   interruptible: false
   when: manual
   variables:
-    TAG_LATEST: $CI_REGISTRY_IMAGE:$ENVIRONMENT-latest
+    TAG_LATEST: $CI_REGISTRY_IMAGE
   before_script:
     - cd $DOCKER_CONFIG_PATH
     - echo $CI_REGISTRY_PASSWORD | docker login $CI_REGISTRY -u $CI_REGISTRY_USER --password-stdin
     - docker info
     - docker-compose pull $TAG_LATEST || true
-    - echo "ENVIRONMENT=$ENVIRONMENT" >> .env
   script:
     - docker-compose build
     - docker-compose push
   rules:
     - !reference [ .default_rules, rules ]
-
-push:develop:
-  extends: .push_template
-  variables:
-    ENVIRONMENT: "develop"
-
-push:staging:
-  extends: .push_template
-  variables:
-    ENVIRONMENT: "staging"
 
 push:production:
   extends: .push_template
@@ -134,23 +123,9 @@ push:production:
   script:
     - eval $(ssh-agent -s)
     - echo "$SSH_SERVER_PRIVATE_KEY" | tr -d '\r' | ssh-add - > /dev/null
-    - ssh -o StrictHostKeyChecking=no $SSH_SERVER_USER@$SSH_SERVER_IP 'export ENVIRONMENT='"'$ENVIRONMENT'"'; export CI_REGISTRY_IMAGE='"'$CI_REGISTRY_IMAGE'"'; docker-compose down --remove-orphans; docker-compose pull; docker-compose up -d'
+    - ssh -o StrictHostKeyChecking=no $SSH_SERVER_USER@$SSH_SERVER_IP 'docker compose down --remove-orphans; docker compose pull; docker compose up -d'
   rules:
     - !reference [ .default_rules, rules ]
-
-deploy:develop:
-  stage: deploy
-  extends: .deploy_template
-  needs: [ push:develop ]
-  variables:
-    ENVIRONMENT: "develop"
-
-deploy:staging:
-  stage: deploy
-  extends: .deploy_template
-  needs: [ push:staging ]
-  variables:
-    ENVIRONMENT: "staging"
 
 deploy:production:
   stage: deploy
