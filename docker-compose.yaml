@@ -10,6 +10,9 @@
   bacs.api:
     image: ${BACS_API_IMAGE}
     container_name: bacs.api
+    build:
+      context: .
+      dockerfile: Source/Presentation/BaCS.Presentation.API/Dockerfile
     platform: ${BACS_PLATFORM}
     env_file: .env
     environment:
