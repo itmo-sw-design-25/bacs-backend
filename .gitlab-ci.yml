@@ -116,7 +116,7 @@ image deploy:
     - eval $(ssh-agent -s)
     - echo "$SSH_SERVER_PRIVATE_KEY" | tr -d '\r' | ssh-add - > /dev/null
     - ssh -o StrictHostKeyChecking=no "$SSH_SERVER_USER@$SSH_SERVER_IP" "
-      docker pull $CI_REGISTRY_IMAGE:latest &&
+      docker pull ${CI_REGISTRY_IMAGE} &&
       docker compose down bacs.api &&
       docker compose up bacs.api -d"
   rules:
