@@ -99,10 +99,9 @@ integration tests:
     - cd $DOCKER_CONFIG_PATH
     - echo $CI_REGISTRY_PASSWORD | docker login $CI_REGISTRY -u $CI_REGISTRY_USER --password-stdin
     - docker info
-    - docker-compose pull $TAG_LATEST || true
   script:
-    - docker-compose build
-    - docker-compose push
+    - docker-compose build bacs.api
+    - docker-compose push $TAG_LATEST
   rules:
     - !reference [ .default_rules, rules ]
 
