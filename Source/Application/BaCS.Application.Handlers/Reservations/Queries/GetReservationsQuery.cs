@@ -66,7 +66,7 @@ public static class GetReservationsQuery
             }
 
             var totalCount = await query.CountAsync(cancellationToken);
-            var reservations = query.OrderBy(x => x.CreatedAt).Skip(request.Offset).Take(request.Limit);
+            var reservations = query.OrderBy(x => x.From).Skip(request.Offset).Take(request.Limit);
 
             var reservationDtos =
                 await mapper.From(reservations).ProjectToType<ReservationDto>().ToListAsync(cancellationToken);
