@@ -28,3 +28,8 @@ scrape_configs:
     scheme: http
     static_configs:
       - targets: [ 'minio:9000' ]
+
+  - job_name: "jaeger-job"
+    scheme: http
+    static_configs:
+      - targets: [ 'jaeger:8889' ]

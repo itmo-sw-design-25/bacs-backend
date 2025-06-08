@@ -12,13 +12,13 @@ paths:
       parameters:
         - name: ids
           in: query
-          description: Фильтр по ID резерваций.
+          description: Фильтр по ID локаций.
           schema:
             type: array
             items:
               type: string
               format: uuid
-            description: Фильтр по ID резерваций.
+            description: Фильтр по ID локаций.
             nullable: true
         - name: offset
           in: query
@@ -497,6 +497,20 @@ paths:
       responses:
         '204':
           description: No Content
+        '400':
+          description: Bad Request
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ProblemDetails'
+              examples:
+                Bad Request:
+                  description: Bad Request
+                  value:
+                    type: https://tools.ietf.org/html/rfc7231#section-6.5.1
+                    title: Bad Request
+                    status: 400
+                    instance: 'DELETE /locations/{locationId}/admins/{userId}'
         '403':
           description: Forbidden
           content:
@@ -1620,7 +1634,7 @@ components:
           items:
             type: string
             format: uuid
-          description: Фильтр по ID резерваций.
+          description: Фильтр по ID локаций.
           nullable: true
         offset:
           minimum: 0
@@ -2033,6 +2047,13 @@ components:
         enableEmailNotifications:
           type: boolean
           description: Уведомлять о бронированиях по электронной почте.
+        adminIn:
+          type: array
+          items:
+            type: string
+            format: uuid
+          description: 'Список ID локаций, в которых пользователь является администратором.'
+          nullable: true
       additionalProperties: false
     UserDtoPaginatedResponse:
       type: object

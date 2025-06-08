@@ -65,9 +65,14 @@
       - ./minio_data:/bitnami/minio/data
 
   jaeger:
-    image: jaegertracing/all-in-one:latest
+    image: jaegertracing/jaeger:2.6.0
     container_name: jaeger
     env_file: .env
+    volumes:
+      - ./jaeger_data:/badger
+      - ./.deployment/jaeger/config.yaml:/etc/jaeger/config.yaml:ro
+    command: [ "--config=/etc/jaeger/config.yaml" ]
+    user: ${JAEGER_USER_ID}
     networks:
       - bacs
 
@@ -154,6 +159,7 @@ volumes:
   prom_data:
   seq_data:
   minio_data:
+  jaeger_data:
 
 networks:
   bacs:
