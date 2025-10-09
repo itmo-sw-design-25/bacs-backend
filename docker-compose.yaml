@@ -33,6 +33,7 @@
       EmailOptions__Password: ${EMAIL_NOTIFICATIONS_PASSWORD}
       EmailOptions__SmtpServer: ${EMAIL_NOTIFICATIONS_SMTP_SERVER}
       EmailOptions__Port: ${EMAIL_NOTIFICATIONS_PORT}
+      DaDataOptions__ApiKey: ${BACS_DADATA_API_KEY}
     restart: unless-stopped
     depends_on:
       - postgres

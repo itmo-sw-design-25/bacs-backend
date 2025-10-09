@@ -1,5 +1,6 @@
 namespace BaCS.Application.Integrations;
 
+using BACS.Application.Integrations.DaData;
 using Email;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -14,6 +15,7 @@ public static class RegistrationExtensions
     )
     {
         services.AddEmailIntegration(configuration, environment);
+        services.AddDaDataIntegration(configuration);
 
         return services;
     }

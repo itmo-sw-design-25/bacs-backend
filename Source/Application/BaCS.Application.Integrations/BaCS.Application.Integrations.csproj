@@ -14,10 +14,12 @@
     </ItemGroup>
 
     <ItemGroup>
+        <PackageReference Include="Dadata"/>
         <PackageReference Include="MailKit"/>
         <PackageReference Include="Microsoft.Extensions.Hosting.Abstractions"/>
-        <PackageReference Include="Microsoft.Extensions.Options.ConfigurationExtensions" />
+        <PackageReference Include="Microsoft.Extensions.Options.ConfigurationExtensions"/>
         <PackageReference Include="MimeKit"/>
+        <PackageReference Include="Newtonsoft.Json"/>
         <PackageReference Include="Scriban"/>
     </ItemGroup>
 

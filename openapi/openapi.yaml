@@ -4,6 +4,50 @@ info:
   description: API сервиса по бронированию рабочих мест в коворкингах BaCS.
   version: v1
 paths:
+  /addresses/suggest:
+    post:
+      tags:
+        - Addresses
+      summary: Получить подсказки адреса по подстроке.
+      parameters:
+        - name: query
+          in: query
+          schema:
+            type: string
+        - name: count
+          in: query
+          schema:
+            type: integer
+            format: int32
+            default: 5
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: string
+        '400':
+          description: Bad Request
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ProblemDetails'
+              examples:
+                Bad Request:
+                  description: Bad Request
+                  value:
+                    type: https://tools.ietf.org/html/rfc7231#section-6.5.1
+                    title: Bad Request
+                    status: 400
+                    instance: POST /addresses/suggest
+                    errors:
+                      query:
+                        - The 'query' field is not valid
+                      count:
+                        - The 'count' field is not valid
   /locations:
     get:
       tags:
@@ -2075,8 +2119,8 @@ components:
       description: Аутентификация через Keycloak
       flows:
         authorizationCode:
-          authorizationUrl: http://localhost:7080/keycloak/realms/bacs/protocol/openid-connect/auth
-          tokenUrl: http://localhost:7080/keycloak/realms/bacs/protocol/openid-connect/token
+          authorizationUrl: http://bacs.space/keycloak/realms/bacs/protocol/openid-connect/auth
+          tokenUrl: http://bacs.space/keycloak/realms/bacs/protocol/openid-connect/token
           scopes:
             bacs-api: 'Обязательный скоуп, необходимый для авторизации на BaCS API'
           x-usePkce: SHA-256
