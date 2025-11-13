@@ -583,6 +583,57 @@ paths:
                     title: Not Found
                     status: 404
                     instance: 'DELETE /locations/{locationId}/admins/{userId}'
+  /reports/reservations:
+    post:
+      tags:
+        - Reports
+      summary: Получить отчет по бронированиям за указанный период в Excel формате.
+      parameters:
+        - name: from
+          in: query
+          description: Дата начала отчёта (включительно).
+          required: true
+          schema:
+            minLength: 1
+            type: string
+            description: Дата начала отчёта (включительно).
+            format: date
+        - name: to
+          in: query
+          description: Дата окончания отчёта (включительно).
+          required: true
+          schema:
+            minLength: 1
+            type: string
+            description: Дата окончания отчёта (включительно).
+            format: date
+      responses:
+        '200':
+          description: OK
+          content:
+            application/vnd.openxmlformats-officedocument.spreadsheetml.sheet:
+              schema:
+                type: string
+                format: binary
+        '400':
+          description: Bad Request
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ProblemDetails'
+              examples:
+                Bad Request:
+                  description: Bad Request
+                  value:
+                    type: https://tools.ietf.org/html/rfc7231#section-6.5.1
+                    title: Bad Request
+                    status: 400
+                    instance: POST /reports/reservations
+                    errors:
+                      From:
+                        - The 'From' field is not valid
+                      To:
+                        - The 'To' field is not valid
   /reservations:
     get:
       tags:
@@ -1689,6 +1740,23 @@ components:
           minimum: 0
           type: integer
           format: int32
+      additionalProperties: false
+    GetReservationsReportRequest:
+      required:
+        - from
+        - to
+      type: object
+      properties:
+        from:
+          minLength: 1
+          type: string
+          description: Дата начала отчёта (включительно).
+          format: date
+        to:
+          minLength: 1
+          type: string
+          description: Дата окончания отчёта (включительно).
+          format: date
       additionalProperties: false
     GetReservationsRequest:
       type: object
