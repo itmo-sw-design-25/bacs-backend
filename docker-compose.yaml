@@ -16,6 +16,7 @@
     platform: ${BACS_PLATFORM}
     env_file: .env
     environment:
+      ASPNETCORE_URLS: ${BACS_API_ASPNETCORE_URLS}
       PostgresOptions__Username: ${BACS_PG_USER}
       PostgresOptions__Password: ${BACS_PG_PASSWORD}
       PostgresOptions__Host: ${BACS_PG_HOST}
@@ -34,6 +35,47 @@
       EmailOptions__SmtpServer: ${EMAIL_NOTIFICATIONS_SMTP_SERVER}
       EmailOptions__Port: ${EMAIL_NOTIFICATIONS_PORT}
       DaDataOptions__ApiKey: ${BACS_DADATA_API_KEY}
+      ElsaApiOptions__Uri: ${BACS_ELSA_API_URI}
+      ElsaApiOptions__Username: ${BACS_ELSA_API_USERNAME}
+      ElsaApiOptions__Password: ${BACS_ELSA_API_PASSWORD}
+    restart: unless-stopped
+    depends_on:
+      - postgres
+    networks:
+      - bacs
+
+  bacs.bp:
+    image: ${BACS_BP_IMAGE}
+    container_name: bacs.bp
+    build:
+      context: .
+      dockerfile: Source/Presentation/BaCS.Presentation.BusinessProcess/Dockerfile
+    platform: ${BACS_PLATFORM}
+    env_file: .env
+    environment:
+      ASPNETCORE_URLS: ${BACS_BP_ASPNETCORE_URLS}
+      PostgresOptions__Username: ${BACS_PG_USER}
+      PostgresOptions__Password: ${BACS_PG_PASSWORD}
+      PostgresOptions__Host: ${BACS_PG_HOST}
+      PostgresOptions__Port: ${BACS_PG_PORT}
+      PostgresOptions__Database: ${BACS_PG_DATABASE}
+      PostgresOptions__Schema: ${BACS_PG_SCHEMA}
+      PostgresOptions__AdditionalProperties: ${BACS_PG_ADDITIONAL_PROPERTIES}
+      ElsaPostgresOptions__Username: ${BACS_PG_USER}
+      ElsaPostgresOptions__Password: ${BACS_PG_PASSWORD}
+      ElsaPostgresOptions__Host: ${BACS_PG_HOST}
+      ElsaPostgresOptions__Port: ${BACS_PG_PORT}
+      ElsaPostgresOptions__Database: ${BACS_PG_DATABASE}
+      ElsaPostgresOptions__Schema: ${BACS_BP_PG_SCHEMA}
+      ElsaPostgresOptions__AdditionalProperties: ${BACS_PG_ADDITIONAL_PROPERTIES}
+      EmailOptions__Username: ${EMAIL_NOTIFICATIONS_USERNAME}
+      EmailOptions__Password: ${EMAIL_NOTIFICATIONS_PASSWORD}
+      EmailOptions__SmtpServer: ${EMAIL_NOTIFICATIONS_SMTP_SERVER}
+      EmailOptions__Port: ${EMAIL_NOTIFICATIONS_PORT}
+      Http__BaseUrl: ${BACS_BP_BASE_URL}
+      Http__BasePath: ${BACS_BP_BASE_PATH}
+      TokenOptions__SigningKey: ${BACS_BP_IDENTITY_SIGNING_KEY}
+
     restart: unless-stopped
     depends_on:
       - postgres

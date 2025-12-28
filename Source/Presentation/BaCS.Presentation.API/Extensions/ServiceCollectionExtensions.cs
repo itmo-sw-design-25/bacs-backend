@@ -8,6 +8,7 @@ using Application.Mapping;
 using Application.Services;
 using FluentValidation;
 using FluentValidation.AspNetCore;
+using Infrastructure.Workflows;
 using MicroElements.Swashbuckle.FluentValidation.AspNetCore;
 using Middlewares;
 using Persistence.Minio;
@@ -27,7 +28,8 @@ public static class ServiceCollectionExtensions
             .AddApplicationMapping()
             .AddApplicationServices()
             .AddApplicationIntegrations(configuration, environment)
-            .AddApplicationHandlers();
+            .AddApplicationHandlers()
+            .AddWorkflowsInfrastructure(configuration);
 
         services
             .AddExceptionHandling()

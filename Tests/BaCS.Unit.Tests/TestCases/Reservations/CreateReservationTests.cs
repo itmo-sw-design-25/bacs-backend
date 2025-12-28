@@ -1,10 +1,10 @@
 namespace BaCS.Unit.Tests.TestCases.Reservations;
 
-using Application.Abstractions.Integrations;
 using AutoFixture;
 using AutoFixture.Xunit2;
 using Application.Abstractions.Persistence;
 using Application.Abstractions.Services;
+using Application.Abstractions.Workflows;
 using Application.Contracts.Exceptions;
 using Application.Handlers.Reservations.Commands;
 using Domain.Core.Entities;
@@ -22,9 +22,9 @@ public class CreateReservationTests
         [Frozen] IFixture fixture,
         [Frozen] IMapper mapper,
         [Frozen] IBaCSDbContext dbContext,
-        [Frozen] IEmailNotifier emailNotifier,
         [Frozen] ICurrentUser currentUser,
         [Frozen] IReservationCalendarValidator calendarValidator,
+        [Frozen] IReservationWorkflowService reservationWorkflowService,
         [Frozen] [Greedy] Location location,
         Guid resourceId
     )
@@ -50,8 +50,8 @@ public class CreateReservationTests
         // Act && Assert
         var handler = new CreateReservationCommand.Handler(
             dbContext,
-            emailNotifier,
             calendarValidator,
+            reservationWorkflowService,
             currentUser,
             mapper
         );
@@ -75,9 +75,9 @@ public class CreateReservationTests
         [Frozen] IFixture fixture,
         [Frozen] IMapper mapper,
         [Frozen] IBaCSDbContext dbContext,
-        [Frozen] IEmailNotifier emailNotifier,
         [Frozen] ICurrentUser currentUser,
         [Frozen] IReservationCalendarValidator calendarValidator,
+        [Frozen] IReservationWorkflowService reservationWorkflowService,
         [Frozen] [Greedy] Location location,
         Guid resourceId
     )
@@ -101,8 +101,8 @@ public class CreateReservationTests
         // Act && Assert
         var handler = new CreateReservationCommand.Handler(
             dbContext,
-            emailNotifier,
             calendarValidator,
+            reservationWorkflowService,
             currentUser,
             mapper
         );

@@ -1,0 +1,240 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>Новая бронь требует подтверждения - BaCS</title>
+    <style type="text/css">
+        body, table, td, a {
+            -webkit-text-size-adjust: 100%;
+            -ms-text-size-adjust: 100%;
+        }
+
+        table, td {
+            mso-table-lspace: 0pt;
+            mso-table-rspace: 0pt;
+        }
+
+        img {
+            -ms-interpolation-mode: bicubic;
+            border: 0;
+            height: auto;
+            line-height: 100%;
+            outline: none;
+            text-decoration: none;
+        }
+
+        body {
+            font-family: 'Nunito', Arial, sans-serif;
+            background-color: #f5f7fa;
+            margin: 0 !important;
+            padding: 0 !important;
+            color: #333333;
+            width: 100% !important;
+        }
+
+        .wrapper {
+            width: 100%;
+            table-layout: fixed;
+            background-color: #f5f7fa;
+            padding-bottom: 40px;
+        }
+
+        .main {
+            max-width: 600px;
+            margin: 0 auto;
+            background: #ffffff;
+            border-radius: 8px;
+            overflow: hidden;
+        }
+
+        .header {
+            background-color: #0f172a;
+            padding: 30px 20px;
+            text-align: center;
+        }
+
+        .logo {
+            max-width: 180px;
+            height: auto;
+        }
+
+        .content {
+            padding: 30px;
+            font-size: 16px;
+            line-height: 1.5;
+        }
+
+        .content p {
+            margin-bottom: 20px;
+        }
+
+        .booking-card {
+            background: #f8fafc;
+            border-radius: 8px;
+            border-left: 4px solid #f59e0b;
+            padding: 20px;
+            margin-bottom: 25px;
+        }
+
+        .footer {
+            background-color: #0f172a;
+            color: #ffffff;
+            padding: 20px;
+            text-align: center;
+            font-size: 12px;
+            line-height: 1.4;
+        }
+
+        h1 {
+            color: #0f172a;
+            font-size: 24px;
+            margin-top: 0;
+            margin-bottom: 10px;
+        }
+
+        .button {
+            display: flex;
+            justify-content: center;
+            background-color: #3b82f6;
+            color: #ffffff !important;
+            text-decoration: none;
+            padding: 12px 24px;
+            border-radius: 6px;
+            font-weight: bold;
+            margin: 15px 0;
+            font-size: 16px;
+            text-align: center;
+        }
+
+        .details-row {
+            display: block;
+            margin-bottom: 10px;
+            overflow: hidden;
+        }
+
+        .details-label {
+            font-weight: bold;
+            width: 120px;
+            color: #64748b;
+            float: left;
+        }
+
+        .details-value {
+            margin-left: 120px;
+        }
+
+        @media screen and (max-width: 600px) {
+            .main {
+                width: 100% !important;
+            }
+
+            .content {
+                padding: 20px !important;
+            }
+
+            .details-label {
+                width: 100% !important;
+                float: none !important;
+                margin-bottom: 5px;
+            }
+
+            .details-value {
+                margin-left: 0 !important;
+            }
+
+            .button {
+                text-align: center;
+            }
+        }
+    </style>
+</head>
+<body>
+<!--[if (gte mso 9)|(IE)]>
+<table width="600" align="center" cellpadding="0" cellspacing="0" border="0">
+    <tr>
+        <td>
+<![endif]-->
+
+<div class="wrapper">
+    <table class="main" align="center" cellpadding="0" cellspacing="0" border="0">
+        <!-- Шапка -->
+        <tr>
+            <td class="header">
+                <a href="https://bacs.space/">
+                    <img src="https://bacs.space/s3/static/nginx/bacs_logo_large.svg" alt="BaCS Logo" class="logo"
+                         width="180"/>
+                </a>
+            </td>
+        </tr>
+
+        <!-- Контент -->
+        <tr>
+            <td class="content">
+                <div
+                    style="background-color: #fef3c7; color: #92400e; padding: 16px 24px; border-radius: 8px; font-size: 18px; font-weight: 600; margin-bottom: 20px;">
+                    ⏳ Новое бронирование требует подтверждения
+                </div>
+
+                <p>Здравствуйте,</p>
+                <p>Пользователь создал новую резервацию, которая требует вашего подтверждения.</p>
+
+                <div class="booking-card">
+                    <div class="details-row">
+                        <div class="details-label">Пользователь:</div>
+                        <div class="details-value">{{ UserName }} ({{ UserEmail }})</div>
+                    </div>
+                    <div class="details-row">
+                        <div class="details-label">Дата:</div>
+                        <div class="details-value">{{ ReservationDate }}</div>
+                    </div>
+                    <div class="details-row">
+                        <div class="details-label">Время:</div>
+                        <div class="details-value">{{ From }} - {{ To }}</div>
+                    </div>
+                    <div class="details-row">
+                        <div class="details-label">Локация:</div>
+                        <div class="details-value">
+                            {{ WorkspaceName }},
+                            <span style="color: #64748b; font-style: italic;">{{ ResourceFloor }}</span> —
+                            <span style="color: #64748b;">{{ WorkspaceAddress }}</span>
+                        </div>
+                    </div>
+                    <div class="details-row">
+                        <div class="details-label">Ресурс:</div>
+                        <div class="details-value">{{ ResourceType }} "{{ ResourceName }}"</div>
+                    </div>
+                    <div class="details-row">
+                        <div class="details-label">ID брони:</div>
+                        <div class="details-value" style="font-family: monospace; font-size: 14px;">{{ ReservationId }}</div>
+                    </div>
+                </div>
+
+                <p>Вы можете подтвердить или отклонить бронирование в панели администратора:</p>
+                <div style="text-align: center;">
+                    <a href="https://bacs.space/" class="button">Перейти в панель администратора</a>
+                </div>
+
+                <p>Если у вас есть вопросы, свяжитесь с поддержкой:
+                    <a href="mailto:{{ AdminEmail }}" style="color: #3b82f6; text-decoration: underline;">
+                        {{ AdminEmail }}
+                    </a>
+                </p>
+            </td>
+        </tr>
+
+        <!-- Подвал -->
+        <tr>
+            <td class="footer">
+                <p>© 2025 BaCS - Booking a Coworking Space. Все права защищены.</p>
+                <p>Вы получили это письмо, потому что зарегистрированы в сервисе BaCS.</p>
+            </td>
+        </tr>
+    </table>
+</div>
+
+<!--[if (gte mso 9)|(IE)]></td></tr></table><![endif]-->
+</body>
+</html>
+

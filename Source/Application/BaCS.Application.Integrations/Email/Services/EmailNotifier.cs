@@ -147,6 +147,140 @@ public class EmailNotifier(IOptionsSnapshot<EmailOptions> options, ILogger<Email
         );
     }
 
+    public async Task SendReservationPendingApprovalToAdmins(
+        Reservation reservation,
+        Location location,
+        Resource resource,
+        User user,
+        IEnumerable<User> admins,
+        CancellationToken cancellationToken
+    )
+    {
+        var templateParams = new
+        {
+            UserName = user.Name,
+            UserEmail = user.Email,
+            ReservationDate = reservation.From.Date.ToString("dd.MM.yyyy"),
+            From = reservation.From.ToString("t"),
+            To = reservation.To.ToString("t"),
+            WorkspaceName = location.Name,
+            WorkspaceAddress = location.Address,
+            ResourceFloor = $"{resource.Floor} этаж",
+            ResourceType = resource.Type.GetDisplayName(),
+            ResourceName = resource.Name,
+            ReservationId = reservation.Id,
+            AdminEmail = "help@bacs.space"
+        };
+
+        foreach (var admin in admins.Where(a => !string.IsNullOrWhiteSpace(a.Email) && a.EnableEmailNotifications))
+        {
+            var isSuccess = await TrySendReservationEvent(
+                admin.Email,
+                messageSubject: "Новая бронь требует подтверждения",
+                template: EmailTemplateConstants.ReservationPendingApproval,
+                templateParams,
+                cancellationToken
+            );
+
+            if (isSuccess)
+            {
+                logger.LogInformation(
+                    "Email {EmailTemplate} has been sent to admin {AdminEmail}",
+                    nameof(SendReservationPendingApprovalToAdmins),
+                    admin.Email
+                );
+            }
+        }
+    }
+
+    public async Task SendReservationApproved(
+        Reservation reservation,
+        Location location,
+        Resource resource,
+        User user,
+        CancellationToken cancellationToken
+    )
+    {
+        if (string.IsNullOrWhiteSpace(user.Email)) return;
+        if (user.EnableEmailNotifications is false) return;
+
+        var templateParams = new
+        {
+            Name = user.Name,
+            ReservationDate = reservation.From.Date.ToString("dd.MM.yyyy"),
+            From = reservation.From.ToString("t"),
+            To = reservation.To.ToString("t"),
+            WorkspaceName = location.Name,
+            WorkspaceAddressLink = $"https://2gis.ru/search/{Uri.EscapeDataString(location.Address)}",
+            WorkspaceAddress = location.Address,
+            ResourceFloor = $"{resource.Floor} этаж",
+            ResourceType = resource.Type.GetDisplayName(),
+            ResourceName = resource.Name,
+            AdminEmail = "help@bacs.space"
+        };
+
+        var isSuccess = await TrySendReservationEvent(
+            user.Email,
+            messageSubject: "Ваша бронь подтверждена",
+            template: EmailTemplateConstants.ReservationApproved,
+            templateParams,
+            cancellationToken
+        );
+
+        if (!isSuccess) return;
+
+        logger.LogInformation(
+            "Email {EmailTemplate} has been sent to user {UserEmail}",
+            nameof(SendReservationApproved),
+            user.Email
+        );
+    }
+
+    public async Task SendReservationRejected(
+        Reservation reservation,
+        Location location,
+        Resource resource,
+        User user,
+        string reason,
+        CancellationToken cancellationToken
+    )
+    {
+        if (string.IsNullOrWhiteSpace(user.Email)) return;
+        if (user.EnableEmailNotifications is false) return;
+
+        var templateParams = new
+        {
+            Name = user.Name,
+            ReservationDate = reservation.From.Date.ToString("dd.MM.yyyy"),
+            From = reservation.From.ToString("t"),
+            To = reservation.To.ToString("t"),
+            WorkspaceName = location.Name,
+            WorkspaceAddressLink = $"https://2gis.ru/search/{Uri.EscapeDataString(location.Address)}",
+            WorkspaceAddress = location.Address,
+            ResourceFloor = $"{resource.Floor} этаж",
+            ResourceType = resource.Type.GetDisplayName(),
+            ResourceName = resource.Name,
+            Reason = reason,
+            AdminEmail = "help@bacs.space"
+        };
+
+        var isSuccess = await TrySendReservationEvent(
+            user.Email,
+            messageSubject: "Ваша бронь отклонена",
+            template: EmailTemplateConstants.ReservationRejected,
+            templateParams,
+            cancellationToken
+        );
+
+        if (!isSuccess) return;
+
+        logger.LogInformation(
+            "Email {EmailTemplate} has been sent to user {UserEmail}",
+            nameof(SendReservationRejected),
+            user.Email
+        );
+    }
+
     private async Task<bool> TrySendReservationEvent(
         string userEmail,
         string messageSubject,

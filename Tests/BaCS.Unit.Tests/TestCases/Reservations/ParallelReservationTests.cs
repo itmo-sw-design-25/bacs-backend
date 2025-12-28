@@ -1,8 +1,8 @@
 namespace BaCS.Unit.Tests.TestCases.Reservations;
 
-using Application.Abstractions.Integrations;
 using Application.Abstractions.Persistence;
 using Application.Abstractions.Services;
+using Application.Abstractions.Workflows;
 using Application.Contracts.Exceptions;
 using Application.Handlers.Reservations.Commands;
 using AutoFixture;
@@ -28,9 +28,9 @@ public class ParallelReservationTests
         [Frozen] IFixture fixture,
         [Frozen] IMapper mapper,
         [Frozen] IBaCSDbContext dbContext,
-        [Frozen] IEmailNotifier emailNotifier,
         [Frozen] ICurrentUser currentUser,
         [Frozen] IReservationCalendarValidator calendarValidator,
+        [Frozen] IReservationWorkflowService reservationWorkflowService,
         [Frozen] [Greedy] Location location
     )
     {
@@ -66,8 +66,8 @@ public class ParallelReservationTests
         // Act
         var handler = new CreateReservationCommand.Handler(
             dbContext,
-            emailNotifier,
             calendarValidator,
+            reservationWorkflowService,
             currentUser,
             mapper
         );
@@ -103,9 +103,9 @@ public class ParallelReservationTests
         [Frozen] IFixture fixture,
         [Frozen] IMapper mapper,
         [Frozen] IBaCSDbContext dbContext,
-        [Frozen] IEmailNotifier emailNotifier,
         [Frozen] ICurrentUser currentUser,
         [Frozen] IReservationCalendarValidator calendarValidator,
+        [Frozen] IReservationWorkflowService reservationWorkflowService,
         [Frozen] [Greedy] Location location
     )
     {
@@ -140,8 +140,8 @@ public class ParallelReservationTests
         // Act
         var handler = new CreateReservationCommand.Handler(
             dbContext,
-            emailNotifier,
             calendarValidator,
+            reservationWorkflowService,
             currentUser,
             mapper
         );

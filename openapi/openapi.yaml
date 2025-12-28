@@ -607,6 +607,30 @@ paths:
             type: string
             description: Дата окончания отчёта (включительно).
             format: date
+        - name: userId
+          in: query
+          description: 'ID пользователя, по которому фильтровать бронирования.'
+          schema:
+            type: string
+            description: 'ID пользователя, по которому фильтровать бронирования.'
+            format: uuid
+            nullable: true
+        - name: resourceId
+          in: query
+          description: 'ID ресурса, по которому фильтровать бронирования.'
+          schema:
+            type: string
+            description: 'ID ресурса, по которому фильтровать бронирования.'
+            format: uuid
+            nullable: true
+        - name: locationId
+          in: query
+          description: 'ID локации, по которой фильтровать бронирования.'
+          schema:
+            type: string
+            description: 'ID локации, по которой фильтровать бронирования.'
+            format: uuid
+            nullable: true
       responses:
         '200':
           description: OK
@@ -634,6 +658,12 @@ paths:
                         - The 'From' field is not valid
                       To:
                         - The 'To' field is not valid
+                      UserId:
+                        - The 'UserId' field is not valid
+                      ResourceId:
+                        - The 'ResourceId' field is not valid
+                      LocationId:
+                        - The 'LocationId' field is not valid
   /reservations:
     get:
       tags:
@@ -963,6 +993,140 @@ paths:
                     title: Not Found
                     status: 404
                     instance: 'PUT /reservations/{reservationId}/Cancel'
+  '/reservations/{reservationId}/Approve':
+    put:
+      tags:
+        - Reservations
+      summary: Подтвердить резервацию.
+      parameters:
+        - name: reservationId
+          in: path
+          description: ID резервации.
+          required: true
+          schema:
+            type: string
+            description: ID резервации.
+            format: uuid
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ReservationDto'
+        '400':
+          description: Bad Request
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ProblemDetails'
+              examples:
+                Bad Request:
+                  description: Bad Request
+                  value:
+                    type: https://tools.ietf.org/html/rfc7231#section-6.5.1
+                    title: Bad Request
+                    status: 400
+                    instance: 'PUT /reservations/{reservationId}/Approve'
+        '403':
+          description: Forbidden
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ProblemDetails'
+              examples:
+                Forbidden:
+                  description: Forbidden
+                  value:
+                    type: https://tools.ietf.org/html/rfc7231#section-6.5.3
+                    title: Forbidden
+                    status: 403
+                    instance: 'PUT /reservations/{reservationId}/Approve'
+        '404':
+          description: Not Found
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ProblemDetails'
+              examples:
+                Not Found:
+                  description: Not Found
+                  value:
+                    type: https://tools.ietf.org/html/rfc7231#section-6.5.4
+                    title: Not Found
+                    status: 404
+                    instance: 'PUT /reservations/{reservationId}/Approve'
+  '/reservations/{reservationId}/Reject':
+    put:
+      tags:
+        - Reservations
+      summary: Отклонить резервацию.
+      parameters:
+        - name: reservationId
+          in: path
+          description: ID резервации.
+          required: true
+          schema:
+            type: string
+            description: ID резервации.
+            format: uuid
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/RejectReservationRequest'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ReservationDto'
+        '400':
+          description: Bad Request
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ProblemDetails'
+              examples:
+                Bad Request:
+                  description: Bad Request
+                  value:
+                    type: https://tools.ietf.org/html/rfc7231#section-6.5.1
+                    title: Bad Request
+                    status: 400
+                    instance: 'PUT /reservations/{reservationId}/Reject'
+                    errors:
+                      Reason:
+                        - The 'Reason' field is not valid
+        '403':
+          description: Forbidden
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ProblemDetails'
+              examples:
+                Forbidden:
+                  description: Forbidden
+                  value:
+                    type: https://tools.ietf.org/html/rfc7231#section-6.5.3
+                    title: Forbidden
+                    status: 403
+                    instance: 'PUT /reservations/{reservationId}/Reject'
+        '404':
+          description: Not Found
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ProblemDetails'
+              examples:
+                Not Found:
+                  description: Not Found
+                  value:
+                    type: https://tools.ietf.org/html/rfc7231#section-6.5.4
+                    title: Not Found
+                    status: 404
+                    instance: 'PUT /reservations/{reservationId}/Reject'
   /resources:
     get:
       tags:
@@ -1757,6 +1921,21 @@ components:
           type: string
           description: Дата окончания отчёта (включительно).
           format: date
+        userId:
+          type: string
+          description: 'ID пользователя, по которому фильтровать бронирования.'
+          format: uuid
+          nullable: true
+        resourceId:
+          type: string
+          description: 'ID ресурса, по которому фильтровать бронирования.'
+          format: uuid
+          nullable: true
+        locationId:
+          type: string
+          description: 'ID локации, по которой фильтровать бронирования.'
+          format: uuid
+          nullable: true
       additionalProperties: false
     GetReservationsRequest:
       type: object
@@ -1941,6 +2120,17 @@ components:
           nullable: true
       additionalProperties: { }
       description: 'Машино-читаемый формат ошибок API, в соответствии со стандартом <a href="https://www.rfc-editor.org/rfc/rfc9457">RFC 9457</a>.'
+    RejectReservationRequest:
+      required:
+        - reason
+      type: object
+      properties:
+        reason:
+          maxLength: 500
+          minLength: 1
+          type: string
+          description: Причина отклонения резервации.
+      additionalProperties: false
     ReservationDto:
       type: object
       properties:
@@ -1988,6 +2178,8 @@ components:
     ReservationStatus:
       enum:
         - Created
+        - PendingApproval
+        - Accepted
         - Cancelled
       type: string
     ResourceDto:
@@ -2187,8 +2379,8 @@ components:
       description: Аутентификация через Keycloak
       flows:
         authorizationCode:
-          authorizationUrl: http://bacs.space/keycloak/realms/bacs/protocol/openid-connect/auth
-          tokenUrl: http://bacs.space/keycloak/realms/bacs/protocol/openid-connect/token
+          authorizationUrl: https://bacs.space/keycloak/realms/bacs/protocol/openid-connect/auth
+          tokenUrl: https://bacs.space/keycloak/realms/bacs/protocol/openid-connect/token
           scopes:
             bacs-api: 'Обязательный скоуп, необходимый для авторизации на BaCS API'
           x-usePkce: SHA-256

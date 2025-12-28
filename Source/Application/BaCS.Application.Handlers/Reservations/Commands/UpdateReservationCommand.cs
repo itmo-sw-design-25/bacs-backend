@@ -60,7 +60,7 @@ public static class UpdateReservationCommand
                 if (isConflicting)
                 {
                     throw new ReservationConflictException(
-                        $"Ресурс уже забронирован на выбранное время {reservation.From.Date:yyyy-M-d} {reservation.From:hh:mm:ss z}-{reservation.To:hh:mm:ss z}"
+                        $"Ресурс уже забронирован на выбранное время {reservation.From:HH:mm (zz)}-{reservation.To:HH:mm (zz)}"
                     );
                 }
 

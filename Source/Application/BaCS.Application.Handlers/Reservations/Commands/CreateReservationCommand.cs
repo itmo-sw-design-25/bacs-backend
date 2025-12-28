@@ -1,8 +1,8 @@
 namespace BaCS.Application.Handlers.Reservations.Commands;
 
-using Abstractions.Integrations;
 using Abstractions.Persistence;
 using Abstractions.Services;
+using Abstractions.Workflows;
 using Contracts.Dto;
 using Contracts.Exceptions;
 using Domain.Core.Entities;
@@ -18,8 +18,8 @@ public static class CreateReservationCommand
 
     internal class Handler(
         IBaCSDbContext dbContext,
-        IEmailNotifier emailNotifier,
         IReservationCalendarValidator calendarValidator,
+        IReservationWorkflowService workflowService,
         ICurrentUser currentUser,
         IMapper mapper
     ) : IRequestHandler<Command, ReservationDto>
@@ -52,12 +52,12 @@ public static class CreateReservationCommand
                 if (isConflicting)
                 {
                     throw new ReservationConflictException(
-                        $"Ресурс уже забронирован на выбранное время {reservation.From.Date:yyyy-M-d} {reservation.From:hh:mm:ss z}-{reservation.To:hh:mm:ss z}"
+                        $"Ресурс уже забронирован на выбранное время {reservation.From:HH:mm (zz)}-{reservation.To:HH:mm (zz)}"
                     );
                 }
 
                 reservation.UserId = currentUser.UserId;
-                reservation.Status = ReservationStatus.Created;
+                reservation.Status = ReservationStatus.PendingApproval;
 
                 await dbContext.Reservations.AddAsync(reservation, cancellationToken);
                 await dbContext.SaveChangesAsync(cancellationToken);
@@ -67,9 +67,7 @@ public static class CreateReservationCommand
                 semaphore.Release();
             }
 
-            var user = await dbContext.Users.FindAsync([currentUser.UserId], cancellationToken);
-            var resource = await dbContext.Resources.FindAsync([reservation.ResourceId], cancellationToken);
-            await emailNotifier.SendReservationCreated(reservation, location, resource, user, cancellationToken);
+            await workflowService.StartReservationApprovalWorkflow(reservation, cancellationToken);
 
             return mapper.Map<ReservationDto>(reservation);
         }

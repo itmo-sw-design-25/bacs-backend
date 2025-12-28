@@ -113,4 +113,40 @@ public class ReservationsController(IMediator mediator) : ControllerBase
 
         return NoContent();
     }
+
+    [EndpointSummary("Подтвердить резервацию.")]
+    [HttpPut("{reservationId:guid}/Approve")]
+    [ProducesResponseType<ReservationDto>(StatusCodes.Status200OK, "application/json")]
+    [ProducesResponseType<ProblemDetails>(StatusCodes.Status400BadRequest, "application/problem+json")]
+    [ProducesResponseType<ProblemDetails>(StatusCodes.Status403Forbidden, "application/problem+json")]
+    [ProducesResponseType<ProblemDetails>(StatusCodes.Status404NotFound, "application/problem+json")]
+    public async Task<IActionResult> ApproveReservation(
+        [Description("ID резервации.")] Guid reservationId,
+        CancellationToken cancellationToken
+    )
+    {
+        var command = new ApproveReservationCommand.Command(reservationId);
+        var result = await mediator.Send(command, cancellationToken);
+
+        return Ok(result);
+    }
+
+    [EndpointSummary("Отклонить резервацию.")]
+    [HttpPut("{reservationId:guid}/Reject")]
+    [Consumes("application/json")]
+    [ProducesResponseType<ReservationDto>(StatusCodes.Status200OK, "application/json")]
+    [ProducesResponseType<ProblemDetails>(StatusCodes.Status400BadRequest, "application/problem+json")]
+    [ProducesResponseType<ProblemDetails>(StatusCodes.Status403Forbidden, "application/problem+json")]
+    [ProducesResponseType<ProblemDetails>(StatusCodes.Status404NotFound, "application/problem+json")]
+    public async Task<IActionResult> RejectReservation(
+        [Description("ID резервации.")] Guid reservationId,
+        [FromBody] RejectReservationRequest request,
+        CancellationToken cancellationToken
+    )
+    {
+        var command = new RejectReservationCommand.Command(reservationId, request.Reason);
+        var result = await mediator.Send(command, cancellationToken);
+
+        return Ok(result);
+    }
 }

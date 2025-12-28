@@ -23,21 +23,21 @@
         <PackageVersion Include="MediatR.Contracts" Version="2.0.1"/>
         <PackageVersion Include="MicroElements.Swashbuckle.FluentValidation" Version="6.1.0"/>
         <PackageVersion Include="Microsoft.AspNetCore.Authentication.Abstractions" Version="2.3.0"/>
-        <PackageVersion Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="9.0.4"/>
+        <PackageVersion Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="9.0.7"/>
         <PackageVersion Include="Microsoft.AspNetCore.Http" Version="2.3.0"/>
         <PackageVersion Include="Microsoft.AspNetCore.Http.Abstractions" Version="2.3.0"/>
-        <PackageVersion Include="Microsoft.AspNetCore.OpenApi" Version="9.0.4"/>
-        <PackageVersion Include="Microsoft.EntityFrameworkCore" Version="9.0.4"/>
-        <PackageVersion Include="Microsoft.EntityFrameworkCore.Design" Version="9.0.4">
+        <PackageVersion Include="Microsoft.AspNetCore.OpenApi" Version="9.0.7"/>
+        <PackageVersion Include="Microsoft.EntityFrameworkCore" Version="9.0.7"/>
+        <PackageVersion Include="Microsoft.EntityFrameworkCore.Design" Version="9.0.7">
             <PrivateAssets>all</PrivateAssets>
             <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
         </PackageVersion>
-        <PackageVersion Include="Microsoft.Extensions.Configuration.Abstractions" Version="9.0.4"/>
-        <PackageVersion Include="Microsoft.Extensions.Configuration.Binder" Version="9.0.4"/>
-        <PackageVersion Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="9.0.3"/>
-        <PackageVersion Include="Microsoft.Extensions.Diagnostics.HealthChecks" Version="9.0.4"/>
-        <PackageVersion Include="Microsoft.Extensions.Hosting.Abstractions" Version="9.0.4"/>
-        <PackageVersion Include="Microsoft.Extensions.Options.ConfigurationExtensions" Version="9.0.4"/>
+        <PackageVersion Include="Microsoft.Extensions.Configuration.Abstractions" Version="9.0.7"/>
+        <PackageVersion Include="Microsoft.Extensions.Configuration.Binder" Version="9.0.7"/>
+        <PackageVersion Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="9.0.7"/>
+        <PackageVersion Include="Microsoft.Extensions.Diagnostics.HealthChecks" Version="9.0.7"/>
+        <PackageVersion Include="Microsoft.Extensions.Hosting.Abstractions" Version="9.0.7"/>
+        <PackageVersion Include="Microsoft.Extensions.Options.ConfigurationExtensions" Version="9.0.7"/>
         <PackageVersion Include="MimeKit" Version="4.11.0"/>
         <PackageVersion Include="Minio" Version="6.0.4"/>
         <PackageVersion Include="MockQueryable.NSubstitute" Version="7.0.3"/>
@@ -58,7 +58,31 @@
         <PackageVersion Include="Serilog.Sinks.Seq" Version="9.0.0"/>
         <PackageVersion Include="Swashbuckle.AspNetCore" Version="7.3.2"/>
     </ItemGroup>
-
+    <!-- BusinessProcess -->
+    <ItemGroup>
+        <PackageVersion Include="Microsoft.AspNetCore.Components.WebAssembly.Server" Version="9.0.7"/>
+        <PackageVersion Include="Microsoft.AspNetCore.Components.WebAssembly" Version="9.0.7"/>
+        <PackageVersion Include="Microsoft.AspNetCore.Components.WebAssembly.DevServer" Version="9.0.7">
+            <PrivateAssets>all</PrivateAssets>
+            <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+        </PackageVersion>
+        <PackageVersion Include="Microsoft.CodeAnalysis.Workspaces.Common" Version="4.14.0"/>
+        <PackageVersion Include="Elsa" Version="3.5.0"/>
+        <PackageVersion Include="Elsa.Api.Client" Version="3.5.0"/>
+        <PackageVersion Include="Elsa.CSharp" Version="3.5.0"/>
+        <PackageVersion Include="Elsa.EntityFrameworkCore" Version="3.5.0"/>
+        <PackageVersion Include="Elsa.EntityFrameworkCore.PostgreSql" Version="3.5.0"/>
+        <PackageVersion Include="Elsa.Features" Version="3.5.0"/>
+        <PackageVersion Include="Elsa.Http" Version="3.5.0"/>
+        <PackageVersion Include="Elsa.Identity" Version="3.5.0"/>
+        <PackageVersion Include="Elsa.JavaScript" Version="3.5.0"/>
+        <PackageVersion Include="Elsa.Liquid" Version="3.5.0"/>
+        <PackageVersion Include="Elsa.Scheduling" Version="3.5.0"/>
+        <PackageVersion Include="Elsa.Studio" Version="3.5.0"/>
+        <PackageVersion Include="Elsa.Studio.Core.BlazorWasm" Version="3.5.0"/>
+        <PackageVersion Include="Elsa.Studio.Login.BlazorWasm" Version="3.5.0"/>
+        <PackageVersion Include="Elsa.Workflows.Api" Version="3.5.0"/>
+    </ItemGroup>
     <!-- Tests -->
     <ItemGroup>
         <PackageVersion Include="coverlet.collector" Version="6.0.4">
@@ -74,7 +98,6 @@
             <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
         </PackageVersion>
     </ItemGroup>
-
     <!-- Analyzers -->
     <ItemGroup>
         <PackageVersion Include="SonarAnalyzer.CSharp" Version="10.8.0.113526">

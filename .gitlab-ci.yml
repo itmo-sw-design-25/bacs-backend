@@ -1,9 +1,11 @@
 image: mcr.microsoft.com/dotnet/sdk:9.0-alpine3.20
 
 variables:
-  BUILD_PATH: "Source/Presentation/BaCS.Presentation.API"
-  TESTS_PATH: "Tests/BaCS.Unit.Tests"
-  DOCKERFILE_PATH: "Source/Presentation/BaCS.Presentation.API/Dockerfile"
+  BUILD_PATH_API: "Source/Presentation/BaCS.Presentation.API"
+  BUILD_PATH_BP: "Source/Presentation/BaCS.Presentation.BusinessProcess"
+  TESTS_PATH_API: "Tests/BaCS.Unit.Tests"
+  DOCKERFILE_PATH_API: "Source/Presentation/BaCS.Presentation.API/Dockerfile"
+  DOCKERFILE_PATH_BP: "Source/Presentation/BaCS.Presentation.BusinessProcess/Dockerfile"
 
 .default_rules:
   rules:
@@ -24,13 +26,25 @@ stages:
   - push
   - deploy
 
-build:
+api:build:
   stage: build
   allow_failure: false
   interruptible: true
   when: always
   script:
-    - cd $BUILD_PATH
+    - cd $BUILD_PATH_API
+    - dotnet restore
+    - dotnet build --no-restore
+  rules:
+    - !reference [ .default_rules, rules ]
+
+bp:build:
+  stage: build
+  allow_failure: false
+  interruptible: true
+  when: always
+  script:
+    - cd $BUILD_PATH_BP
     - dotnet restore
     - dotnet build --no-restore
   rules:
@@ -52,42 +66,42 @@ build:
         - $CI_PROJECT_DIR/junit/junit-test-result.xml
   coverage: /TOTAL_COVERAGE=(\d+.\d+)/
 
-unit tests:
+api:unit tests:
   stage: test
-  needs: [ build ]
+  needs: [ api:build ]
   extends: .tests_coverage_template
   allow_failure: false
   interruptible: true
   script:
-    - cd $TESTS_PATH
+    - cd $TESTS_PATH_API
     - dotnet restore
     - dotnet test --no-restore -c $CONFIGURATION --results-directory $CI_PROJECT_DIR/cobertura --collect:"$COVERAGE_FLAG" --test-adapter-path:. --logger:"$LOGGER_FLAG" --settings ../coverage.runsettings
     - cd $CI_PROJECT_DIR
     - chmod +x ./dotnet-coverage.sh
     - ./dotnet-coverage.sh $CI_PROJECT_DIR/cobertura
   dependencies:
-    - build
+    - api:build
   rules:
     - !reference [ .default_rules, rules ]
 
-integration tests:
+api:integration tests:
   stage: test
-  needs: [ build ]
+  needs: [ api:build ]
   extends: .tests_coverage_template
   allow_failure: false
   interruptible: true
   script:
     - echo "Integration tests completed successfully"
   dependencies:
-    - build
+    - api:build
   rules:
     - !reference [ .default_rules, rules ]
 
-image push:
+api:image push:
   image: docker:latest
   services:
     - docker:dind
-  needs: [ unit tests, integration tests ]
+  needs: [ api:unit tests, api:integration tests ]
   stage: push
   allow_failure: false
   interruptible: false
@@ -95,16 +109,33 @@ image push:
   before_script:
     - echo $CI_REGISTRY_PASSWORD | docker login $CI_REGISTRY -u $CI_REGISTRY_USER --password-stdin
   script:
-    - docker build --platform $BACS_PLATFORM -t $CI_REGISTRY_IMAGE -f $DOCKERFILE_PATH .
-    - docker push $CI_REGISTRY_IMAGE
+    - docker build --platform $BACS_PLATFORM -t $CI_REGISTRY_IMAGE_API -f $DOCKERFILE_PATH_API .
+    - docker push $CI_REGISTRY_IMAGE_API
   rules:
     - !reference [ .default_rules, rules ]
 
-image deploy:
+bp:image push:
+  image: docker:latest
+  services:
+    - docker:dind
+  needs: [ bp:build ]
+  stage: push
+  allow_failure: false
+  interruptible: false
+  when: on_success
+  before_script:
+    - echo $CI_REGISTRY_PASSWORD | docker login $CI_REGISTRY -u $CI_REGISTRY_USER --password-stdin
+  script:
+    - docker build --platform $BACS_PLATFORM -t $CI_REGISTRY_IMAGE_BP -f $DOCKERFILE_PATH_BP .
+    - docker push $CI_REGISTRY_IMAGE_BP
+  rules:
+    - !reference [ .default_rules, rules ]
+
+api:image deploy:
   image: alpine:latest
   services:
     - docker:dind
-  needs: [ image push ]
+  needs: [ api:image push ]
   stage: deploy
   allow_failure: false
   interruptible: false
@@ -115,9 +146,30 @@ image deploy:
     - eval $(ssh-agent -s)
     - echo "$SSH_SERVER_PRIVATE_KEY" | tr -d '\r' | ssh-add - > /dev/null
     - ssh -o StrictHostKeyChecking=no "$SSH_SERVER_USER@$SSH_SERVER_IP" "
-      docker pull ${CI_REGISTRY_IMAGE} &&
-      docker compose down ${BACS_COMPOSE_SERVICE} &&
-      docker compose up ${BACS_COMPOSE_SERVICE} -d"
+      docker pull ${CI_REGISTRY_IMAGE_API} &&
+      docker compose down ${BACS_API_COMPOSE_SERVICE} &&
+      docker compose up ${BACS_API_COMPOSE_SERVICE} -d"
+  rules:
+    - !reference [ .default_rules, rules ]
+
+bp:image deploy:
+  image: alpine:latest
+  services:
+    - docker:dind
+  needs: [ bp:image push ]
+  stage: deploy
+  allow_failure: false
+  interruptible: false
+  when: manual
+  before_script:
+    - apk add --no-cache openssh-client
+  script:
+    - eval $(ssh-agent -s)
+    - echo "$SSH_SERVER_PRIVATE_KEY" | tr -d '\r' | ssh-add - > /dev/null
+    - ssh -o StrictHostKeyChecking=no "$SSH_SERVER_USER@$SSH_SERVER_IP" "
+      docker pull ${CI_REGISTRY_IMAGE_BP} &&
+      docker compose down ${BACS_BP_COMPOSE_SERVICE} &&
+      docker compose up ${BACS_BP_COMPOSE_SERVICE} -d"
   rules:
     - !reference [ .default_rules, rules ]
 
