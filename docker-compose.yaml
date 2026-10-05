@@ -92,14 +92,14 @@
       - ./pg_data:/var/lib/postgresql/data
 
   postgres_exporter:
-    image: bitnami/postgres-exporter:latest
+    image: soldevelo/postgres-exporter:latest
     container_name: postgres_exporter
     env_file: .env
     networks:
       - bacs
 
   minio:
-    image: bitnami/minio:latest
+    image: soldevelo/minio:latest
     container_name: minio
     env_file: .env
     networks:
